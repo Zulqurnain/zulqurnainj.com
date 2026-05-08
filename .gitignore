@@ -22,7 +22,7 @@
 
 # misc
 .DS_Store
-*.pem
+Thumbs.db
 
 # debug
 npm-debug.log*
@@ -30,8 +30,37 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# env files — NEVER commit these
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+.env.*
+!.env.example
+
+# secrets / credentials
+*.pem
+*.key
+*.cert
+*.p12
+*.pfx
+secrets.json
+credentials.json
+serviceAccountKey.json
+*-serviceaccount.json
+firebase-adminsdk-*.json
+
+# IDE / OS
+.vscode/settings.json
+.vscode/launch.json
+*.code-workspace
+.idea/
+*.swp
+*.swo
 
 # vercel
 .vercel
