@@ -43,6 +43,12 @@ export function Header() {
           LinkedIn
         </a>
         <a
+          href="/projects"
+          className="font-medium text-sm text-olive-500 dark:text-olive-400 hover:text-olive-800 dark:hover:text-olive-100 transition-all"
+        >
+          Projects
+        </a>
+        <a
           href="/apps"
           className="font-medium text-sm text-olive-500 dark:text-olive-400 hover:text-olive-800 dark:hover:text-olive-100 transition-all"
         >
