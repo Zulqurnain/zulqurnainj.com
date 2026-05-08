@@ -19,7 +19,16 @@ RewriteRule ^ /index.html [L]
   Header set Referrer-Policy "strict-origin-when-cross-origin"
 </IfModule>
 
-# Cache static assets
+# HTML: never cache — always serve fresh
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|htm)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+</IfModule>
+
+# Static assets: cache aggressively (content-hashed by Next.js)
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresByType text/css "access plus 1 year"
@@ -29,5 +38,4 @@ RewriteRule ^ /index.html [L]
   ExpiresByType image/svg+xml "access plus 1 year"
   ExpiresByType image/webp "access plus 1 year"
   ExpiresByType font/woff2 "access plus 1 year"
-  ExpiresByType text/html "access plus 1 hour"
 </IfModule>
