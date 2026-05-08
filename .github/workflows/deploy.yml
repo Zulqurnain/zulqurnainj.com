@@ -37,12 +37,13 @@ jobs:
         env:
           FTP_USER: ${{ secrets.FTP_USERNAME }}
           FTP_PASS: ${{ secrets.FTP_PASSWORD }}
+          FTP_HOST: ${{ secrets.FTP_SERVER }}
         run: |
           lftp -c "
             set ftp:ssl-allow no;
             set net:timeout 30;
             set net:max-retries 3;
-            open -u \"$FTP_USER\",\"$FTP_PASS\" ftp://server385.web-hosting.com;
+            open -u \"$FTP_USER\",\"$FTP_PASS\" ftp://$FTP_HOST;
             mirror --reverse --delete --verbose --exclude .git out/ public_html/;
             quit
           "
