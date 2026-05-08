@@ -100,7 +100,7 @@ export const metadata: Metadata = {
   },
 
   verification: {
-    google: "",   // add Search Console verification token here when available
+    google: "E9mUfadeeeWGT_c7zGloZ9OrWsBDLfqtabxo436Suj4",
   },
 
   category: "technology",
