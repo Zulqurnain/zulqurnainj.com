@@ -20,8 +20,6 @@ const chromeExtension = {
     "https://chromewebstore.google.com/detail/delete-all-messages-by-z/dpdlkdbgehhejkfpclhgdbaeahikfnof",
   stats: {
     platform: "Chrome Web Store",
-    rating: "4.2 / 5",
-    users: "10,000+",
   },
 };
 
@@ -71,9 +69,7 @@ export default function AppsPage() {
               <div className="flex items-center gap-3 text-xs text-olive-500 dark:text-olive-500">
                 <span>{chromeExtension.category}</span>
                 <span>·</span>
-                <span>{chromeExtension.stats.users} users</span>
-                <span>·</span>
-                <span>★ {chromeExtension.stats.rating}</span>
+                <span>{chromeExtension.stats.platform}</span>
               </div>
             </div>
           </div>
