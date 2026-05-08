@@ -1,26 +1,102 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Class-based dark mode */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Olive color palette — exact values from designerdada.com */
+@theme {
+  --font-sans: var(--font-grotesk), "Schibsted Grotesk", sans-serif;
+  --font-mono: var(--font-sono), "Sono", monospace;
+  --font-serif: var(--font-fell), "IM Fell Great Primer", serif;
+
+  --color-olive-50:  oklch(98.8% .003 106.5);
+  --color-olive-100: oklch(96.6% .005 106.5);
+  --color-olive-200: oklch(93%   .007 106.5);
+  --color-olive-300: oklch(88%   .011 106.6);
+  --color-olive-400: oklch(73.7% .021 106.9);
+  --color-olive-500: oklch(58%   .031 107.3);
+  --color-olive-600: oklch(46.6% .025 107.3);
+  --color-olive-700: oklch(39.4% .023 107.4);
+  --color-olive-800: oklch(28.6% .016 107.4);
+  --color-olive-900: oklch(22.8% .013 107.4);
+  --color-olive-950: oklch(15.3% .006 107.1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  overflow-y: scroll;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-olive-100);
+  color: var(--color-olive-800);
+  font-family: var(--font-sans);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+::selection {
+  background-color: oklch(92.4% 0.12 95.746);
+  color: oklch(15.3% 0.006 107.1);
+}
+
+/* Styled links (italic + underline — matches reference) */
+.link {
+  text-underline-position: from-font;
+  text-decoration-line: underline;
+  text-decoration-color: var(--color-olive-300);
+  font-style: italic;
+  font-weight: 500;
+  text-underline-offset: 4px;
+  transition: text-decoration-color 0.15s;
+}
+
+.dark .link {
+  text-decoration-color: var(--color-olive-600);
+}
+
+.link:hover {
+  text-decoration-color: var(--color-olive-500);
+}
+
+.dark .link:hover {
+  text-decoration-color: var(--color-olive-100);
+}
+
+/* Staggered fade-in-up on page load */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.animate-in {
+  animation: fadeInUp 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-delay-1  { animation-delay: 0.1s; }
+.animate-delay-2  { animation-delay: 0.2s; }
+.animate-delay-3  { animation-delay: 0.3s; }
+.animate-delay-4  { animation-delay: 0.4s; }
+.animate-delay-5  { animation-delay: 0.5s; }
+.animate-delay-6  { animation-delay: 0.6s; }
+.animate-delay-7  { animation-delay: 0.7s; }
+.animate-delay-8  { animation-delay: 0.8s; }
+.animate-delay-9  { animation-delay: 0.9s; }
+.animate-delay-10 { animation-delay: 1.0s; }
