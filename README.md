@@ -17,3 +17,7 @@ npm run lint
 
 - `master` — production, triggers auto-deploy to zulqurnainj.com
 - `develop` — backup / staging work
+
+---
+
+**[Zulqurnain Haider](https://zulqurnainj.com/) — Senior Full Stack Engineer**
