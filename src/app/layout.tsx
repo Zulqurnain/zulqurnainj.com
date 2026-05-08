@@ -27,26 +27,35 @@ const sono = Sono({
 });
 
 export const metadata: Metadata = {
-  title: "Zulqurnain Haider",
+  title: "Zulqurnain Haider — Senior Full Stack Developer",
   description:
-    "Senior Full Stack Developer with 8+ years building scalable products at JPMorgan Chase, Victoria's Secret, SWVL, and more.",
+    "Senior Full Stack Developer with 8+ years building mobile and web products at Victoria's Secret, JPMorgan Chase, SWVL, and Fuentes.tech. Native iOS/Android → React Native/Flutter → Full Stack + AI/RAG.",
   authors: [{ name: "Zulqurnain Haider" }],
   keywords: [
-    "Full Stack Developer",
+    "Senior Full Stack Developer",
+    "React Native",
+    "Flutter",
+    "iOS Developer",
+    "Android Developer",
     "React",
     "Next.js",
     "Go",
     "Python",
-    "React Native",
-    "Flutter",
-    "LLM",
     "AI",
+    "RAG",
+    "LLM",
   ],
+  other: {
+    "Cache-Control": "no-cache, no-store, must-revalidate",
+    Pragma: "no-cache",
+    Expires: "0",
+  },
   openGraph: {
-    title: "Zulqurnain Haider",
+    title: "Zulqurnain Haider — Senior Full Stack Developer",
     description:
-      "Senior Full Stack Developer — React, Next.js, Go, Python, React Native, LLMs.",
+      "Senior Full Stack Developer — Native Mobile, React Native, Flutter, Go, Python, AI/RAG.",
     type: "website",
+    url: "https://zulqurnainj.com",
   },
 };
 
