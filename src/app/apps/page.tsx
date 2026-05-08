@@ -1,6 +1,20 @@
+import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Divider } from "@/components/Divider";
+
+export const metadata: Metadata = {
+  title: "Apps & Extensions",
+  description:
+    "Personal apps and Chrome extensions by Zulqurnain Haider. Includes Delete All Messages by Z — free Chrome extension to bulk-delete Facebook Messenger conversations.",
+  alternates: { canonical: "https://zulqurnainj.com/apps" },
+  openGraph: {
+    url: "https://zulqurnainj.com/apps",
+    title: "Apps & Extensions | Zulqurnain Haider",
+    description: "Personal apps and Chrome extensions by Zulqurnain Haider.",
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630 }],
+  },
+};
 
 const chromeExtension = {
   name: "Delete All Messages by Z",

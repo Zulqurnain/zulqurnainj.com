@@ -1,7 +1,21 @@
+import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Divider } from "@/components/Divider";
 import { WorkSection } from "@/components/WorkSection";
+
+export const metadata: Metadata = {
+  title: "Zulqurnain Haider — Senior Full Stack Developer | Pakistan",
+  description:
+    "Zulqurnain Haider — Senior Full Stack Developer from Lahore, Pakistan. 8+ years building apps at Victoria's Secret, JPMorgan Chase, SWVL. React Native, Flutter, Go, Python, AI/RAG.",
+  alternates: { canonical: "https://zulqurnainj.com" },
+  openGraph: {
+    url: "https://zulqurnainj.com",
+    title: "Zulqurnain Haider — Senior Full Stack Developer | Pakistan",
+    description: "Senior Full Stack Developer from Pakistan. Victoria's Secret · JPMorgan Chase · SWVL · Fuentes.tech.",
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630 }],
+  },
+};
 
 export default function Home() {
   return (
