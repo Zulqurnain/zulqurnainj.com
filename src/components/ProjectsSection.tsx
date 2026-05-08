@@ -296,9 +296,10 @@ export function ProjectsSection() {
                       href={project.storeUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-xs text-olive-500 dark:text-olive-400 hover:text-olive-800 dark:hover:text-olive-100 transition-colors underline underline-offset-2 flex-shrink-0"
+                      className="text-xs text-olive-500 dark:text-olive-400 hover:text-olive-800 dark:hover:text-olive-100 transition-colors flex-shrink-0"
+                      title={project.storeLabel}
                     >
-                      {project.storeLabel} ↗
+                      ↗
                     </a>
                   )}
                 </div>
