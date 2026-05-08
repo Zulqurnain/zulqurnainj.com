@@ -1,9 +1,26 @@
+"use client";
+
+import { usePathname } from "next/navigation";
 import { ThemeToggle } from "./ThemeToggle";
 
-const navLinkClass =
-  "font-medium text-sm text-olive-500 dark:text-olive-400 hover:text-olive-800 dark:hover:text-olive-100 transition-all";
+type NavItem = {
+  label: string;
+  href: string;
+  external?: boolean;
+};
+
+const navItems: NavItem[] = [
+  { label: "Home", href: "/" },
+  { label: "Contact", href: "mailto:zulqurnainjj@gmail.com" },
+  { label: "LinkedIn", href: "https://linkedin.com/in/zulqurnainjj", external: true },
+  { label: "Projects", href: "/projects" },
+  { label: "Apps", href: "/apps" },
+  { label: "Linktree", href: "https://linktr.ee/zulqurnainjj", external: true },
+];
 
 export function Header() {
+  const pathname = usePathname();
+
   return (
     <div className="flex flex-col gap-4 items-start w-full">
       {/* Avatar */}
@@ -28,34 +45,23 @@ export function Header() {
 
       {/* Nav */}
       <nav className="flex flex-wrap gap-x-4 gap-y-2 items-center w-full">
-        <span className="font-semibold text-sm text-olive-800 dark:text-olive-100">
-          Home
-        </span>
-        <a href="mailto:zulqurnainjj@gmail.com" className={navLinkClass}>
-          Contact
-        </a>
-        <a
-          href="https://linkedin.com/in/zulqurnainjj"
-          target="_blank"
-          rel="noopener noreferrer"
-          className={navLinkClass}
-        >
-          LinkedIn
-        </a>
-        <a href="/projects" className={navLinkClass}>
-          Projects
-        </a>
-        <a href="/apps" className={navLinkClass}>
-          Apps
-        </a>
-        <a
-          href="https://linktr.ee/zulqurnainjj"
-          target="_blank"
-          rel="noopener noreferrer"
-          className={navLinkClass}
-        >
-          Linktree
-        </a>
+        {navItems.map(({ label, href, external }) => {
+          const isActive = !external && pathname === href;
+          return (
+            <a
+              key={label}
+              href={href}
+              {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              className={
+                isActive
+                  ? "font-semibold text-sm text-olive-800 dark:text-olive-100"
+                  : "font-medium text-sm text-olive-500 dark:text-olive-400 hover:text-olive-800 dark:hover:text-olive-100 transition-all"
+              }
+            >
+              {label}
+            </a>
+          );
+        })}
         <ThemeToggle />
       </nav>
 
