@@ -2,7 +2,6 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Divider } from "@/components/Divider";
 import { WorkSection } from "@/components/WorkSection";
-import { ProjectsSection } from "@/components/ProjectsSection";
 
 export default function Home() {
   return (
@@ -95,18 +94,8 @@ export default function Home() {
           <Divider />
         </div>
 
-        {/* Projects */}
-        <div className="animate-in animate-delay-8 w-full">
-          <ProjectsSection />
-        </div>
-
-        {/* Divider */}
-        <div className="animate-in animate-delay-9 w-full">
-          <Divider />
-        </div>
-
         {/* Footer */}
-        <div className="animate-in animate-delay-10 w-full">
+        <div className="animate-in animate-delay-8 w-full">
           <Footer />
         </div>
 
