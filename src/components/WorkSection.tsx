@@ -1,3 +1,5 @@
+"use client";
+
 interface WorkItem {
   id: string;
   company: string;
@@ -10,14 +12,14 @@ const work: WorkItem[] = [
   {
     id: "fuentes",
     company: "Fuentes.tech",
-    role: "AI school platform · OpenAI, LLMs, RAG, Kafka, AWS ECS",
+    role: "AI EdTech · RAG, OpenAI, Kafka, Next.js, AWS ECS",
     url: "https://fuentes.tech",
     period: "2025–Present",
   },
   {
     id: "vs",
     company: "Victoria's Secret & Co.",
-    role: "React Native, Flutter, Go, Python, FastAPI, LLM pipelines",
+    role: "React Native, Flutter, Go, Python · LLM search pipelines",
     url: "https://victoriassecret.com",
     period: "2023–2025",
   },
@@ -31,33 +33,55 @@ const work: WorkItem[] = [
   {
     id: "swvl",
     company: "SWVL",
-    role: "Swift/SwiftUI · Kotlin/Jetpack Compose · booking & payments",
+    role: "Native iOS (Swift/SwiftUI) · Native Android (Kotlin/Compose)",
     url: "https://swvl.com",
     period: "2021–2022",
   },
   {
     id: "cheetay",
-    company: "Cheetay.pk",
-    role: "Android · Kotlin · security testing with Frida & Burp Suite",
+    company: "Cheetay",
+    role: "Native Android · Kotlin · security testing, Frida & Burp Suite",
     url: "https://cheetay.pk",
     period: "2020–2021",
   },
   {
     id: "smacc",
-    company: "Arab Sea / SMACC V3",
+    company: "Arab Sea / SMACC",
     role: "Go, Java, Python · SaaS ERP · Docker, Kubernetes, Jenkins",
     url: "https://smacc.com",
     period: "2018–2019",
   },
 ];
 
-function getFaviconUrl(url: string) {
-  try {
-    const domain = new URL(url).hostname;
-    return `https://www.google.com/s2/favicons?domain=${domain}&sz=32`;
-  } catch {
-    return "";
-  }
+function CompanyIcon({ company, url }: { company: string; url: string }) {
+  const domain = (() => {
+    try { return new URL(url).hostname; } catch { return ""; }
+  })();
+  const initial = company.charAt(0).toUpperCase();
+
+  return (
+    <div className="shrink-0 size-5 relative">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        alt={`${company} logo`}
+        className="size-full object-contain"
+        src={`https://www.google.com/s2/favicons?domain=${domain}&sz=32`}
+        width={20}
+        height={20}
+        onError={(e) => {
+          const target = e.currentTarget;
+          target.style.display = "none";
+          const fallback = target.nextElementSibling as HTMLElement | null;
+          if (fallback) fallback.style.display = "flex";
+        }}
+      />
+      <span
+        className="absolute inset-0 hidden items-center justify-center rounded-sm text-[10px] font-bold bg-olive-300 dark:bg-olive-700 text-olive-800 dark:text-olive-100"
+      >
+        {initial}
+      </span>
+    </div>
+  );
 }
 
 export function WorkSection() {
@@ -76,16 +100,7 @@ export function WorkSection() {
             className="flex gap-4 items-center w-full group"
           >
             <div className="flex gap-4 grow items-center min-w-0">
-              <div className="shrink-0 size-5">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  alt={`${item.company} favicon`}
-                  className="size-full object-cover pointer-events-none"
-                  src={getFaviconUrl(item.url)}
-                  width={20}
-                  height={20}
-                />
-              </div>
+              <CompanyIcon company={item.company} url={item.url} />
               <div className="flex gap-2 grow items-center min-w-0">
                 <p className="font-semibold shrink-0 text-olive-800 dark:text-olive-100 text-sm text-nowrap whitespace-pre group-hover:underline underline-offset-4">
                   {item.company}

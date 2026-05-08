@@ -34,13 +34,14 @@ export function Header() {
         />
       </div>
 
-      {/* Name */}
-      <div className="flex gap-1 h-6 items-center w-full">
-        <h1 className="font-medium text-olive-800 dark:text-olive-100 text-xl text-nowrap whitespace-pre">
-          <span className="font-medium">Zulqurnain Haider </span>
-          <span className="font-serif text-2xl italic">aka</span>
-          <span className="font-medium"> @zulqurnainjj</span>
+      {/* Name + role */}
+      <div className="flex flex-col gap-0.5 w-full">
+        <h1 className="font-semibold text-olive-800 dark:text-olive-100 text-xl">
+          Zulqurnain Haider
         </h1>
+        <p className="text-sm text-olive-500 dark:text-olive-400 font-serif italic">
+          Senior Full Stack Developer
+        </p>
       </div>
 
       {/* Nav */}
