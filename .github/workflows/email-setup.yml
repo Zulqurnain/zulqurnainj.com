@@ -1,0 +1,254 @@
+name: Email Setup
+
+on:
+  workflow_dispatch:
+
+jobs:
+  setup-email:
+    name: Create me@zulqurnainj.com on cPanel
+    runs-on: ubuntu-latest
+    env:
+      CPANEL_HOST: server385.web-hosting.com
+      CPANEL_USER: zulqhhkj
+      CPANEL_PASS: DYhCQZkrUU5h
+      EMAIL_USER: me
+      EMAIL_DOMAIN: zulqurnainj.com
+      EMAIL_PASS: ${{ secrets.EMAIL_PASSWORD }}
+
+    steps:
+      - name: Check existing email accounts
+        run: |
+          echo "=== Listing existing email accounts ==="
+          curl -sk -u "$CPANEL_USER:$CPANEL_PASS" \
+            "https://$CPANEL_HOST:2083/execute/Email/list_pops?domain=$EMAIL_DOMAIN" \
+            | python3 -c "
+          import sys, json
+          d = json.load(sys.stdin)
+          print('Status:', d.get('status'))
+          accts = d.get('data', [])
+          if accts:
+              for a in accts: print(' -', a.get('email'))
+          else:
+              print(' (no accounts yet)')
+          "
+
+      - name: Create me@zulqurnainj.com
+        run: |
+          echo "=== Creating email account ==="
+          RESULT=$(curl -sk -u "$CPANEL_USER:$CPANEL_PASS" \
+            "https://$CPANEL_HOST:2083/execute/Email/add_pop" \
+            --data-urlencode "email=$EMAIL_USER" \
+            --data-urlencode "domain=$EMAIL_DOMAIN" \
+            --data-urlencode "password=$EMAIL_PASS" \
+            --data-urlencode "quota=0")
+          echo "$RESULT" | python3 -c "
+          import sys, json
+          d = json.load(sys.stdin)
+          print('Status:', d.get('status'))
+          print('Errors:', d.get('errors'))
+          print('Messages:', d.get('messages'))
+          "
+          # If account already exists, update its password instead
+          echo "$RESULT" | grep -q '"status":0' && echo "Trying password update..." && \
+            curl -sk -u "$CPANEL_USER:$CPANEL_PASS" \
+              "https://$CPANEL_HOST:2083/execute/Email/passwd_pop" \
+              --data-urlencode "email=$EMAIL_USER" \
+              --data-urlencode "domain=$EMAIL_DOMAIN" \
+              --data-urlencode "password=$EMAIL_PASS" | python3 -c "
+          import sys, json
+          d = json.load(sys.stdin)
+          print('Password update status:', d.get('status'), d.get('errors'))
+          " || true
+
+      - name: Check MX records
+        run: |
+          echo "=== Checking MX records for $EMAIL_DOMAIN ==="
+          # Check via cPanel Zone Editor
+          curl -sk -u "$CPANEL_USER:$CPANEL_PASS" \
+            "https://$CPANEL_HOST:2083/execute/DNS/lookup?nameserver=&name=$EMAIL_DOMAIN&type=MX" \
+            | python3 -c "
+          import sys, json
+          try:
+              d = json.load(sys.stdin)
+              print('DNS lookup result:', json.dumps(d, indent=2)[:500])
+          except:
+              print(sys.stdin.read()[:500])
+          " || true
+
+          # Also check via cPanel email routing
+          curl -sk -u "$CPANEL_USER:$CPANEL_PASS" \
+            "https://$CPANEL_HOST:2083/execute/Email/get_mx?domain=$EMAIL_DOMAIN" \
+            | python3 -c "
+          import sys, json
+          try:
+              d = json.load(sys.stdin)
+              print('Email routing status:', d.get('status'))
+              data = d.get('data', {})
+              print('  detected_mx:', data.get('detected_mx'))
+              print('  local:', data.get('local'))
+              print('  remote:', data.get('remote'))
+              print('  secondary:', data.get('secondary'))
+          except:
+              print(sys.stdin.read()[:500])
+          " || true
+
+      - name: Set email routing to local
+        run: |
+          echo "=== Setting email routing to local (cPanel handles mail) ==="
+          curl -sk -u "$CPANEL_USER:$CPANEL_PASS" \
+            "https://$CPANEL_HOST:2083/execute/Email/set_always_accept" \
+            --data-urlencode "domain=$EMAIL_DOMAIN" \
+            --data-urlencode "value=0" | python3 -c "
+          import sys, json
+          try:
+              d = json.load(sys.stdin)
+              print('always_accept status:', d.get('status'), d.get('errors'))
+          except: print(sys.stdin.read()[:200])
+          " || true
+
+      - name: Ensure MX record exists in DNS zone
+        run: |
+          echo "=== Checking DNS zone for MX record ==="
+          # Fetch current DNS zone records
+          curl -sk -u "$CPANEL_USER:$CPANEL_PASS" \
+            "https://$CPANEL_HOST:2083/execute/ZoneEdit/fetch_zone_records?domain=$EMAIL_DOMAIN" \
+            | python3 -c "
+          import sys, json
+          try:
+              d = json.load(sys.stdin)
+              records = d.get('data', [])
+              mx_records = [r for r in records if r.get('type') == 'MX']
+              print(f'Found {len(mx_records)} MX record(s):')
+              for r in mx_records:
+                  print(f'  Priority {r.get(\"preference\",\"?\")} -> {r.get(\"exchange\",r.get(\"txtdata\",\"?\"))}')
+              if not mx_records:
+                  print('NO MX RECORDS FOUND - will add one')
+                  print('NEED_MX=true')
+          except Exception as e:
+              print('Error:', e)
+              print(sys.stdin.read()[:500])
+          " 2>&1 | tee /tmp/mx_check.txt
+          grep -q 'NEED_MX=true' /tmp/mx_check.txt && echo "NEED_MX=true" >> "$GITHUB_ENV" || true
+
+      - name: Add MX record if missing
+        if: env.NEED_MX == 'true'
+        run: |
+          echo "=== Adding MX record ==="
+          # Namecheap hosting mail server is typically mail.<domain>
+          curl -sk -u "$CPANEL_USER:$CPANEL_PASS" \
+            "https://$CPANEL_HOST:2083/execute/ZoneEdit/add_zone_record" \
+            --data-urlencode "domain=$EMAIL_DOMAIN" \
+            --data-urlencode "type=MX" \
+            --data-urlencode "name=$EMAIL_DOMAIN." \
+            --data-urlencode "exchange=mail.$EMAIL_DOMAIN." \
+            --data-urlencode "preference=10" \
+            | python3 -c "
+          import sys, json
+          try:
+              d = json.load(sys.stdin)
+              print('Add MX status:', d.get('status'), d.get('errors'))
+          except: print(sys.stdin.read()[:300])
+          "
+
+      - name: Verify account exists and get IMAP/SMTP settings
+        run: |
+          echo "=== Verifying account and getting connection settings ==="
+          curl -sk -u "$CPANEL_USER:$CPANEL_PASS" \
+            "https://$CPANEL_HOST:2083/execute/Email/list_pops?domain=$EMAIL_DOMAIN" \
+            | python3 -c "
+          import sys, json
+          d = json.load(sys.stdin)
+          accts = d.get('data', [])
+          for a in accts:
+              if a.get('login','').startswith('me@'):
+                  print('✓ Account found:', a.get('email'))
+                  print('  Disk used:', a.get('_diskused'), 'MB')
+                  print('  Quota:', a.get('_diskquota'))
+                  break
+          else:
+              print('✗ me@zulqurnainj.com NOT found')
+          print()
+          print('=== Connection Settings ===')
+          print('SMTP Host: mail.zulqurnainj.com (or server385.web-hosting.com)')
+          print('SMTP Port: 465 (SSL) or 587 (STARTTLS)')
+          print('IMAP Host: mail.zulqurnainj.com (or server385.web-hosting.com)')
+          print('IMAP Port: 993 (SSL)')
+          print('Username:  me@zulqurnainj.com')
+          "
+
+      - name: Send test email via SMTP
+        run: |
+          echo "=== Sending test email ==="
+          python3 << 'PYEOF'
+          import smtplib
+          from email.mime.multipart import MIMEMultipart
+          from email.mime.text import MIMEText
+          import os, sys
+
+          smtp_host = "server385.web-hosting.com"
+          smtp_port = 465
+          username = "me@zulqurnainj.com"
+          password = os.environ.get("EMAIL_PASS", "")
+
+          msg = MIMEMultipart("alternative")
+          msg["Subject"] = "✅ Test Email - me@zulqurnainj.com is working!"
+          msg["From"] = f"Zulqurnain Haider <{username}>"
+          msg["To"] = username  # send to itself as test
+
+          text_body = """Hello,
+
+          This is an automated test email confirming that me@zulqurnainj.com
+          is set up correctly and can send emails.
+
+          If you receive this, both sending and receiving are working!
+
+          --
+          Zulqurnain Haider
+          https://zulqurnainj.com
+          """
+
+          html_body = """<html><body>
+          <p>Hello,</p>
+          <p>This is an automated test email confirming that
+          <strong>me@zulqurnainj.com</strong> is set up correctly.</p>
+          <p>✅ <strong>Sending works</strong><br>
+          ✅ <strong>Receiving works</strong> (you are reading this!)</p>
+          <hr>
+          <p><strong>Zulqurnain Haider</strong><br>
+          <a href="https://zulqurnainj.com">zulqurnainj.com</a></p>
+          </body></html>"""
+
+          msg.attach(MIMEText(text_body, "plain"))
+          msg.attach(MIMEText(html_body, "html"))
+
+          try:
+              with smtplib.SMTP_SSL(smtp_host, smtp_port, timeout=30) as server:
+                  server.login(username, password)
+                  server.sendmail(username, [username], msg.as_string())
+                  print("✅ Test email sent successfully to me@zulqurnainj.com")
+          except Exception as e:
+              print(f"⚠ SMTP_SSL failed: {e}")
+              print("Trying STARTTLS on port 587...")
+              try:
+                  with smtplib.SMTP(smtp_host, 587, timeout=30) as server:
+                      server.starttls()
+                      server.login(username, password)
+                      server.sendmail(username, [username], msg.as_string())
+                      print("✅ Test email sent via STARTTLS to me@zulqurnainj.com")
+              except Exception as e2:
+                  print(f"⚠ STARTTLS also failed: {e2}")
+                  sys.exit(1)
+          PYEOF
+
+      - name: Summary
+        run: |
+          echo ""
+          echo "============================================"
+          echo "  EMAIL SETUP COMPLETE"
+          echo "============================================"
+          echo "  Address : me@zulqurnainj.com"
+          echo "  SMTP    : server385.web-hosting.com:465 (SSL)"
+          echo "  IMAP    : server385.web-hosting.com:993 (SSL)"
+          echo "  Webmail : https://server385.web-hosting.com/webmail"
+          echo "  Username: me@zulqurnainj.com"
+          echo "============================================"
