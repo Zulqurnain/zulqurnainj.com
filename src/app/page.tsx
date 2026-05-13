@@ -93,7 +93,7 @@ export default function Home() {
           </p>
           <p className="animate-in animate-delay-4">
             Always open to ambitious engineering challenges.{" "}
-            <a href="mailto:zulqurnainjj@gmail.com" className="link">
+            <a href="mailto:me@zulqurnainj.com" className="link">
               Say hello
             </a>{" "}
             or find me on{" "}
