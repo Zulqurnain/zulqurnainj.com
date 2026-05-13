@@ -20,98 +20,22 @@ jobs:
       GR: ${{ github.repository }}
 
     steps:
-      - name: get_mx before fix
-        run: curl -sk -u "$U:$P" "https://$H:2083/execute/Email/get_mx?domain=$D"
+      - uses: actions/checkout@v4
 
-      - name: set_mx local
+      - name: set_mx to local
         run: |
           curl -sk -u "$U:$P" -X POST "https://$H:2083/execute/Email/set_mx" \
             --data-urlencode "domain=$D" --data-urlencode "mxcheck=local"
-
-      - name: set_always_accept
-        run: |
           curl -sk -u "$U:$P" -X POST "https://$H:2083/execute/Email/set_always_accept" \
             --data-urlencode "domain=$D" --data-urlencode "value=1"
 
-      - name: get_mx after fix
-        run: curl -sk -u "$U:$P" "https://$H:2083/execute/Email/get_mx?domain=$D"
-
-      - name: send test via SSH sendmail
+      - name: send test email via SSH
         run: |
           sudo apt-get install -y sshpass -q
           sshpass -p "$P" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
             -o ConnectTimeout=20 -p 21098 "$U@$H" \
-            "printf 'To: me@zulqurnainj.com\nFrom: me@zulqurnainj.com\nSubject: mx-status-test\n\ntest\n' | /usr/sbin/sendmail me@zulqurnainj.com" || true
+            "printf 'To: me@zulqurnainj.com\nFrom: me@zulqurnainj.com\nSubject: mx-test\n\ntest\n' | /usr/sbin/sendmail me@zulqurnainj.com" || true
           sleep 20
 
-      - name: check imap and post issue
-        run: |
-          python3 /dev/stdin << 'EOF'
-          import imaplib, os, email as em, json, urllib.request
-          from email.header import decode_header
-
-          host   = os.environ['H']
-          user   = os.environ['EU']
-          passwd = os.environ['EP']
-          token  = os.environ['GT']
-          repo   = os.environ['GR']
-
-          mx_raw = __import__('subprocess').check_output(
-              ['curl', '-sk', '-u', f"{os.environ['U']}:{os.environ['P']}",
-               f"https://{host}:2083/execute/Email/get_mx?domain={os.environ['D']}"],
-              text=True
-          )
-          try:
-              mx = json.loads(mx_raw)
-              data = mx.get('data', {})
-              local_val = data.get('local')
-              always_val = data.get('always_accept')
-              detected = data.get('detected_mx')
-          except Exception:
-              local_val = 'parse error'
-              always_val = 'parse error'
-              detected = mx_raw[:200]
-
-          imap_lines = []
-          try:
-              M = imaplib.IMAP4_SSL(host, 993)
-              M.login(user, passwd)
-              _, msgs = M.select('INBOX')
-              count = int(msgs[0])
-              imap_lines.append(f'Inbox count: {count}')
-              if count > 0:
-                  _, data2 = M.fetch(str(count), '(RFC822.HEADER)')
-                  if data2 and isinstance(data2[0], tuple):
-                      msg = em.message_from_bytes(data2[0][1])
-                      imap_lines.append(f'Latest subject: {msg.get("Subject","?")}')
-                      imap_lines.append(f'Latest date: {msg.get("Date","?")}')
-              else:
-                  imap_lines.append('Inbox EMPTY — delivery still not working')
-              M.logout()
-          except Exception as e:
-              imap_lines.append(f'IMAP error: {e}')
-
-          body = f"""## Email Routing Status
-
-**get_mx.local** = `{local_val}` (1 = local delivery ✅, 0 = remote ❌)
-**get_mx.always_accept** = `{always_val}`
-**get_mx.detected_mx** = `{detected}`
-
-## IMAP Inbox (after sendmail test)
-{chr(10).join(imap_lines)}
-
-## Raw get_mx response
-```json
-{json.dumps(json.loads(mx_raw) if mx_raw.startswith('{') else {}, indent=2)[:3000]}
-```"""
-
-          payload = json.dumps({'title': '[mx-status] Routing check', 'body': body}).encode()
-          req = urllib.request.Request(
-              f'https://api.github.com/repos/{repo}/issues',
-              data=payload,
-              headers={'Authorization': f'token {token}', 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json'}
-          )
-          with urllib.request.urlopen(req) as r:
-              d = json.loads(r.read())
-              print(f"Issue #{d['number']} created")
-          EOF
+      - name: check routing and inbox
+        run: python3 scripts/check_mail.py
