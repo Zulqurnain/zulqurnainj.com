@@ -1,0 +1,23 @@
+name: DKIM Headers Check
+
+on:
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  dkim-check:
+    runs-on: ubuntu-latest
+    env:
+      H: ${{ secrets.CPANEL_HOST }}
+      EU: me@zulqurnainj.com
+      EP: ${{ secrets.EMAIL_PASSWORD }}
+      GMAIL: zulqurnainjj@gmail.com
+      GT: ${{ secrets.GITHUB_TOKEN }}
+      GR: ${{ github.repository }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: check DKIM headers and send Gmail test
+        run: python3 scripts/check_dkim_headers.py
