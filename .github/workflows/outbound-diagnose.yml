@@ -1,0 +1,25 @@
+name: Outbound Email Diagnose
+
+on:
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    env:
+      H: ${{ secrets.CPANEL_HOST }}
+      U: ${{ secrets.CPANEL_USER }}
+      P: ${{ secrets.CPANEL_PASS }}
+      D: zulqurnainj.com
+      GT: ${{ secrets.GITHUB_TOKEN }}
+      GR: ${{ github.repository }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: install dig
+        run: sudo apt-get install -y dnsutils -q
+      - name: diagnose outbound email (SPF/DKIM/Exim)
+        run: python3 scripts/outbound_diagnose.py
