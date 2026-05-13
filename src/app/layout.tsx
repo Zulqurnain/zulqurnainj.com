@@ -130,7 +130,7 @@ const jsonLd = {
         addressLocality: "Lahore",
         addressCountry: "PK",
       },
-      email: "zulqurnainjj@gmail.com",
+      email: "me@zulqurnainj.com",
       sameAs: [
         "https://github.com/zulqurnain",
         "https://linkedin.com/in/zulqurnainjj",
