@@ -1,0 +1,25 @@
+name: Setup BIMI
+
+on:
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  bimi:
+    runs-on: ubuntu-latest
+    env:
+      H: ${{ secrets.CPANEL_HOST }}
+      U: ${{ secrets.CPANEL_USER }}
+      P: ${{ secrets.CPANEL_PASS }}
+      D: zulqurnainj.com
+      GT: ${{ secrets.GITHUB_TOKEN }}
+      GR: ${{ github.repository }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: install dig
+        run: sudo apt-get install -y dnsutils -q
+      - name: add BIMI DNS record and upgrade DMARC to p=quarantine
+        run: python3 scripts/setup_bimi.py
