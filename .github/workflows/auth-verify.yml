@@ -1,0 +1,22 @@
+name: Auth Verify (DKIM+SPF)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  auth:
+    runs-on: ubuntu-latest
+    env:
+      H: ${{ secrets.CPANEL_HOST }}
+      EU: me@zulqurnainj.com
+      EP: ${{ secrets.EMAIL_PASSWORD }}
+      GT: ${{ secrets.GITHUB_TOKEN }}
+      GR: ${{ github.repository }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: send to Port25 verifier and check DKIM/SPF reply
+        run: python3 scripts/auth_verify.py
