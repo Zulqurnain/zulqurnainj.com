@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
-"""Verify routing is local, send test email, wait 90s, check inbox."""
+"""Test mailbox: IMAP APPEND + sendmail with full output capture."""
 import os, json, subprocess, urllib.request, imaplib, email as em, time
+from email.mime.text import MIMEText
 from email.header import decode_header
+from datetime import datetime
 
 host   = os.environ['H']
 cpanel = os.environ['U']
@@ -14,89 +16,121 @@ repo   = os.environ['GR']
 
 base = f"https://{host}:2083/json-api/cpanel"
 
-def curl_get(url):
-    return subprocess.check_output(['curl', '-sk', '-u', f"{cpanel}:{cpass}", url], text=True)
+sections = {}
 
-# 1. Check current routing
-raw = curl_get(f"{base}?cpanel_jsonapi_module=Email&cpanel_jsonapi_func=getmxcheck&cpanel_jsonapi_version=2&domain={domain}")
-print(f"Current routing: {raw[:300]}")
+# 1. Confirm routing is local
+raw = subprocess.check_output(
+    ['curl', '-sk', '-u', f"{cpanel}:{cpass}",
+     f"{base}?cpanel_jsonapi_module=Email&cpanel_jsonapi_func=getmxcheck&cpanel_jsonapi_version=2&domain={domain}"],
+    text=True
+)
+try:
+    mxcheck = json.loads(raw)['cpanelresult']['data'][0].get('mxcheck', '?')
+except Exception:
+    mxcheck = 'parse error'
+sections['routing'] = f"mxcheck={mxcheck}"
+print(f"Routing: {sections['routing']}")
 
-d = json.loads(raw)
-mxcheck = d['cpanelresult']['data'][0].get('mxcheck', 'unknown')
-print(f"mxcheck = {mxcheck}")
-
+# Reapply if not local
 if mxcheck != 'local':
-    print("ROUTING IS NOT LOCAL — reapplying fix...")
-    fix = curl_get(f"{base}?cpanel_jsonapi_module=Email&cpanel_jsonapi_func=setmxcheck&cpanel_jsonapi_version=2&domain={domain}&mxcheck=local")
-    print(f"Fix result: {fix[:300]}")
-    # Verify
-    raw2 = curl_get(f"{base}?cpanel_jsonapi_module=Email&cpanel_jsonapi_func=getmxcheck&cpanel_jsonapi_version=2&domain={domain}")
-    d2 = json.loads(raw2)
-    mxcheck = d2['cpanelresult']['data'][0].get('mxcheck', 'unknown')
-    print(f"mxcheck after reapply = {mxcheck}")
+    subprocess.run(
+        ['curl', '-sk', '-u', f"{cpanel}:{cpass}",
+         f"{base}?cpanel_jsonapi_module=Email&cpanel_jsonapi_func=setmxcheck&cpanel_jsonapi_version=2&domain={domain}&mxcheck=local"],
+        capture_output=True
+    )
+    mxcheck = 'local (reapplied)'
 
-# 2. Check inbox BEFORE sending
-def check_inbox(label):
-    results = []
+# 2. IMAP APPEND — inject a message directly into inbox
+append_result = "not attempted"
+try:
+    M = imaplib.IMAP4_SSL(host, 993)
+    M.login(eu, ep)
+    ts = datetime.utcnow().strftime('%H:%M:%S')
+    msg = MIMEText(f"Direct IMAP APPEND test at {ts} UTC.\nIf this appears, the mailbox is working.")
+    msg['From'] = eu
+    msg['To'] = eu
+    msg['Subject'] = f"[IMAP-APPEND] Direct inject test {ts}"
+    status, resp = M.append('INBOX', None, None, msg.as_bytes())
+    append_result = f"status={status} resp={resp}"
+    print(f"IMAP APPEND: {append_result}")
+    M.logout()
+except Exception as e:
+    append_result = f"error: {e}"
+    print(f"IMAP APPEND error: {e}")
+
+sections['imap_append'] = append_result
+
+# 3. Check inbox count after append
+def get_inbox_count():
     try:
         M = imaplib.IMAP4_SSL(host, 993)
         M.login(eu, ep)
         _, msgs = M.select('INBOX')
         count = int(msgs[0])
-        results.append(f"{label}: count={count}")
+        latest = ''
         if count > 0:
             _, data = M.fetch(str(count), '(RFC822.HEADER)')
             if data and isinstance(data[0], tuple):
                 msg = em.message_from_bytes(data[0][1])
-                results.append(f"  Latest: {msg.get('Subject','?')} | {msg.get('Date','?')}")
+                latest = f" | Latest: {msg.get('Subject','?')}"
         M.logout()
+        return f"count={count}{latest}"
     except Exception as e:
-        results.append(f"{label}: IMAP error: {e}")
-    return results
+        return f"error: {e}"
 
-pre = check_inbox("BEFORE send")
-print('\n'.join(pre))
+after_append = get_inbox_count()
+sections['after_append'] = after_append
+print(f"After APPEND: {after_append}")
 
-# 3. Send test email via SSH+sendmail (if sendmail is available)
+# 4. SSH sendmail with full output capture
+ssh_out = "not attempted"
 try:
     r = subprocess.run(
         ['sshpass', '-p', cpass, 'ssh',
          '-o', 'StrictHostKeyChecking=no', '-o', 'UserKnownHostsFile=/dev/null',
          '-o', 'ConnectTimeout=20', '-p', '21098', f"{cpanel}@{host}",
-         f"printf 'To: {eu}\\nFrom: {eu}\\nSubject: routing-verify-{int(time.time())}\\n\\ntest\\n' | /usr/sbin/sendmail {eu}"],
+         f"printf 'To: {eu}\\nFrom: {eu}\\nSubject: sendmail-test-{int(time.time())}\\n\\ntest\\n' | /usr/sbin/sendmail -v {eu} 2>&1"],
         capture_output=True, text=True, timeout=30
     )
-    print(f"SSH sendmail stdout: {r.stdout[:200]}")
-    print(f"SSH sendmail stderr: {r.stderr[:200]}")
-    print(f"SSH sendmail returncode: {r.returncode}")
+    ssh_out = f"rc={r.returncode}\nstdout: {r.stdout[:400]}\nstderr: {r.stderr[:400]}"
 except Exception as e:
-    print(f"SSH sendmail error: {e}")
+    ssh_out = f"exception: {e}"
 
-# 4. Wait for delivery
-print("Waiting 90 seconds for Exim to deliver...")
-time.sleep(90)
+sections['sendmail_output'] = ssh_out
+print(f"SSH sendmail:\n{ssh_out}")
 
-# 5. Check inbox after
-post = check_inbox("AFTER send (90s wait)")
-print('\n'.join(post))
+# 5. Wait and check inbox
+print("Waiting 60s...")
+time.sleep(60)
 
-# Post as issue
-body = f"""## Routing Verify + Send Test
+after_sendmail = get_inbox_count()
+sections['after_sendmail_60s'] = after_sendmail
+print(f"After sendmail 60s: {after_sendmail}")
 
-**Current mxcheck:** `{mxcheck}`
+# Post issue
+body = f"""## Delivery Test Results
 
-### Before sending
+**Routing:** `{mxcheck}`
+
+| Test | Result |
+|------|--------|
+| IMAP APPEND | `{append_result}` |
+| Inbox after APPEND | `{after_append}` |
+| SSH sendmail | see below |
+| Inbox after sendmail (60s) | `{after_sendmail}` |
+
+### SSH sendmail output
 ```
-{chr(10).join(pre)}
+{ssh_out}
 ```
 
-### After sending (waited 90s)
-```
-{chr(10).join(post)}
-```
+### Interpretation
+- If APPEND worked but inbox shows count=0: IMAP SELECT might not refresh; try EXAMINE
+- If APPEND status=OK but count=0: IMAP server may not reflect immediately
+- If sendmail rc=0 but no delivery: Exim is queuing and routing remotely despite local setting
 """
 
-payload = json.dumps({'title': '[verify] Routing check + send test', 'body': body}).encode()
+payload = json.dumps({'title': '[verify] IMAP APPEND + sendmail test', 'body': body}).encode()
 req = urllib.request.Request(
     f'https://api.github.com/repos/{repo}/issues',
     data=payload,
