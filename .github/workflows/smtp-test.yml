@@ -1,0 +1,21 @@
+name: SMTP Delivery Test
+
+on:
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  smtp:
+    runs-on: ubuntu-latest
+    env:
+      H: ${{ secrets.CPANEL_HOST }}
+      EU: me@zulqurnainj.com
+      GT: ${{ secrets.GITHUB_TOKEN }}
+      GR: ${{ github.repository }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: test SMTP delivery on port 25 and 587
+        run: python3 scripts/smtp_test.py
