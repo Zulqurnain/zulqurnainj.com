@@ -1,0 +1,23 @@
+name: Gmail Send-As Verify Watcher
+
+on:
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      H: ${{ secrets.CPANEL_HOST }}
+      EU: me@zulqurnainj.com
+      EP: ${{ secrets.EMAIL_PASSWORD }}
+      GT: ${{ secrets.GITHUB_TOKEN }}
+      GR: ${{ github.repository }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: watch for Gmail verification email (10 min)
+        run: python3 scripts/watch_gmail_verify.py
