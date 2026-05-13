@@ -1,0 +1,22 @@
+name: Read Inbox
+
+on:
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  read:
+    runs-on: ubuntu-latest
+    env:
+      H: ${{ secrets.CPANEL_HOST }}
+      EU: me@zulqurnainj.com
+      EP: ${{ secrets.EMAIL_PASSWORD }}
+      GT: ${{ secrets.GITHUB_TOKEN }}
+      GR: ${{ github.repository }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: read all inbox messages
+        run: python3 scripts/read_inbox.py
