@@ -11,7 +11,7 @@ type NavItem = {
 
 const navItems: NavItem[] = [
   { label: "Home", href: "/" },
-  { label: "Contact", href: "mailto:zulqurnainjj@gmail.com" },
+  { label: "Contact", href: "mailto:me@zulqurnainj.com" },
   { label: "LinkedIn", href: "https://linkedin.com/in/zulqurnainjj", external: true },
   { label: "Projects", href: "/projects" },
   { label: "Apps", href: "/apps" },
