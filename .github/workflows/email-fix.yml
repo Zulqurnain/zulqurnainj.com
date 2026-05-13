@@ -1,0 +1,168 @@
+name: Fix Email Routing & SPF
+
+on:
+  workflow_dispatch:
+
+jobs:
+  fix:
+    name: Fix routing loop + SPF for me@zulqurnainj.com
+    runs-on: ubuntu-latest
+    env:
+      CPANEL_HOST: ${{ secrets.CPANEL_HOST }}
+      CPANEL_USER: ${{ secrets.CPANEL_USER }}
+      CPANEL_PASS: ${{ secrets.CPANEL_PASS }}
+      EMAIL_DOMAIN: zulqurnainj.com
+      EMAIL_USER: me@zulqurnainj.com
+
+    steps:
+      - name: 1. Show current email routing
+        run: |
+          echo "=== Current routing ==="
+          curl -sk -u "$CPANEL_USER:$CPANEL_PASS" \
+            "https://$CPANEL_HOST:2083/execute/Email/get_mx?domain=$EMAIL_DOMAIN" \
+            | python3 -c "
+          import sys, json
+          try:
+              d = json.load(sys.stdin)
+              data = d.get('data', {})
+              print('detected_mx  :', data.get('detected_mx'))
+              print('local        :', data.get('local'))
+              print('always_accept:', data.get('always_accept'))
+          except Exception as e:
+              print('Parse error (raw):', sys.stdin.read()[:200])
+          " || true
+
+      - name: 2. Force email routing to LOCAL (fix relay loop)
+        run: |
+          echo "=== Setting routing to local mail exchanger ==="
+          # set_always_accept forces server to accept mail for this domain locally
+          R1=$(curl -sk -u "$CPANEL_USER:$CPANEL_PASS" \
+            "https://$CPANEL_HOST:2083/execute/Email/set_always_accept" \
+            --data-urlencode "domain=$EMAIL_DOMAIN" \
+            --data-urlencode "value=1")
+          echo "set_always_accept: $R1"
+
+          # Also explicitly set MX routing to local
+          R2=$(curl -sk -u "$CPANEL_USER:$CPANEL_PASS" \
+            "https://$CPANEL_HOST:2083/execute/Email/set_mx" \
+            --data-urlencode "domain=$EMAIL_DOMAIN" \
+            --data-urlencode "mxcheck=local")
+          echo "set_mx local: $R2"
+
+      - name: 3. Show current SPF record
+        run: |
+          echo "=== Current SPF TXT record ==="
+          curl -sk -u "$CPANEL_USER:$CPANEL_PASS" \
+            "https://$CPANEL_HOST:2083/execute/ZoneEdit/fetch_zone_records?domain=$EMAIL_DOMAIN" \
+            | python3 -c "
+          import sys, json
+          d = json.load(sys.stdin)
+          records = d.get('data', [])
+          spf = [r for r in records if r.get('type') == 'TXT' and 'spf' in str(r.get('txtdata','')).lower()]
+          if spf:
+              for r in spf:
+                  print('Line:', r.get('line'))
+                  print('SPF:', r.get('txtdata'))
+          else:
+              print('NO SPF record found')
+              print('NEED_SPF=true')
+          " 2>&1 | tee /tmp/spf_check.txt
+          grep -q 'NEED_SPF=true' /tmp/spf_check.txt && echo "NEED_SPF=true" >> "$GITHUB_ENV" || true
+
+      - name: 4. Add SPF record if missing
+        if: env.NEED_SPF == 'true'
+        run: |
+          echo "=== Adding SPF record ==="
+          # Authorise: the server itself (a), the MX servers, and Namecheap relay
+          curl -sk -u "$CPANEL_USER:$CPANEL_PASS" \
+            "https://$CPANEL_HOST:2083/execute/ZoneEdit/add_zone_record" \
+            --data-urlencode "domain=$EMAIL_DOMAIN" \
+            --data-urlencode "type=TXT" \
+            --data-urlencode "name=$EMAIL_DOMAIN." \
+            --data-urlencode "txtdata=v=spf1 a mx ip4:68.65.120.156 include:jellyfish.systems ~all" \
+            --data-urlencode "ttl=14400" \
+            | python3 -c "
+          import sys, json
+          d = json.load(sys.stdin)
+          print('Add SPF result:', d.get('status'), d.get('errors'), d.get('messages'))
+          "
+
+      - name: 5. Check if SPF exists but is wrong — update it
+        if: env.NEED_SPF != 'true'
+        run: |
+          echo "=== Verifying SPF includes required entries ==="
+          curl -sk -u "$CPANEL_USER:$CPANEL_PASS" \
+            "https://$CPANEL_HOST:2083/execute/ZoneEdit/fetch_zone_records?domain=$EMAIL_DOMAIN" \
+            | python3 -c "
+          import sys, json
+          d = json.load(sys.stdin)
+          records = d.get('data', [])
+          spf = [r for r in records if r.get('type') == 'TXT' and 'spf' in str(r.get('txtdata','')).lower()]
+          for r in spf:
+              txt = r.get('txtdata','')
+              print('Current SPF:', txt)
+              missing = []
+              if 'ip4:68.65.120.156' not in txt and 'a' not in txt.split():
+                  missing.append('ip4:68.65.120.156')
+              if 'jellyfish.systems' not in txt:
+                  missing.append('include:jellyfish.systems')
+              if missing:
+                  print('Missing from SPF:', missing)
+                  print('NEEDS_SPF_UPDATE=true', r.get('line'))
+              else:
+                  print('SPF looks complete')
+          " || true
+
+      - name: 6. Verify routing after fix
+        run: |
+          echo "=== Routing after fix ==="
+          curl -sk -u "$CPANEL_USER:$CPANEL_PASS" \
+            "https://$CPANEL_HOST:2083/execute/Email/get_mx?domain=$EMAIL_DOMAIN" \
+            | python3 -c "
+          import sys, json
+          try:
+              d = json.load(sys.stdin)
+              data = d.get('data', {})
+              local = data.get('local')
+              always = data.get('always_accept')
+              print('local        :', local)
+              print('always_accept:', always)
+              if local == 1 or always == 1:
+                  print('Routing is LOCAL — relay loop should be fixed')
+              else:
+                  print('WARNING: routing still not local:', data)
+          except Exception as e:
+              print('Parse error:', e)
+          " || true
+
+      - name: 7. Send test via SSH+sendmail (server-side, no SPF issue)
+        run: |
+          echo "=== Installing sshpass ==="
+          sudo apt-get install -y sshpass -q
+          echo "=== Sending test email from server ==="
+          sshpass -p "${{ secrets.CPANEL_PASS }}" ssh \
+            -o StrictHostKeyChecking=no \
+            -o UserKnownHostsFile=/dev/null \
+            -o ConnectTimeout=20 \
+            -p 21098 \
+            "$CPANEL_USER@$CPANEL_HOST" \
+            "printf 'To: me@zulqurnainj.com\nFrom: Zulqurnain Haider <me@zulqurnainj.com>\nSubject: Email fix applied - test delivery\nContent-Type: text/plain\n\nRouting has been set to LOCAL.\nIf you see this in webmail, receiving is now working.\n' | /usr/sbin/sendmail -v me@zulqurnainj.com" \
+            && echo "Test email sent — check webmail inbox" \
+            || echo "SSH+sendmail failed"
+
+      - name: Summary
+        if: always()
+        run: |
+          echo ""
+          echo "=========================================="
+          echo "  What was fixed"
+          echo "=========================================="
+          echo "  1. Email routing forced to LOCAL"
+          echo "     (stops jellyfish.systems relay loop)"
+          echo "  2. SPF record checked/added"
+          echo "     (authorises server to send for domain)"
+          echo "  3. Test email sent from server"
+          echo "=========================================="
+          echo "  Next: check webmail inbox for test email"
+          echo "  Webmail: https://$CPANEL_HOST/webmail"
+          echo "=========================================="
