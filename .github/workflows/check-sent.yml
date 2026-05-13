@@ -1,0 +1,27 @@
+name: Check Sent Folders
+
+on:
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      H: ${{ secrets.CPANEL_HOST }}
+      U: ${{ secrets.CPANEL_USER }}
+      P: ${{ secrets.CPANEL_PASS }}
+      D: zulqurnainj.com
+      EU: me@zulqurnainj.com
+      EP: ${{ secrets.EMAIL_PASSWORD }}
+      GT: ${{ secrets.GITHUB_TOKEN }}
+      GR: ${{ github.repository }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: install dig
+        run: sudo apt-get install -y dnsutils -q
+      - name: check sent folder and SPF propagation
+        run: python3 scripts/check_sent_folders.py
