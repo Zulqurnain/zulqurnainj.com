@@ -14,6 +14,8 @@ jobs:
       U: ${{ secrets.CPANEL_USER }}
       P: ${{ secrets.CPANEL_PASS }}
       D: zulqurnainj.com
+      EU: me@zulqurnainj.com
+      EP: ${{ secrets.EMAIL_PASSWORD }}
       GT: ${{ secrets.GITHUB_TOKEN }}
       GR: ${{ github.repository }}
 
