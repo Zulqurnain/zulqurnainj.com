@@ -15,6 +15,7 @@ const navItems: NavItem[] = [
   { label: "LinkedIn", href: "https://linkedin.com/in/zulqurnainjj", external: true },
   { label: "Projects", href: "/projects" },
   { label: "Apps", href: "/apps" },
+  { label: "SaaS", href: "/saas" },
   { label: "Linktree", href: "https://linktr.ee/zulqurnainjj", external: true },
 ];
 
