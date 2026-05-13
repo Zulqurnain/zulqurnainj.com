@@ -1,0 +1,114 @@
+name: IMAP Inbox Test
+
+on:
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  imap:
+    runs-on: ubuntu-latest
+    env:
+      CPANEL_HOST: ${{ secrets.CPANEL_HOST }}
+      CPANEL_USER: ${{ secrets.CPANEL_USER }}
+      CPANEL_PASS: ${{ secrets.CPANEL_PASS }}
+      EMAIL_USER: me@zulqurnainj.com
+      EMAIL_PASS: ${{ secrets.EMAIL_PASSWORD }}
+
+    steps:
+      - name: Send test + check IMAP inbox + post issue
+        run: |
+          sudo apt-get install -y sshpass -q 2>/dev/null
+
+          # Send test email from server
+          sshpass -p "$CPANEL_PASS" ssh \
+            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+            -o ConnectTimeout=20 -p 21098 \
+            "$CPANEL_USER@$CPANEL_HOST" \
+            "printf 'To: me@zulqurnainj.com\nFrom: me@zulqurnainj.com\nSubject: imap-test-$(date +%s)\n\ntest\n' | /usr/sbin/sendmail me@zulqurnainj.com" \
+            && echo "email sent" || echo "ssh failed"
+
+          sleep 12
+
+          # Read inbox and post as issue
+          python3 - << 'PYEOF'
+          import imaplib, os, email as em, json
+          from email.header import decode_header
+          import urllib.request, urllib.error
+
+          host   = os.environ['CPANEL_HOST']
+          user   = os.environ['EMAIL_USER']
+          passwd = os.environ['EMAIL_PASS']
+          token  = os.environ['GITHUB_TOKEN']
+          repo   = os.environ['GITHUB_REPOSITORY']
+
+          lines = []
+          try:
+              M = imaplib.IMAP4_SSL(host, 993)
+              M.login(user, passwd)
+              lines.append("IMAP login: SUCCESS")
+
+              _, msgs = M.select('INBOX')
+              count = int(msgs[0])
+              lines.append(f"Inbox messages: {count}")
+
+              if count > 0:
+                  start = max(1, count - 4)
+                  _, data = M.fetch(f'{start}:{count}', '(RFC822.HEADER)')
+                  lines.append("")
+                  lines.append("Last messages:")
+                  for item in data:
+                      if isinstance(item, tuple):
+                          msg = em.message_from_bytes(item[1])
+                          raw = msg.get('Subject','(no subject)')
+                          subj = ''.join(
+                              p.decode(enc or 'utf-8') if isinstance(p, bytes) else p
+                              for p, enc in decode_header(raw)
+                          )
+                          lines.append(f"  From: {msg.get('From','?')}")
+                          lines.append(f"  Subject: {subj}")
+                          lines.append(f"  Date: {msg.get('Date','?')}")
+                          lines.append("")
+              else:
+                  lines.append("Inbox is EMPTY — emails not being delivered")
+
+              for folder in ['INBOX.spam', 'Junk', 'Spam']:
+                  st, d = M.select(folder, readonly=True)
+                  if st == 'OK':
+                      lines.append(f"Spam/Junk ({folder}): {int(d[0])} messages")
+                      break
+
+              M.logout()
+          except Exception as e:
+              lines.append(f"IMAP ERROR: {e}")
+
+          body = '\n'.join(lines)
+          print(body)
+
+          # Post as GitHub issue
+          payload = json.dumps({
+              "title": f"[imap-test] Inbox check result",
+              "body": f"```\n{body}\n```",
+              "labels": []
+          }).encode()
+
+          req = urllib.request.Request(
+              f"https://api.github.com/repos/{repo}/issues",
+              data=payload,
+              headers={
+                  "Authorization": f"token {token}",
+                  "Accept": "application/vnd.github.v3+json",
+                  "Content-Type": "application/json"
+              }
+          )
+          try:
+              with urllib.request.urlopen(req) as resp:
+                  d = json.loads(resp.read())
+                  print(f"Issue created: #{d['number']}")
+          except Exception as e:
+              print(f"Issue creation failed: {e}")
+          PYEOF
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
