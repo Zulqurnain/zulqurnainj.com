@@ -1,0 +1,25 @@
+name: Clean SPF Record
+
+on:
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  spf:
+    runs-on: ubuntu-latest
+    env:
+      H: ${{ secrets.CPANEL_HOST }}
+      U: ${{ secrets.CPANEL_USER }}
+      P: ${{ secrets.CPANEL_PASS }}
+      D: zulqurnainj.com
+      GT: ${{ secrets.GITHUB_TOKEN }}
+      GR: ${{ github.repository }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: install dig
+        run: sudo apt-get install -y dnsutils -q
+      - name: remove +a and +mx from SPF to reduce DNS lookups
+        run: python3 scripts/fix_spf_clean.py
