@@ -42,21 +42,21 @@ const ArrowIcon = () => (
 
 const tools: Tool[] = [
   {
-    id: "apply-for-job",
-    name: "Apply for Job",
-    tagline: "Paste · Extract · Send",
-    description: "Paste any job post or LinkedIn message — AI extracts recruiter contacts and drafts a personalised application email with your CV attached.",
+    id: "text-to-leads",
+    name: "Text To Leads Extractor",
+    tagline: "Paste · Extract · Connect",
+    description: "Paste any job post, LinkedIn message, or outreach text — AI extracts recruiter contacts (email, phone, Telegram) and drafts personalised outreach with your CV attached.",
     icon: (
       <svg viewBox="0 0 40 40" className="size-10" fill="none">
         <rect width="40" height="40" rx="10" fill="#fef3c7" />
-        <path d="M12 28V16a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12" stroke="#d97706" strokeWidth="1.8" strokeLinecap="round" />
-        <path d="M8 28h24" stroke="#d97706" strokeWidth="1.8" strokeLinecap="round" />
-        <path d="M17 22h6M17 18h6" stroke="#fbbf24" strokeWidth="1.8" strokeLinecap="round" />
-        <circle cx="20" cy="10" r="3" fill="#fbbf24" />
-        <path d="M20 13v3" stroke="#fbbf24" strokeWidth="1.5" strokeLinecap="round" />
+        <rect x="8" y="10" width="18" height="22" rx="2" stroke="#d97706" strokeWidth="1.8" />
+        <path d="M12 16h10M12 20h10M12 24h6" stroke="#fbbf24" strokeWidth="1.8" strokeLinecap="round" />
+        <circle cx="30" cy="14" r="5" fill="#fbbf24" />
+        <path d="M28 14h4M30 12v4" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M26 24l6 6" stroke="#d97706" strokeWidth="1.8" strokeLinecap="round" />
       </svg>
     ),
-    href: "https://tools.zulqurnainj.com",
+    href: "https://tools.zulqurnainj.com/text-to-leads",
     badge: "Live",
     category: "Job Search",
   },
