@@ -11,25 +11,38 @@ cpanel = os.environ['U']
 cpass  = os.environ['P']
 domain = os.environ['D']
 
-# Get current MX routing
-mx_raw = subprocess.check_output(
-    ['curl', '-sk', '-u', f"{cpanel}:{cpass}",
-     f"https://{host}:2083/execute/Email/get_mx?domain={domain}"],
-    text=True
-)
-try:
-    mx = json.loads(mx_raw)
-    data = mx.get('data', {})
-    local_val  = data.get('local')
-    always_val = data.get('always_accept')
-    detected   = data.get('detected_mx')
-except Exception as e:
-    local_val = always_val = detected = f'parse error: {e}'
-    mx = {}
+def api(endpoint, **params):
+    """Call cPanel UAPI, return (raw_text, parsed_dict)."""
+    cmd = ['curl', '-sk', '-u', f"{cpanel}:{cpass}",
+           f"https://{host}:2083/execute/{endpoint}"]
+    for k, v in params.items():
+        cmd += ['--data-urlencode', f"{k}={v}"]
+    if params:
+        cmd.insert(2, '-X')
+        cmd.insert(3, 'POST')
+    raw = subprocess.check_output(cmd, text=True)
+    try:
+        return raw, json.loads(raw)
+    except Exception:
+        return raw, {}
 
-print(f"get_mx.local={local_val}  always_accept={always_val}  detected_mx={detected}")
+# 1. get_mx raw response
+mx_raw, mx = api('Email/get_mx', domain=domain)
+print(f"[get_mx raw]: {mx_raw[:500]}")
 
-# Read IMAP inbox
+# 2. set_mx local
+set_raw, set_d = api('Email/set_mx', domain=domain, mxcheck='local')
+print(f"[set_mx]: {set_raw[:200]}")
+
+# 3. set_always_accept
+acc_raw, acc_d = api('Email/set_always_accept', domain=domain, value='1')
+print(f"[set_always_accept]: {acc_raw[:200]}")
+
+# 4. get_mx again after fix
+mx2_raw, mx2 = api('Email/get_mx', domain=domain)
+print(f"[get_mx after fix]: {mx2_raw[:500]}")
+
+# 5. Read IMAP inbox
 imap_lines = []
 try:
     M = imaplib.IMAP4_SSL(host, 993)
@@ -46,45 +59,49 @@ try:
                 p.decode(enc or 'utf-8') if isinstance(p, bytes) else p
                 for p, enc in decode_header(raw_subj)
             )
-            imap_lines.append(f"Latest subject : {subj}")
-            imap_lines.append(f"Latest from    : {msg.get('From','?')}")
-            imap_lines.append(f"Latest date    : {msg.get('Date','?')}")
+            imap_lines.append(f"Latest subject: {subj}")
+            imap_lines.append(f"Latest from: {msg.get('From','?')}")
+            imap_lines.append(f"Latest date: {msg.get('Date','?')}")
     else:
-        imap_lines.append("Inbox is EMPTY - delivery not working")
+        imap_lines.append("INBOX is EMPTY")
 
     for folder in ['INBOX.spam', 'Junk', 'Spam']:
         st, d = M.select(folder, readonly=True)
         if st == 'OK':
-            imap_lines.append(f"Spam folder ({folder}): {int(d[0])} messages")
+            imap_lines.append(f"Spam ({folder}): {int(d[0])} msgs")
             break
     M.logout()
 except Exception as e:
     imap_lines.append(f"IMAP error: {e}")
 
 imap_text = '\n'.join(imap_lines)
-local_icon  = "✅" if local_val == 1 else "❌"
-always_icon = "✅" if always_val == 1 else "❌"
-mx_pretty = json.dumps(mx.get('data', mx), indent=2)[:3000]
 
-body = f"""## Email Routing Status
+body = f"""## get_mx raw response (before fix)
+```
+{mx_raw[:2000]}
+```
 
-| Setting | Value | Status |
-|---------|-------|--------|
-| `get_mx.local` | `{local_val}` | {local_icon} (1=local delivery) |
-| `get_mx.always_accept` | `{always_val}` | {always_icon} |
-| `get_mx.detected_mx` | `{detected}` | |
+## set_mx result
+```
+{set_raw[:500]}
+```
 
-## IMAP Inbox (after sendmail test)
+## set_always_accept result
+```
+{acc_raw[:500]}
+```
+
+## get_mx raw response (after fix)
+```
+{mx2_raw[:2000]}
+```
+
+## IMAP Inbox
 ```
 {imap_text}
-```
-
-## Raw get_mx.data
-```json
-{mx_pretty}
 ```"""
 
-payload = json.dumps({'title': '[mx-status] Routing & inbox check', 'body': body}).encode()
+payload = json.dumps({'title': '[mx-status] Full routing debug', 'body': body}).encode()
 req = urllib.request.Request(
     f'https://api.github.com/repos/{repo}/issues',
     data=payload,
