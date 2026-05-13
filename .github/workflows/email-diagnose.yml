@@ -1,0 +1,160 @@
+name: Email Diagnostics
+
+on:
+  workflow_dispatch:
+
+jobs:
+  diagnose:
+    name: Diagnose me@zulqurnainj.com issues
+    runs-on: ubuntu-latest
+    env:
+      CPANEL_HOST: ${{ secrets.CPANEL_HOST }}
+      CPANEL_USER: ${{ secrets.CPANEL_USER }}
+      CPANEL_PASS: ${{ secrets.CPANEL_PASS }}
+      EMAIL_DOMAIN: zulqurnainj.com
+      EMAIL_USER: me@zulqurnainj.com
+      EMAIL_PASS: ${{ secrets.EMAIL_PASSWORD }}
+
+    steps:
+      - name: 1. Verify account exists + quota
+        run: |
+          echo "=== Email accounts on $EMAIL_DOMAIN ==="
+          curl -sk -u "$CPANEL_USER:$CPANEL_PASS" \
+            "https://$CPANEL_HOST:2083/execute/Email/list_pops?domain=$EMAIL_DOMAIN" \
+            | python3 -c "
+          import sys, json
+          d = json.load(sys.stdin)
+          print('API status:', d.get('status'), d.get('errors'))
+          for a in d.get('data', []):
+              print(' -', a.get('email'), '| quota:', a.get('_diskquota'), '| used:', a.get('diskused'))
+          "
+
+      - name: 2. Check email routing mode
+        run: |
+          echo "=== Email routing (local vs remote) ==="
+          curl -sk -u "$CPANEL_USER:$CPANEL_PASS" \
+            "https://$CPANEL_HOST:2083/execute/Email/get_mx?domain=$EMAIL_DOMAIN" \
+            | python3 -c "
+          import sys, json
+          d = json.load(sys.stdin)
+          print('API status:', d.get('status'), d.get('errors'))
+          data = d.get('data', {})
+          print('detected_mx  :', data.get('detected_mx'))
+          print('local        :', data.get('local'))
+          print('always_accept:', data.get('always_accept'))
+          mxs = data.get('mx', [])
+          print('MX entries   :', mxs)
+          "
+
+      - name: 3. Check DNS zone MX records
+        run: |
+          echo "=== DNS zone records for $EMAIL_DOMAIN ==="
+          curl -sk -u "$CPANEL_USER:$CPANEL_PASS" \
+            "https://$CPANEL_HOST:2083/execute/ZoneEdit/fetch_zone_records?domain=$EMAIL_DOMAIN" \
+            | python3 -c "
+          import sys, json
+          d = json.load(sys.stdin)
+          records = d.get('data', [])
+          mx = [r for r in records if r.get('type') == 'MX']
+          print(f'Found {len(mx)} MX record(s):')
+          for r in mx:
+              print(f'  Priority {r.get(\"preference\",\"?\")} -> {r.get(\"exchange\",\"?\")}')
+          if not mx:
+              print('  !! NO MX records found — this is why email is not working')
+          print()
+          a_recs = [r for r in records if r.get('type') == 'A' and r.get('name','').rstrip('.') == '$EMAIL_DOMAIN']
+          print(f'A record(s) for domain:')
+          for r in a_recs:
+              print(f'  {r.get(\"name\")} -> {r.get(\"address\")}')
+          " 2>&1 | tee /tmp/mx_check.txt
+          grep -q 'NO MX records' /tmp/mx_check.txt && echo "NEED_MX=true" >> "$GITHUB_ENV" || true
+
+      - name: 4. Fix MX record if missing
+        if: env.NEED_MX == 'true'
+        run: |
+          echo "=== Adding MX record for $EMAIL_DOMAIN ==="
+          curl -sk -u "$CPANEL_USER:$CPANEL_PASS" \
+            "https://$CPANEL_HOST:2083/execute/ZoneEdit/add_zone_record" \
+            --data-urlencode "domain=$EMAIL_DOMAIN" \
+            --data-urlencode "type=MX" \
+            --data-urlencode "name=$EMAIL_DOMAIN." \
+            --data-urlencode "exchange=mail.$EMAIL_DOMAIN." \
+            --data-urlencode "preference=10" \
+            | python3 -c "
+          import sys, json
+          d = json.load(sys.stdin)
+          print('Add MX result:', d.get('status'), d.get('errors'), d.get('messages'))
+          "
+
+      - name: 5. Ensure email routing is LOCAL
+        run: |
+          echo "=== Setting email routing to local (so cPanel handles mail) ==="
+          curl -sk -u "$CPANEL_USER:$CPANEL_PASS" \
+            "https://$CPANEL_HOST:2083/execute/Email/set_always_accept?domain=$EMAIL_DOMAIN&value=1" \
+            | python3 -c "
+          import sys, json
+          d = json.load(sys.stdin)
+          print('set_always_accept:', d.get('status'), d.get('errors'))
+          "
+
+      - name: 6. Test IMAP login via openssl
+        run: |
+          echo "=== Testing IMAP SSL login to $CPANEL_HOST:993 ==="
+          # Send IMAP LOGIN and check response
+          result=$(echo -e "A1 LOGIN $EMAIL_USER $EMAIL_PASS\r\nA2 LOGOUT\r\n" \
+            | timeout 15 openssl s_client -connect "$CPANEL_HOST:993" -quiet 2>/dev/null || true)
+          echo "$result" | head -20
+          if echo "$result" | grep -q "A1 OK"; then
+            echo "✅ IMAP login SUCCESSFUL"
+          elif echo "$result" | grep -q "A1 NO"; then
+            echo "❌ IMAP login FAILED — wrong password or account issue"
+          else
+            echo "⚠ IMAP connection result unclear (may be filtered)"
+          fi
+
+      - name: 7. Test SMTP login via openssl
+        run: |
+          echo "=== Testing SMTP SSL to $CPANEL_HOST:465 ==="
+          # EHLO + check server responds
+          result=$(echo -e "EHLO test.local\r\nQUIT\r\n" \
+            | timeout 15 openssl s_client -connect "$CPANEL_HOST:465" -quiet 2>/dev/null || true)
+          echo "$result" | head -10
+          if echo "$result" | grep -qi "^220"; then
+            echo "✅ SMTP port 465 is reachable"
+          else
+            echo "⚠ SMTP port 465 response unclear"
+          fi
+
+      - name: 8. Send test email via SSH+sendmail
+        run: |
+          echo "=== Installing sshpass ==="
+          sudo apt-get install -y sshpass -q
+
+          echo "=== Sending test email via SSH to confirm delivery ==="
+          sshpass -p "$CPANEL_PASS" ssh \
+            -o StrictHostKeyChecking=no \
+            -o UserKnownHostsFile=/dev/null \
+            -o ConnectTimeout=20 \
+            -p 21098 \
+            "$CPANEL_USER@$CPANEL_HOST" \
+            "printf 'To: $EMAIL_USER\nFrom: Zulqurnain Haider <$EMAIL_USER>\nSubject: Diagnostic Test - $(date)\nContent-Type: text/plain\n\nThis is an automated diagnostic test email.\nIf you see this in webmail — email delivery is working.\n\nDate: $(date)\n' | /usr/sbin/sendmail -v $EMAIL_USER" \
+            && echo "✅ Diagnostic email sent — check webmail inbox at https://$CPANEL_HOST/webmail" \
+            || echo "❌ SSH+sendmail failed"
+
+      - name: Summary
+        if: always()
+        run: |
+          echo ""
+          echo "============================================"
+          echo "  iPhone / Mail Client Settings"
+          echo "============================================"
+          echo "  IMAP Server : $CPANEL_HOST"
+          echo "  IMAP Port   : 993  (SSL/TLS ON)"
+          echo "  SMTP Server : $CPANEL_HOST"
+          echo "  SMTP Port   : 465  (SSL/TLS ON)"
+          echo "  Username    : $EMAIL_USER"
+          echo "  Webmail     : https://$CPANEL_HOST/webmail"
+          echo "============================================"
+          echo "  ⚠ Do NOT use zulqurnainj.com as server"
+          echo "  ✅ Use server385.web-hosting.com instead"
+          echo "============================================"
