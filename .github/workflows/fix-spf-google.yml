@@ -1,0 +1,27 @@
+name: Fix SPF for Google
+
+on:
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  spf-google:
+    runs-on: ubuntu-latest
+    env:
+      H: ${{ secrets.CPANEL_HOST }}
+      U: ${{ secrets.CPANEL_USER }}
+      P: ${{ secrets.CPANEL_PASS }}
+      D: zulqurnainj.com
+      EU: me@zulqurnainj.com
+      EP: ${{ secrets.EMAIL_PASSWORD }}
+      GT: ${{ secrets.GITHUB_TOKEN }}
+      GR: ${{ github.repository }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: install dig
+        run: sudo apt-get install -y dnsutils -q
+      - name: add Google IPs to SPF and check inbox for Gmail errors
+        run: python3 scripts/fix_spf_google.py
