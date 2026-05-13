@@ -1,0 +1,25 @@
+name: Add Postmaster TXT
+
+on:
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  postmaster:
+    runs-on: ubuntu-latest
+    env:
+      H: ${{ secrets.CPANEL_HOST }}
+      U: ${{ secrets.CPANEL_USER }}
+      P: ${{ secrets.CPANEL_PASS }}
+      D: zulqurnainj.com
+      GT: ${{ secrets.GITHUB_TOKEN }}
+      GR: ${{ github.repository }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: install dig
+        run: sudo apt-get install -y dnsutils -q
+      - name: add Google Postmaster Tools verification TXT
+        run: python3 scripts/add_postmaster_txt.py
