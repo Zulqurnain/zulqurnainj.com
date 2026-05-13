@@ -1,0 +1,121 @@
+name: Check Email Inbox
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check:
+    name: Read IMAP inbox for me@zulqurnainj.com
+    runs-on: ubuntu-latest
+    env:
+      CPANEL_HOST: ${{ secrets.CPANEL_HOST }}
+      CPANEL_USER: ${{ secrets.CPANEL_USER }}
+      CPANEL_PASS: ${{ secrets.CPANEL_PASS }}
+      EMAIL_USER: me@zulqurnainj.com
+      EMAIL_PASS: ${{ secrets.EMAIL_PASSWORD }}
+
+    steps:
+      - name: Connect via IMAP and list inbox
+        run: |
+          python3 << 'PYEOF'
+          import imaplib, os, email as emaillib
+          from email.header import decode_header
+
+          host   = os.environ['CPANEL_HOST']
+          user   = os.environ['EMAIL_USER']
+          passwd = os.environ['EMAIL_PASS']
+
+          print(f"Connecting to {host}:993 as {user} ...")
+          try:
+              M = imaplib.IMAP4_SSL(host, 993)
+              M.login(user, passwd)
+              print("✅ IMAP login successful")
+
+              # Check INBOX
+              status, msgs = M.select('INBOX')
+              count = int(msgs[0])
+              print(f"\n📬 INBOX has {count} message(s)\n")
+
+              if count == 0:
+                  print("Inbox is empty — no emails delivered yet")
+              else:
+                  # Fetch last 5 messages
+                  start = max(1, count - 4)
+                  status, data = M.fetch(f'{start}:{count}', '(RFC822.SIZE RFC822.HEADER)')
+                  print(f"{'#':<4} {'From':<35} {'Subject':<40} {'Size':>8}")
+                  print("-" * 90)
+                  for i, item in enumerate(data):
+                      if isinstance(item, tuple):
+                          msg = emaillib.message_from_bytes(item[1])
+                          subj_raw = msg.get('Subject', '(no subject)')
+                          subj_parts = decode_header(subj_raw)
+                          subj = ''.join(
+                              p.decode(enc or 'utf-8') if isinstance(p, bytes) else p
+                              for p, enc in subj_parts
+                          )
+                          frm = msg.get('From', '?')[:34]
+                          date = msg.get('Date', '?')
+                          print(f"{start+i:<4} {frm:<35} {subj[:39]:<40}")
+                          print(f"     Date: {date}")
+                          print()
+
+              # Also check Spam folder
+              status2, spam_msgs = M.select('INBOX.spam', readonly=True)
+              if status2 == 'OK':
+                  spam_count = int(spam_msgs[0])
+                  print(f"🚫 Spam folder has {spam_count} message(s)")
+              else:
+                  # try Junk
+                  status3, junk_msgs = M.select('Junk', readonly=True)
+                  if status3 == 'OK':
+                      print(f"🚫 Junk folder has {int(junk_msgs[0])} message(s)")
+
+              M.logout()
+          except imaplib.IMAP4.error as e:
+              print(f"❌ IMAP error: {e}")
+          except Exception as e:
+              print(f"❌ Error: {e}")
+          PYEOF
+
+      - name: Send fresh test email then re-check
+        run: |
+          echo "=== Sending fresh test via SSH+sendmail ==="
+          sudo apt-get install -y sshpass -q
+          sshpass -p "$CPANEL_PASS" ssh \
+            -o StrictHostKeyChecking=no \
+            -o UserKnownHostsFile=/dev/null \
+            -o ConnectTimeout=20 \
+            -p 21098 \
+            "$CPANEL_USER@$CPANEL_HOST" \
+            "printf 'To: me@zulqurnainj.com\nFrom: Zulqurnain Haider <me@zulqurnainj.com>\nSubject: Inbox check $(date +%H:%M:%S)\nContent-Type: text/plain\n\nThis email confirms local delivery is working.\nSent at: $(date)\n' | /usr/sbin/sendmail -v me@zulqurnainj.com" \
+            && echo "✅ Sent" || echo "❌ SSH failed"
+
+          echo "=== Waiting 10s for delivery ==="
+          sleep 10
+
+          echo "=== Re-checking inbox after send ==="
+          python3 << 'PYEOF'
+          import imaplib, os, email as emaillib
+          from email.header import decode_header
+
+          host   = os.environ['CPANEL_HOST']
+          user   = os.environ['EMAIL_USER']
+          passwd = os.environ['EMAIL_PASS']
+
+          try:
+              M = imaplib.IMAP4_SSL(host, 993)
+              M.login(user, passwd)
+              status, msgs = M.select('INBOX')
+              count = int(msgs[0])
+              print(f"📬 INBOX now has {count} message(s)")
+              if count > 0:
+                  status, data = M.fetch(str(count), '(RFC822.HEADER)')
+                  if data and isinstance(data[0], tuple):
+                      msg = emaillib.message_from_bytes(data[0][1])
+                      print(f"Latest subject : {msg.get('Subject','?')}")
+                      print(f"Latest from    : {msg.get('From','?')}")
+                      print(f"Latest date    : {msg.get('Date','?')}")
+              M.logout()
+          except Exception as e:
+              print(f"❌ {e}")
+          PYEOF
