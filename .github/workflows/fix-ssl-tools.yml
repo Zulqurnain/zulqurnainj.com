@@ -7,7 +7,7 @@ jobs:
   fix-ssl:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger AutoSSL via SSH into server
+      - name: Trigger AutoSSL via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.FTP_SERVER }}
@@ -15,30 +15,24 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           port: 21098
           script: |
-            echo "=== Current SSL cert for tools.zulqurnainj.com ==="
-            uapi SSL fetch_best_for_domain domain=tools.zulqurnainj.com 2>/dev/null \
-              | python3 -c "import sys,json; d=json.load(sys.stdin); cert=d.get('result',{}).get('data',{}); print('Subject:', cert.get('subject',{}).get('commonName','N/A')); print('SANs:', cert.get('domains','N/A'))" 2>/dev/null || echo "uapi check failed"
+            echo "=== Triggering cPanel AutoSSL ==="
+            uapi SSL start_autossl_check && echo "AutoSSL started" || echo "uapi failed"
 
-            echo "=== Triggering AutoSSL ==="
-            uapi SSL start_autossl_check 2>/dev/null && echo "AutoSSL triggered via uapi" || true
+            echo "=== Current cert SANs for tools.zulqurnainj.com ==="
+            uapi SSL fetch_best_for_domain domain=tools.zulqurnainj.com \
+              | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('result',{}).get('data',{}).get('domains','no data'))" \
+              || echo "cert check failed"
 
-            echo "=== Listing SSL certs ==="
-            uapi SSL list_certs 2>/dev/null \
-              | python3 -c "
-import sys, json
-try:
-    d = json.load(sys.stdin)
-    certs = d.get('result', {}).get('data', [])
-    for c in certs:
-        print('  domains:', c.get('domains', []))
-except:
-    pass
-" 2>/dev/null || true
+            echo "=== Listing all hosted SSL domains ==="
+            uapi SSL list_certs \
+              | python3 -c "import sys,json; [print(c.get('domains','')) for c in json.load(sys.stdin).get('result',{}).get('data',[])]" \
+              || echo "list failed"
 
-      - name: Wait 45s for AutoSSL then verify
+      - name: Wait 45s then verify from runner
         run: |
           sleep 45
-          echo "=== Verifying certificate from runner ==="
-          echo | openssl s_client -connect tools.zulqurnainj.com:443 -servername tools.zulqurnainj.com 2>/dev/null \
-            | openssl x509 -noout -subject -issuer -dates -ext subjectAltName 2>/dev/null \
-            || echo "TLS check inconclusive from runner"
+          echo "=== TLS cert check ==="
+          echo | openssl s_client -connect tools.zulqurnainj.com:443 \
+            -servername tools.zulqurnainj.com 2>/dev/null \
+            | openssl x509 -noout -subject -issuer -ext subjectAltName 2>/dev/null \
+            || echo "TLS check inconclusive from runner (WAF may intercept)"
