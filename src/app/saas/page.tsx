@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type React from "react";
 import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -7,7 +8,7 @@ import { Divider } from "@/components/Divider";
 export const metadata: Metadata = {
   title: "SaaS Tools",
   description:
-    "AI-powered SaaS tools by Zulqurnain Haider. Apply for Job, and more coming soon.",
+    "AI-powered SaaS tools and developer utilities by Zulqurnain Haider — Prompt Health Checker, Text To Leads Extractor, and more.",
   alternates: { canonical: "https://zulqurnainj.com/saas" },
   openGraph: {
     url: "https://zulqurnainj.com/saas",
@@ -41,6 +42,24 @@ const ArrowIcon = () => (
 );
 
 const tools: Tool[] = [
+  {
+    id: "prompt-health-checker",
+    name: "Prompt Health Checker",
+    tagline: "Score · Analyze · Strengthen",
+    description: "Paste any prompt and get a detailed health report — quality score, weak-word detection, structural analysis, token estimates across 7 AI model families, and a rewritten stronger version. Free, no signup, runs in your browser.",
+    icon: (
+      <svg viewBox="0 0 40 40" className="size-10" fill="none">
+        <rect width="40" height="40" rx="10" fill="#fef3c7" />
+        <rect x="8" y="9" width="16" height="20" rx="2" stroke="#d97706" strokeWidth="1.8" />
+        <path d="M12 14h8M12 18h8M12 22h5" stroke="#fbbf24" strokeWidth="1.8" strokeLinecap="round" />
+        <circle cx="29" cy="28" r="7" fill="#22c55e" />
+        <path d="M26 28l2 2 4-4" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    ),
+    href: "https://tools.zulqurnainj.com/prompt-health-checker",
+    badge: "Live",
+    category: "Developer Tools",
+  },
   {
     id: "text-to-leads",
     name: "Text To Leads Extractor",
@@ -150,10 +169,11 @@ const badgeStyles: Record<Tool["badge"], string> = {
 };
 
 const categoryColors: Record<string, string> = {
-  "Job Search":   "text-amber-600 bg-amber-50 border-amber-200",
-  "Networking":   "text-sky-600 bg-sky-50 border-sky-200",
-  "Interview":    "text-violet-600 bg-violet-50 border-violet-200",
-  "Productivity": "text-emerald-600 bg-emerald-50 border-emerald-200",
+  "Job Search":      "text-amber-600 bg-amber-50 border-amber-200",
+  "Networking":      "text-sky-600 bg-sky-50 border-sky-200",
+  "Interview":       "text-violet-600 bg-violet-50 border-violet-200",
+  "Productivity":    "text-emerald-600 bg-emerald-50 border-emerald-200",
+  "Developer Tools": "text-teal-600 bg-teal-50 border-teal-200",
 };
 
 function ToolCard({ tool }: { tool: Tool }) {
