@@ -30,28 +30,23 @@ jobs:
           "
 
       - name: 2. Check email routing mode
-        continue-on-error: true
         run: |
           echo "=== Email routing (local vs remote) ==="
-          RAW=$(curl -sk -u "$CPANEL_USER:$CPANEL_PASS" \
-            "https://$CPANEL_HOST:2083/execute/Email/get_mx?domain=$EMAIL_DOMAIN")
-          echo "Raw response: $RAW"
-          echo "$RAW" | python3 -c "
+          curl -sk -u "$CPANEL_USER:$CPANEL_PASS" \
+            "https://$CPANEL_HOST:2083/execute/Email/get_mx?domain=$EMAIL_DOMAIN" \
+            | python3 -c "
           import sys, json
-          try:
-              d = json.load(sys.stdin)
-              print('API status:', d.get('status'), d.get('errors'))
-              data = d.get('data', {})
-              print('detected_mx  :', data.get('detected_mx'))
-              print('local        :', data.get('local'))
-              print('always_accept:', data.get('always_accept'))
-              print('MX entries   :', data.get('mx', []))
-          except Exception as e:
-              print('Parse error:', e)
-          " || true
+          d = json.load(sys.stdin)
+          print('API status:', d.get('status'), d.get('errors'))
+          data = d.get('data', {})
+          print('detected_mx  :', data.get('detected_mx'))
+          print('local        :', data.get('local'))
+          print('always_accept:', data.get('always_accept'))
+          mxs = data.get('mx', [])
+          print('MX entries   :', mxs)
+          "
 
       - name: 3. Check DNS zone MX records
-        continue-on-error: true
         run: |
           echo "=== DNS zone records for $EMAIL_DOMAIN ==="
           curl -sk -u "$CPANEL_USER:$CPANEL_PASS" \
@@ -103,7 +98,6 @@ jobs:
           "
 
       - name: 6. Test IMAP login via openssl
-        continue-on-error: true
         run: |
           echo "=== Testing IMAP SSL login to $CPANEL_HOST:993 ==="
           # Send IMAP LOGIN and check response
@@ -119,7 +113,6 @@ jobs:
           fi
 
       - name: 7. Test SMTP login via openssl
-        continue-on-error: true
         run: |
           echo "=== Testing SMTP SSL to $CPANEL_HOST:465 ==="
           # EHLO + check server responds
