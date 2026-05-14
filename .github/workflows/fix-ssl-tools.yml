@@ -7,71 +7,66 @@ jobs:
   fix-ssl:
     runs-on: ubuntu-latest
     steps:
-      - name: Diagnose + fix SSL via SSH
+      - name: Diagnose SSL and post to Gist
         uses: appleboy/ssh-action@v1.0.3
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
         with:
           host: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           port: 21098
+          envs: GH_PAT
           script: |
-            OUT=~/tools.zulqurnainj.com/ssl-diag.txt
+            OUT=""
 
-            echo "=== ACTUAL cert on server (server→server) ===" > "$OUT"
-            echo | openssl s_client -connect tools.zulqurnainj.com:443 -servername tools.zulqurnainj.com 2>/dev/null | openssl x509 -noout -subject -issuer -dates -ext subjectAltName >> "$OUT" 2>&1 || echo "openssl check failed" >> "$OUT"
+            OUT="${OUT}\n=== ACTUAL cert (server->server) ==="
+            CERT=$(echo | openssl s_client -connect tools.zulqurnainj.com:443 -servername tools.zulqurnainj.com 2>/dev/null | openssl x509 -noout -subject -issuer -dates -ext subjectAltName 2>/dev/null || echo "openssl failed")
+            OUT="${OUT}\n${CERT}"
 
-            echo "=== HTTP .well-known ACME test ===" >> "$OUT"
-            mkdir -p ~/tools.zulqurnainj.com/.well-known/acme-challenge/
-            echo "test" > ~/tools.zulqurnainj.com/.well-known/acme-challenge/testfile
-            curl -s --max-time 5 "http://tools.zulqurnainj.com/.well-known/acme-challenge/testfile" >> "$OUT" 2>&1
-            rm -f ~/tools.zulqurnainj.com/.well-known/acme-challenge/testfile
+            OUT="${OUT}\n=== HTTP redirect test ==="
+            HTTP_TEST=$(curl -sv --max-time 5 "http://tools.zulqurnainj.com/.well-known/acme-challenge/test" 2>&1 | grep -E "(< HTTP|Location|redirect)" | head -5)
+            OUT="${OUT}\n${HTTP_TEST}"
 
-            echo "=== cPanel sub-domains ===" >> "$OUT"
-            uapi DomainInfo domains_data 2>&1 | python3 -c "import sys,json; d=json.load(sys.stdin).get('result',{}).get('data',{}); [print(s.get('domain','')) for s in d.get('sub_domains',[])]" >> "$OUT" 2>&1 || echo "failed" >> "$OUT"
+            OUT="${OUT}\n=== ACME challenge path test ==="
+            echo testvalue > ~/tools.zulqurnainj.com/.well-known/acme-challenge/testtoken 2>/dev/null || true
+            ACME_TEST=$(curl -s --max-time 5 "http://tools.zulqurnainj.com/.well-known/acme-challenge/testtoken" 2>&1)
+            rm -f ~/tools.zulqurnainj.com/.well-known/acme-challenge/testtoken
+            OUT="${OUT}\nACME returned: [${ACME_TEST}]"
 
-            echo "=== existing SSL certs ===" >> "$OUT"
-            uapi SSL list_certs 2>&1 | python3 -c "import sys,json; [print(c.get('subject',{}).get('commonName','?'),'->',str(c.get('domains',''))) for c in json.load(sys.stdin).get('result',{}).get('data',[])]" >> "$OUT" 2>&1 || echo "failed" >> "$OUT"
+            OUT="${OUT}\n=== existing SSL certs ==="
+            CERTS=$(uapi SSL list_certs 2>&1 | python3 -c "import sys,json; [print(c.get('subject',{}).get('commonName','?'),'|',str(c.get('domains',''))) for c in json.load(sys.stdin).get('result',{}).get('data',[])]" 2>&1)
+            OUT="${OUT}\n${CERTS}"
 
-            echo "=== autossl coverage ===" >> "$OUT"
-            uapi SSL check_autossl_coverage 2>&1 | head -80 >> "$OUT" || echo "failed" >> "$OUT"
+            OUT="${OUT}\n=== autossl coverage ==="
+            COV=$(uapi SSL check_autossl_coverage 2>&1 | head -80)
+            OUT="${OUT}\n${COV}"
 
-            echo "=== LetsEncrypt install ===" >> "$OUT"
-            uapi LetsEncrypt install_ssl domains='[{"domain":"tools.zulqurnainj.com","wildcard":false}]' 2>&1 | head -20 >> "$OUT" || echo "failed" >> "$OUT"
+            OUT="${OUT}\n=== LetsEncrypt install ==="
+            LE=$(uapi LetsEncrypt install_ssl domains='[{"domain":"tools.zulqurnainj.com","wildcard":false}]' 2>&1 | head -20)
+            OUT="${OUT}\n${LE}"
 
-            echo "=== autossl start ===" >> "$OUT"
-            uapi SSL start_autossl_check 2>&1 | head -10 >> "$OUT" || echo "failed" >> "$OUT"
+            OUT="${OUT}\n=== autossl start ==="
+            AS=$(uapi SSL start_autossl_check 2>&1 | head -10)
+            OUT="${OUT}\n${AS}"
 
-            chmod 644 "$OUT"
+            BODY=$(printf '%b' "$OUT")
+            if [ -n "$GH_PAT" ]; then
+              JSON=$(python3 -c "import sys,json; print(json.dumps({'public':False,'files':{'ssl-diag.txt':{'content':sys.stdin.read()}}}))" <<< "$BODY")
+              GIST=$(curl -s -X POST "https://api.github.com/gists" \
+                -H "Authorization: token $GH_PAT" \
+                -H "Content-Type: application/json" \
+                -d "$JSON")
+              echo "$GIST" | python3 -c "import sys,json; d=json.load(sys.stdin); print('GIST URL:', d.get('html_url', d.get('message','error')))"
+            else
+              echo "GH_PAT not set, cannot post Gist"
+              echo "$BODY"
+            fi
 
-      - name: Fetch diagnostics and upload as artifact
-        run: |
-          sleep 3
-          curl -sf --max-time 15 http://tools.zulqurnainj.com/ssl-diag.txt -o ssl-diag.txt \
-            || echo "HTTP fetch failed" > ssl-diag.txt
-          echo "=== DIAG ==="
-          cat ssl-diag.txt
-
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: ssl-diag
-          path: ssl-diag.txt
-          retention-days: 7
-
-      - name: Cleanup
-        if: always()
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          port: 21098
-          script: rm -f ~/tools.zulqurnainj.com/ssl-diag.txt
-
-      - name: Wait 5min for AutoSSL to provision cert
+      - name: Wait 5 min for AutoSSL
         run: sleep 300
 
-      - name: Verify cert — FAIL if missing
+      - name: Verify cert
         run: |
           RESULT=$(echo | openssl s_client -connect tools.zulqurnainj.com:443 -servername tools.zulqurnainj.com 2>/dev/null | openssl x509 -noout -subject -issuer -dates -ext subjectAltName 2>/dev/null)
           echo "$RESULT"
