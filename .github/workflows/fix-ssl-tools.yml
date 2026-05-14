@@ -7,7 +7,7 @@ jobs:
   fix-ssl:
     runs-on: ubuntu-latest
     steps:
-      - name: Diagnose and fix SSL via SSH
+      - name: Diagnose SSL via SSH and write output to webroot
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.FTP_SERVER }}
@@ -15,48 +15,70 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           port: 21098
           script: |
-            echo "=== Domains known to cPanel ==="
-            uapi DomainInfo domains_data || true
+            OUT=~/tools.zulqurnainj.com/ssl-diag.txt
+            echo "=== SSL DIAGNOSTICS $(date) ===" > $OUT
 
-            echo "=== AutoSSL domain check ==="
-            uapi SSL check_autossl_coverage 2>/dev/null || true
+            echo "--- uapi domains ---" >> $OUT
+            uapi DomainInfo domains_data 2>&1 \
+              | python3 -c "import sys,json; d=json.load(sys.stdin); [print(x.get('domain','')) for x in d.get('result',{}).get('data',{}).get('sub_domains',[])+d.get('result',{}).get('data',{}).get('addon_domains',[])]" \
+              >> $OUT 2>&1 || echo "domains failed" >> $OUT
 
-            echo "=== List existing certs ==="
-            uapi SSL list_certs 2>/dev/null \
+            echo "--- autossl_coverage ---" >> $OUT
+            uapi SSL check_autossl_coverage 2>&1 >> $OUT || echo "coverage check failed" >> $OUT
+
+            echo "--- existing certs ---" >> $OUT
+            uapi SSL list_certs 2>&1 \
               | python3 -c "import sys,json; [print(c.get('domains',''),c.get('subject',{}).get('commonName','')) for c in json.load(sys.stdin).get('result',{}).get('data',[])]" \
-              || true
+              >> $OUT 2>&1 || echo "list_certs failed" >> $OUT
 
-            echo "=== Try issuing Let's Encrypt via uapi ==="
-            uapi LetsEncrypt install_ssl \
-              domains='[{"domain":"tools.zulqurnainj.com","wildcard":false}]' 2>/dev/null \
-              && echo "LE issued" || echo "LE uapi failed"
+            echo "--- fetch best cert for tools subdomain ---" >> $OUT
+            uapi SSL fetch_best_for_domain domain=tools.zulqurnainj.com 2>&1 >> $OUT || true
 
-            echo "=== AutoSSL force run ==="
-            uapi SSL start_autossl_check 2>/dev/null || true
+            echo "--- try LetsEncrypt install ---" >> $OUT
+            uapi LetsEncrypt install_ssl domains='[{"domain":"tools.zulqurnainj.com","wildcard":false}]' 2>&1 >> $OUT || echo "LE install failed" >> $OUT
 
-            echo "=== Check cPanel version of autossl ==="
-            /usr/local/cpanel/bin/autossl_check --user="$USER" 2>/dev/null \
-              && echo "autossl_check done" || echo "autossl_check binary not accessible"
+            echo "--- try SSL generate ---" >> $OUT
+            uapi SSL generate_ssl_for_domain domain=tools.zulqurnainj.com 2>&1 >> $OUT || echo "generate failed" >> $OUT
 
-            echo "=== Final cert check ==="
-            uapi SSL fetch_best_for_domain domain=tools.zulqurnainj.com 2>/dev/null \
-              | python3 -c "import sys,json; d=json.load(sys.stdin).get('result',{}).get('data',{}); print('domains:', d.get('domains',[])); print('CN:', d.get('subject',{}).get('commonName',''))" \
-              || true
+            echo "--- start autossl ---" >> $OUT
+            uapi SSL start_autossl_check 2>&1 >> $OUT || true
 
-      - name: Wait 90s then verify
+            echo "--- acme.sh check ---" >> $OUT
+            which acme.sh 2>/dev/null && echo "acme.sh found" >> $OUT || echo "acme.sh not found" >> $OUT
+            ls ~/.acme.sh/ 2>/dev/null >> $OUT || echo "no .acme.sh dir" >> $OUT
+
+            chmod 644 $OUT
+            echo "Diagnostics written to ssl-diag.txt"
+
+      - name: Fetch diagnostic output
+        run: |
+          sleep 5
+          echo "=== SSL Diagnostic Output ==="
+          curl -s --max-time 15 "http://tools.zulqurnainj.com/ssl-diag.txt" || echo "Could not fetch diag file"
+
+      - name: Wait 90s for AutoSSL
         run: sleep 90
 
-      - name: Verify cert from runner — FAIL if not valid
+      - name: Verify cert — FAIL if not valid
         run: |
-          echo "=== Checking TLS cert ==="
           RESULT=$(echo | openssl s_client \
             -connect tools.zulqurnainj.com:443 \
             -servername tools.zulqurnainj.com 2>/dev/null \
             | openssl x509 -noout -subject -issuer -dates -ext subjectAltName 2>/dev/null)
           echo "$RESULT"
           if echo "$RESULT" | grep -qi "tools.zulqurnainj.com"; then
-            echo "PASS: cert valid for tools.zulqurnainj.com"
+            echo "PASS: cert valid"
           else
             echo "FAIL: cert missing tools.zulqurnainj.com"
             exit 1
           fi
+
+      - name: Cleanup diag file
+        if: always()
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: 21098
+          script: rm -f ~/tools.zulqurnainj.com/ssl-diag.txt
