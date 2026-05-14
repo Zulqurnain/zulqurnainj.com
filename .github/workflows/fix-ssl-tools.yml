@@ -23,16 +23,32 @@ jobs:
               | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('result',{}).get('data',{}).get('domains','no data'))" \
               || echo "cert check failed"
 
-            echo "=== Listing all hosted SSL domains ==="
-            uapi SSL list_certs \
-              | python3 -c "import sys,json; [print(c.get('domains','')) for c in json.load(sys.stdin).get('result',{}).get('data',[])]" \
-              || echo "list failed"
+      - name: Wait 60s for AutoSSL to propagate
+        run: sleep 60
 
-      - name: Wait 45s then verify from runner
+      - name: Verify cert directly — FAIL if not valid
         run: |
-          sleep 45
-          echo "=== TLS cert check ==="
-          echo | openssl s_client -connect tools.zulqurnainj.com:443 \
+          echo "=== Verifying TLS cert for tools.zulqurnainj.com ==="
+          RESULT=$(echo | openssl s_client \
+            -connect tools.zulqurnainj.com:443 \
             -servername tools.zulqurnainj.com 2>/dev/null \
-            | openssl x509 -noout -subject -issuer -ext subjectAltName 2>/dev/null \
-            || echo "TLS check inconclusive from runner (WAF may intercept)"
+            | openssl x509 -noout -subject -issuer -dates -ext subjectAltName 2>/dev/null)
+          echo "$RESULT"
+
+          if echo "$RESULT" | grep -q "tools.zulqurnainj.com"; then
+            echo "PASS: cert covers tools.zulqurnainj.com"
+          else
+            echo "FAIL: cert does NOT cover tools.zulqurnainj.com"
+            exit 1
+          fi
+
+      - name: Check HTTPS loads correctly
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 20 \
+            "https://tools.zulqurnainj.com/prompt-health-checker/")
+          echo "HTTP status: $STATUS"
+          if [ "$STATUS" = "200" ]; then
+            echo "PASS: site returns 200"
+          else
+            echo "WARN: site returned $STATUS (may be WAF on runner IP)"
+          fi
