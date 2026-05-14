@@ -6,15 +6,17 @@ on:
 jobs:
   fix-ssl:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     steps:
-      - name: Pre-check HTTP from runner
+      - name: Pre-check from runner
         run: |
-          echo "=== HTTP test (no follow redirect) ==="
-          curl -v --max-time 10 -o /dev/null http://tools.zulqurnainj.com/.well-known/acme-challenge/preflight 2>&1 | grep -E "(< HTTP|Location|Connected)" || true
-          echo "=== HTTPS cert subject (may be wrong cert) ==="
-          echo | openssl s_client -connect tools.zulqurnainj.com:443 -servername tools.zulqurnainj.com 2>/dev/null | openssl x509 -noout -subject -ext subjectAltName 2>/dev/null || echo "no cert / connect failed"
+          echo "=== HTTP test (no follow) ==="
+          curl -v --max-time 10 -o /dev/null http://tools.zulqurnainj.com/.well-known/acme-challenge/preflight 2>&1 | grep -E "(< HTTP|Location|Connected to)" || true
+          echo "=== Current cert SAN ==="
+          echo | openssl s_client -connect tools.zulqurnainj.com:443 -servername tools.zulqurnainj.com 2>/dev/null | openssl x509 -noout -subject -ext subjectAltName 2>/dev/null || echo "no valid cert"
 
-      - name: Disable redirect + patch htaccess + run AutoSSL
+      - name: SSH - diagnose + patch + run AutoSSL
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.FTP_SERVER }}
@@ -22,39 +24,61 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           port: 21098
           script: |
-            echo "=== Current .htaccess ==="
-            cat ~/tools.zulqurnainj.com/.htaccess 2>/dev/null || echo "no .htaccess"
-
-            echo "=== HTTP redirect status ==="
+            exec > ~/tools.zulqurnainj.com/ssl-debug.txt 2>&1
+            echo "=== DATE ==="
+            date
+            echo "=== .htaccess ==="
+            cat ~/tools.zulqurnainj.com/.htaccess 2>/dev/null || echo "NO .htaccess"
+            echo "=== uapi HTTP get_always_redirect ==="
             uapi HTTP get_always_redirect domain=tools.zulqurnainj.com 2>&1 || true
-
-            echo "=== Disable force-HTTPS via uapi ==="
+            echo "=== SSL list_certs (grep zulq/wildcard) ==="
+            uapi SSL list_certs 2>&1 | grep -iA2 "tools\|wildcard\|\*\." | head -40 || true
+            echo "=== Disabling force-HTTPS ==="
             uapi HTTP disable_force_https domain=tools.zulqurnainj.com 2>&1 || true
             uapi HTTP update_always_redirect domain=tools.zulqurnainj.com redirect_to_ssl=0 2>&1 || true
-
-            echo "=== Replace .htaccess with redirect-free version ==="
+            echo "=== Patching .htaccess ==="
             cp ~/tools.zulqurnainj.com/.htaccess ~/tools.zulqurnainj.com/.htaccess.ssl-bak 2>/dev/null || true
             printf 'Options -Indexes\n' > ~/tools.zulqurnainj.com/.htaccess
-
-            echo "=== Test ACME path reachable (server-side curl) ==="
+            echo "=== .htaccess after patch ==="
+            cat ~/tools.zulqurnainj.com/.htaccess
+            echo "=== ACME challenge test (server-side curl) ==="
             mkdir -p ~/tools.zulqurnainj.com/.well-known/acme-challenge/
-            echo ACME_OK > ~/tools.zulqurnainj.com/.well-known/acme-challenge/tok
-            curl -sv --max-time 8 http://tools.zulqurnainj.com/.well-known/acme-challenge/tok 2>&1 | grep -E "(< HTTP|ACME_OK|Location)"
+            echo ACME_TEST_OK > ~/tools.zulqurnainj.com/.well-known/acme-challenge/tok
+            curl -sv --max-time 8 http://tools.zulqurnainj.com/.well-known/acme-challenge/tok 2>&1
             rm -f ~/tools.zulqurnainj.com/.well-known/acme-challenge/tok
-
-            echo "=== List SSL certs (find wildcard or tools) ==="
-            uapi SSL list_certs 2>&1 | grep -i "domain\|zulq\|tools\|wildcard" | head -30 || true
-
-            echo "=== Run AutoSSL ==="
+            echo "=== uapi LetsEncrypt available? ==="
+            uapi LetsEncrypt 2>&1 | head -5 || true
+            echo "=== uapi SSL start_autossl_check ==="
             uapi SSL start_autossl_check 2>&1
+            echo "=== uapi LetsEncrypt install_ssl ==="
+            uapi LetsEncrypt install_ssl domains='[{"domain":"tools.zulqurnainj.com","wildcard":false}]' 2>&1 || true
+            echo "=== DONE SSH STEP ==="
+            chmod 644 ~/tools.zulqurnainj.com/ssl-debug.txt
 
-            echo "=== LetsEncrypt install ==="
-            uapi LetsEncrypt install_ssl domains='[{"domain":"tools.zulqurnainj.com","wildcard":false}]' 2>&1 | head -30 || true
+      - name: Read diagnostics + create issue
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          sleep 5
+          CONTENT=$(curl --insecure -s --max-time 15 https://tools.zulqurnainj.com/ssl-debug.txt 2>/dev/null || curl -s --max-time 15 http://tools.zulqurnainj.com/ssl-debug.txt 2>/dev/null || echo "fetch_failed")
+          echo "--- SSL DEBUG OUTPUT ---"
+          echo "$CONTENT"
+          echo "--- END ---"
+          python3 -c "
+import json, urllib.request, os, sys
+content = sys.argv[1][:60000]
+data = json.dumps({'title': 'SSL Debug Output', 'body': '\`\`\`\n' + content + '\n\`\`\`'}).encode()
+req = urllib.request.Request(
+  'https://api.github.com/repos/Zulqurnain/zulqurnainj.com/issues',
+  data=data,
+  headers={'Authorization': 'token ' + os.environ['GH_TOKEN'], 'Content-Type': 'application/json'}
+)
+resp = urllib.request.urlopen(req)
+print(json.loads(resp.read())['html_url'])
+" "$CONTENT" || echo "issue_create_failed"
 
-            echo "Done"
-
-      - name: Wait 4 min for cert provisioning
-        run: sleep 240
+      - name: Wait 8 min for cert provisioning
+        run: sleep 480
 
       - name: Verify cert from runner
         run: |
@@ -76,4 +100,4 @@ jobs:
               echo "Restored original .htaccess"
             fi
             uapi HTTP enable_force_https domain=tools.zulqurnainj.com 2>&1 || true
-            echo "HTTPS redirect re-enabled"
+            rm -f ~/tools.zulqurnainj.com/ssl-debug.txt
