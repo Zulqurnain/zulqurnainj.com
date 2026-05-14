@@ -6,6 +6,8 @@ on:
 jobs:
   fix-ssl:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     steps:
       - name: Run diagnostics and fix via SSH
         uses: appleboy/ssh-action@v1.0.3
@@ -40,7 +42,7 @@ jobs:
 
       - name: Fetch diag + create GitHub issue
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
           sleep 3
           CONTENT=$(curl -sf --max-time 15 http://tools.zulqurnainj.com/ssl-diag.txt || echo "fetch_failed")
