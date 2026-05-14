@@ -1,0 +1,33 @@
+name: Fix SSL for tools subdomain
+
+on:
+  workflow_dispatch:
+
+jobs:
+  fix-ssl:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger cPanel AutoSSL via API
+        env:
+          CPANEL_HOST: ${{ secrets.FTP_SERVER }}
+          CPANEL_USER: ${{ secrets.FTP_USERNAME }}
+          CPANEL_PASS: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          echo "=== Triggering AutoSSL check ==="
+          RESPONSE=$(curl -sk -u "$CPANEL_USER:$CPANEL_PASS" \
+            "https://$CPANEL_HOST:2083/execute/SSL/start_autossl_check" \
+            -X POST)
+          echo "AutoSSL trigger response: $RESPONSE"
+
+          echo "=== Checking current SSL certificate for tools.zulqurnainj.com ==="
+          curl -sk -u "$CPANEL_USER:$CPANEL_PASS" \
+            "https://$CPANEL_HOST:2083/execute/SSL/fetch_best_for_domain?domain=tools.zulqurnainj.com" \
+            | python3 -c "import sys,json; d=json.load(sys.stdin); print(json.dumps(d.get('data',{}), indent=2))" 2>/dev/null || true
+
+      - name: Wait 30s for AutoSSL to process then verify
+        run: |
+          sleep 30
+          echo "=== Certificate check ==="
+          echo | openssl s_client -connect tools.zulqurnainj.com:443 -servername tools.zulqurnainj.com 2>/dev/null \
+            | openssl x509 -noout -subject -issuer -dates -ext subjectAltName 2>/dev/null \
+            || echo "Certificate not yet updated — AutoSSL may still be processing"
