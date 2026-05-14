@@ -64,18 +64,7 @@ jobs:
           echo "--- SSL DEBUG OUTPUT ---"
           echo "$CONTENT"
           echo "--- END ---"
-          python3 -c "
-import json, urllib.request, os, sys
-content = sys.argv[1][:60000]
-data = json.dumps({'title': 'SSL Debug Output', 'body': '\`\`\`\n' + content + '\n\`\`\`'}).encode()
-req = urllib.request.Request(
-  'https://api.github.com/repos/Zulqurnain/zulqurnainj.com/issues',
-  data=data,
-  headers={'Authorization': 'token ' + os.environ['GH_TOKEN'], 'Content-Type': 'application/json'}
-)
-resp = urllib.request.urlopen(req)
-print(json.loads(resp.read())['html_url'])
-" "$CONTENT" || echo "issue_create_failed"
+          python3 -c "import json,urllib.request as u,os,sys; c=sys.argv[1][:50000]; d=json.dumps({'title':'SSL Debug Output','body':'```\n'+c+'\n```'}).encode(); req=u.Request('https://api.github.com/repos/Zulqurnain/zulqurnainj.com/issues',data=d,headers={'Authorization':'token '+os.environ['GH_TOKEN'],'Content-Type':'application/json'}); print(json.loads(u.urlopen(req).read())['html_url'])" "$CONTENT" || echo "issue_create_failed"
 
       - name: Wait 8 min for cert provisioning
         run: sleep 480
