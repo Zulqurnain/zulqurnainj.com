@@ -7,7 +7,7 @@ jobs:
   fix-ssl:
     runs-on: ubuntu-latest
     steps:
-      - name: Run SSL diagnostics via SSH
+      - name: Diagnose + fix SSL via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.FTP_SERVER }}
@@ -17,32 +17,38 @@ jobs:
           script: |
             OUT=~/tools.zulqurnainj.com/ssl-diag.txt
 
-            echo "=== cPanel sub-domains ===" > "$OUT"
+            echo "=== ACTUAL cert on server (server→server) ===" > "$OUT"
+            echo | openssl s_client -connect tools.zulqurnainj.com:443 -servername tools.zulqurnainj.com 2>/dev/null | openssl x509 -noout -subject -issuer -dates -ext subjectAltName >> "$OUT" 2>&1 || echo "openssl check failed" >> "$OUT"
+
+            echo "=== HTTP .well-known ACME test ===" >> "$OUT"
+            mkdir -p ~/tools.zulqurnainj.com/.well-known/acme-challenge/
+            echo "test" > ~/tools.zulqurnainj.com/.well-known/acme-challenge/testfile
+            curl -s --max-time 5 "http://tools.zulqurnainj.com/.well-known/acme-challenge/testfile" >> "$OUT" 2>&1
+            rm -f ~/tools.zulqurnainj.com/.well-known/acme-challenge/testfile
+
+            echo "=== cPanel sub-domains ===" >> "$OUT"
             uapi DomainInfo domains_data 2>&1 | python3 -c "import sys,json; d=json.load(sys.stdin).get('result',{}).get('data',{}); [print(s.get('domain','')) for s in d.get('sub_domains',[])]" >> "$OUT" 2>&1 || echo "failed" >> "$OUT"
 
             echo "=== existing SSL certs ===" >> "$OUT"
-            uapi SSL list_certs 2>&1 | python3 -c "import sys,json; [print(c.get('subject',{}).get('commonName','?'),'->',c.get('domains','')) for c in json.load(sys.stdin).get('result',{}).get('data',[])]" >> "$OUT" 2>&1 || echo "failed" >> "$OUT"
+            uapi SSL list_certs 2>&1 | python3 -c "import sys,json; [print(c.get('subject',{}).get('commonName','?'),'->',str(c.get('domains',''))) for c in json.load(sys.stdin).get('result',{}).get('data',[])]" >> "$OUT" 2>&1 || echo "failed" >> "$OUT"
 
             echo "=== autossl coverage ===" >> "$OUT"
-            uapi SSL check_autossl_coverage 2>&1 | head -60 >> "$OUT" || echo "failed" >> "$OUT"
+            uapi SSL check_autossl_coverage 2>&1 | head -80 >> "$OUT" || echo "failed" >> "$OUT"
 
-            echo "=== LE install attempt ===" >> "$OUT"
+            echo "=== LetsEncrypt install ===" >> "$OUT"
             uapi LetsEncrypt install_ssl domains='[{"domain":"tools.zulqurnainj.com","wildcard":false}]' 2>&1 | head -20 >> "$OUT" || echo "failed" >> "$OUT"
 
             echo "=== autossl start ===" >> "$OUT"
             uapi SSL start_autossl_check 2>&1 | head -10 >> "$OUT" || echo "failed" >> "$OUT"
 
-            echo "=== http port 80 check ===" >> "$OUT"
-            curl -s -o /dev/null -w "%{http_code}" --max-time 5 http://tools.zulqurnainj.com/ >> "$OUT" 2>&1 || echo "http check failed" >> "$OUT"
-
             chmod 644 "$OUT"
 
-      - name: Fetch diagnostics via HTTP and save as artifact
+      - name: Fetch diagnostics and upload as artifact
         run: |
           sleep 3
           curl -sf --max-time 15 http://tools.zulqurnainj.com/ssl-diag.txt -o ssl-diag.txt \
-            || { echo "HTTP fetch failed, trying HTTPS"; curl -sk --max-time 15 https://tools.zulqurnainj.com/ssl-diag.txt -o ssl-diag.txt || echo "both failed" > ssl-diag.txt; }
-          echo "=== DIAGNOSTIC CONTENT ==="
+            || echo "HTTP fetch failed" > ssl-diag.txt
+          echo "=== DIAG ==="
           cat ssl-diag.txt
 
       - uses: actions/upload-artifact@v4
@@ -50,9 +56,9 @@ jobs:
         with:
           name: ssl-diag
           path: ssl-diag.txt
-          retention-days: 1
+          retention-days: 7
 
-      - name: Cleanup diag file
+      - name: Cleanup
         if: always()
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -62,8 +68,8 @@ jobs:
           port: 21098
           script: rm -f ~/tools.zulqurnainj.com/ssl-diag.txt
 
-      - name: Wait 90s for AutoSSL
-        run: sleep 90
+      - name: Wait 5min for AutoSSL to provision cert
+        run: sleep 300
 
       - name: Verify cert — FAIL if missing
         run: |
