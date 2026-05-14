@@ -6,10 +6,15 @@ on:
 jobs:
   fix-ssl:
     runs-on: ubuntu-latest
-    permissions:
-      issues: write
     steps:
-      - name: Disable HTTP redirect + run AutoSSL
+      - name: Pre-check HTTP from runner
+        run: |
+          echo "=== HTTP test (no follow redirect) ==="
+          curl -v --max-time 10 -o /dev/null http://tools.zulqurnainj.com/.well-known/acme-challenge/preflight 2>&1 | grep -E "(< HTTP|Location|Connected)" || true
+          echo "=== HTTPS cert subject (may be wrong cert) ==="
+          echo | openssl s_client -connect tools.zulqurnainj.com:443 -servername tools.zulqurnainj.com 2>/dev/null | openssl x509 -noout -subject -ext subjectAltName 2>/dev/null || echo "no cert / connect failed"
+
+      - name: Disable redirect + patch htaccess + run AutoSSL
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.FTP_SERVER }}
@@ -17,37 +22,47 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           port: 21098
           script: |
-            echo "=== Disabling force-HTTPS for tools subdomain ==="
+            echo "=== Current .htaccess ==="
+            cat ~/tools.zulqurnainj.com/.htaccess 2>/dev/null || echo "no .htaccess"
+
+            echo "=== HTTP redirect status ==="
+            uapi HTTP get_always_redirect domain=tools.zulqurnainj.com 2>&1 || true
+
+            echo "=== Disable force-HTTPS via uapi ==="
             uapi HTTP disable_force_https domain=tools.zulqurnainj.com 2>&1 || true
             uapi HTTP update_always_redirect domain=tools.zulqurnainj.com redirect_to_ssl=0 2>&1 || true
 
-            echo "=== Current HTTP redirect status ==="
-            uapi HTTP get_always_redirect domain=tools.zulqurnainj.com 2>&1 || true
+            echo "=== Replace .htaccess with redirect-free version ==="
+            cp ~/tools.zulqurnainj.com/.htaccess ~/tools.zulqurnainj.com/.htaccess.ssl-bak 2>/dev/null || true
+            printf 'Options -Indexes\n' > ~/tools.zulqurnainj.com/.htaccess
 
-            echo "=== Testing ACME HTTP path (expect 200 or file content) ==="
+            echo "=== Test ACME path reachable (server-side curl) ==="
             mkdir -p ~/tools.zulqurnainj.com/.well-known/acme-challenge/
-            echo testval > ~/tools.zulqurnainj.com/.well-known/acme-challenge/tok
-            curl -sv --max-time 5 http://tools.zulqurnainj.com/.well-known/acme-challenge/tok 2>&1 | grep -E "(< HTTP|testval|redirect|Location)"
+            echo ACME_OK > ~/tools.zulqurnainj.com/.well-known/acme-challenge/tok
+            curl -sv --max-time 8 http://tools.zulqurnainj.com/.well-known/acme-challenge/tok 2>&1 | grep -E "(< HTTP|ACME_OK|Location)"
             rm -f ~/tools.zulqurnainj.com/.well-known/acme-challenge/tok
 
-            echo "=== Running AutoSSL ==="
+            echo "=== List SSL certs (find wildcard or tools) ==="
+            uapi SSL list_certs 2>&1 | grep -i "domain\|zulq\|tools\|wildcard" | head -30 || true
+
+            echo "=== Run AutoSSL ==="
             uapi SSL start_autossl_check 2>&1
 
             echo "=== LetsEncrypt install ==="
-            uapi LetsEncrypt install_ssl domains='[{"domain":"tools.zulqurnainj.com","wildcard":false}]' 2>&1 | head -20 || true
+            uapi LetsEncrypt install_ssl domains='[{"domain":"tools.zulqurnainj.com","wildcard":false}]' 2>&1 | head -30 || true
 
             echo "Done"
 
-      - name: Wait 5 min for cert provisioning
-        run: sleep 300
+      - name: Wait 4 min for cert provisioning
+        run: sleep 240
 
-      - name: Verify cert from runner — FAIL if missing
+      - name: Verify cert from runner
         run: |
           RESULT=$(echo | openssl s_client -connect tools.zulqurnainj.com:443 -servername tools.zulqurnainj.com 2>/dev/null | openssl x509 -noout -subject -issuer -dates -ext subjectAltName 2>/dev/null)
           echo "$RESULT"
           echo "$RESULT" | grep -qi "tools.zulqurnainj.com" && echo "PASS" || { echo "FAIL"; exit 1; }
 
-      - name: Re-enable HTTPS redirect after cert is valid
+      - name: Re-enable HTTPS redirect
         if: success()
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -56,5 +71,9 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           port: 21098
           script: |
-            echo "Re-enabling HTTPS redirect for tools.zulqurnainj.com"
+            if [ -f ~/tools.zulqurnainj.com/.htaccess.ssl-bak ]; then
+              mv ~/tools.zulqurnainj.com/.htaccess.ssl-bak ~/tools.zulqurnainj.com/.htaccess
+              echo "Restored original .htaccess"
+            fi
             uapi HTTP enable_force_https domain=tools.zulqurnainj.com 2>&1 || true
+            echo "HTTPS redirect re-enabled"
