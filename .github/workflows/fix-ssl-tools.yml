@@ -15,7 +15,7 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           port: 21098
           script: |
-            OUT=~/ssl-diag.txt
+            OUT=~/tools.zulqurnainj.com/ssl-diag.txt
 
             echo "=== cPanel sub-domains ===" > "$OUT"
             uapi DomainInfo domains_data 2>&1 | python3 -c "import sys,json; d=json.load(sys.stdin).get('result',{}).get('data',{}); [print(s.get('domain','')) for s in d.get('sub_domains',[])]" >> "$OUT" 2>&1 || echo "failed" >> "$OUT"
@@ -23,47 +23,44 @@ jobs:
             echo "=== existing SSL certs ===" >> "$OUT"
             uapi SSL list_certs 2>&1 | python3 -c "import sys,json; [print(c.get('subject',{}).get('commonName','?'),'->',c.get('domains','')) for c in json.load(sys.stdin).get('result',{}).get('data',[])]" >> "$OUT" 2>&1 || echo "failed" >> "$OUT"
 
-            echo "=== best cert for tools.zulqurnainj.com ===" >> "$OUT"
-            uapi SSL fetch_best_for_domain domain=tools.zulqurnainj.com 2>&1 | head -20 >> "$OUT" || echo "failed" >> "$OUT"
-
             echo "=== autossl coverage ===" >> "$OUT"
-            uapi SSL check_autossl_coverage 2>&1 | head -40 >> "$OUT" || echo "failed" >> "$OUT"
+            uapi SSL check_autossl_coverage 2>&1 | head -60 >> "$OUT" || echo "failed" >> "$OUT"
 
-            echo "=== LetsEncrypt install attempt ===" >> "$OUT"
+            echo "=== LE install attempt ===" >> "$OUT"
             uapi LetsEncrypt install_ssl domains='[{"domain":"tools.zulqurnainj.com","wildcard":false}]' 2>&1 | head -20 >> "$OUT" || echo "failed" >> "$OUT"
 
             echo "=== autossl start ===" >> "$OUT"
             uapi SSL start_autossl_check 2>&1 | head -10 >> "$OUT" || echo "failed" >> "$OUT"
 
-            echo "=== acme.sh ===" >> "$OUT"
-            ls ~/.acme.sh/ 2>/dev/null >> "$OUT" || echo "not found" >> "$OUT"
+            echo "=== http port 80 check ===" >> "$OUT"
+            curl -s -o /dev/null -w "%{http_code}" --max-time 5 http://tools.zulqurnainj.com/ >> "$OUT" 2>&1 || echo "http check failed" >> "$OUT"
 
-            echo "=== ls home ===" >> "$OUT"
-            ls ~/ | head -20 >> "$OUT"
             chmod 644 "$OUT"
 
-      - name: Download diagnostic file from server via FTP
-        env:
-          FTP_USER: ${{ secrets.FTP_USERNAME }}
-          FTP_PASS: ${{ secrets.FTP_PASSWORD }}
-          FTP_HOST: ${{ secrets.FTP_SERVER }}
+      - name: Fetch diagnostics via HTTP and save as artifact
         run: |
-          sudo apt-get install -y lftp -q
-          lftp -c "
-            set ftp:ssl-allow no;
-            set net:timeout 20;
-            open -u \"$FTP_USER\",\"$FTP_PASS\" ftp://$FTP_HOST;
-            get ssl-diag.txt -o ./ssl-diag.txt;
-            rm ssl-diag.txt;
-            quit
-          "
-          echo "=== DIAGNOSTIC OUTPUT ==="
+          sleep 3
+          curl -sf --max-time 15 http://tools.zulqurnainj.com/ssl-diag.txt -o ssl-diag.txt \
+            || { echo "HTTP fetch failed, trying HTTPS"; curl -sk --max-time 15 https://tools.zulqurnainj.com/ssl-diag.txt -o ssl-diag.txt || echo "both failed" > ssl-diag.txt; }
+          echo "=== DIAGNOSTIC CONTENT ==="
           cat ssl-diag.txt
 
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: ssl-diag
           path: ssl-diag.txt
+          retention-days: 1
+
+      - name: Cleanup diag file
+        if: always()
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: 21098
+          script: rm -f ~/tools.zulqurnainj.com/ssl-diag.txt
 
       - name: Wait 90s for AutoSSL
         run: sleep 90
