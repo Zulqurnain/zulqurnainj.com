@@ -6,10 +6,8 @@ on:
 jobs:
   fix-ssl:
     runs-on: ubuntu-latest
-    env:
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - name: Diagnose SSL via SSH
+      - name: Run SSL diagnostics via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.FTP_SERVER }}
@@ -17,50 +15,61 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           port: 21098
           script: |
-            OUT=~/tools.zulqurnainj.com/ssl-diag.txt
+            OUT=~/ssl-diag.txt
 
-            echo "=== cPanel domains ===" > "$OUT"
+            echo "=== cPanel sub-domains ===" > "$OUT"
             uapi DomainInfo domains_data 2>&1 | python3 -c "import sys,json; d=json.load(sys.stdin).get('result',{}).get('data',{}); [print(s.get('domain','')) for s in d.get('sub_domains',[])]" >> "$OUT" 2>&1 || echo "failed" >> "$OUT"
 
-            echo "=== certs ===" >> "$OUT"
-            uapi SSL list_certs 2>&1 | python3 -c "import sys,json; [print(c.get('subject',{}).get('commonName','?'),'|',c.get('domains','')) for c in json.load(sys.stdin).get('result',{}).get('data',[])]" >> "$OUT" 2>&1 || echo "failed" >> "$OUT"
+            echo "=== existing SSL certs ===" >> "$OUT"
+            uapi SSL list_certs 2>&1 | python3 -c "import sys,json; [print(c.get('subject',{}).get('commonName','?'),'->',c.get('domains','')) for c in json.load(sys.stdin).get('result',{}).get('data',[])]" >> "$OUT" 2>&1 || echo "failed" >> "$OUT"
+
+            echo "=== best cert for tools.zulqurnainj.com ===" >> "$OUT"
+            uapi SSL fetch_best_for_domain domain=tools.zulqurnainj.com 2>&1 | head -20 >> "$OUT" || echo "failed" >> "$OUT"
 
             echo "=== autossl coverage ===" >> "$OUT"
-            uapi SSL check_autossl_coverage 2>&1 | head -30 >> "$OUT"
+            uapi SSL check_autossl_coverage 2>&1 | head -40 >> "$OUT" || echo "failed" >> "$OUT"
 
-            echo "=== LE module ===" >> "$OUT"
+            echo "=== LetsEncrypt install attempt ===" >> "$OUT"
             uapi LetsEncrypt install_ssl domains='[{"domain":"tools.zulqurnainj.com","wildcard":false}]' 2>&1 | head -20 >> "$OUT" || echo "failed" >> "$OUT"
 
             echo "=== autossl start ===" >> "$OUT"
-            uapi SSL start_autossl_check 2>&1 | head -10 >> "$OUT"
+            uapi SSL start_autossl_check 2>&1 | head -10 >> "$OUT" || echo "failed" >> "$OUT"
 
             echo "=== acme.sh ===" >> "$OUT"
             ls ~/.acme.sh/ 2>/dev/null >> "$OUT" || echo "not found" >> "$OUT"
 
+            echo "=== ls home ===" >> "$OUT"
+            ls ~/ | head -20 >> "$OUT"
             chmod 644 "$OUT"
 
-      - name: Read diagnostic file via HTTP
+      - name: Download diagnostic file from server via FTP
+        env:
+          FTP_USER: ${{ secrets.FTP_USERNAME }}
+          FTP_PASS: ${{ secrets.FTP_PASSWORD }}
+          FTP_HOST: ${{ secrets.FTP_SERVER }}
         run: |
-          sleep 3
-          echo "========== SSL DIAGNOSTICS =========="
-          curl -sf --max-time 10 http://tools.zulqurnainj.com/ssl-diag.txt || echo "Could not fetch"
-          echo "====================================="
+          sudo apt-get install -y lftp -q
+          lftp -c "
+            set ftp:ssl-allow no;
+            set net:timeout 20;
+            open -u \"$FTP_USER\",\"$FTP_PASS\" ftp://$FTP_HOST;
+            get ssl-diag.txt -o ./ssl-diag.txt;
+            rm ssl-diag.txt;
+            quit
+          "
+          echo "=== DIAGNOSTIC OUTPUT ==="
+          cat ssl-diag.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ssl-diag
+          path: ssl-diag.txt
 
       - name: Wait 90s for AutoSSL
         run: sleep 90
 
-      - name: Verify cert — FAIL if not valid
+      - name: Verify cert — FAIL if missing
         run: |
           RESULT=$(echo | openssl s_client -connect tools.zulqurnainj.com:443 -servername tools.zulqurnainj.com 2>/dev/null | openssl x509 -noout -subject -issuer -dates -ext subjectAltName 2>/dev/null)
           echo "$RESULT"
           echo "$RESULT" | grep -qi "tools.zulqurnainj.com" && echo "PASS" || { echo "FAIL"; exit 1; }
-
-      - name: Cleanup
-        if: always()
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          port: 21098
-          script: rm -f ~/tools.zulqurnainj.com/ssl-diag.txt
