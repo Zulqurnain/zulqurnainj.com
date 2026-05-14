@@ -9,7 +9,7 @@ jobs:
     permissions:
       issues: write
     steps:
-      - name: Run diagnostics and fix via SSH
+      - name: Disable HTTP redirect + run AutoSSL
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.FTP_SERVER }}
@@ -17,62 +17,44 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           port: 21098
           script: |
-            OUT=~/tools.zulqurnainj.com/ssl-diag.txt
+            echo "=== Disabling force-HTTPS for tools subdomain ==="
+            uapi HTTP disable_force_https domain=tools.zulqurnainj.com 2>&1 || true
+            uapi HTTP update_always_redirect domain=tools.zulqurnainj.com redirect_to_ssl=0 2>&1 || true
 
-            echo "CERT_FROM_SERVER:" > "$OUT"
-            echo | openssl s_client -connect tools.zulqurnainj.com:443 -servername tools.zulqurnainj.com 2>/dev/null | openssl x509 -noout -subject -issuer -dates -ext subjectAltName >> "$OUT" 2>&1 || echo "openssl_failed" >> "$OUT"
+            echo "=== Current HTTP redirect status ==="
+            uapi HTTP get_always_redirect domain=tools.zulqurnainj.com 2>&1 || true
 
-            echo "ACME_TEST:" >> "$OUT"
+            echo "=== Testing ACME HTTP path (expect 200 or file content) ==="
             mkdir -p ~/tools.zulqurnainj.com/.well-known/acme-challenge/
             echo testval > ~/tools.zulqurnainj.com/.well-known/acme-challenge/tok
-            curl -sL --max-time 5 http://tools.zulqurnainj.com/.well-known/acme-challenge/tok >> "$OUT" 2>&1
+            curl -sv --max-time 5 http://tools.zulqurnainj.com/.well-known/acme-challenge/tok 2>&1 | grep -E "(< HTTP|testval|redirect|Location)"
             rm -f ~/tools.zulqurnainj.com/.well-known/acme-challenge/tok
 
-            echo "CERTS:" >> "$OUT"
-            uapi SSL list_certs 2>&1 | python3 -c "import sys,json; [print(c.get('subject',{}).get('commonName','?'),'->',str(c.get('domains',''))) for c in json.load(sys.stdin).get('result',{}).get('data',[])]" >> "$OUT" 2>&1 || echo "list_certs_failed" >> "$OUT"
+            echo "=== Running AutoSSL ==="
+            uapi SSL start_autossl_check 2>&1
 
-            echo "AUTOSSL_COVERAGE:" >> "$OUT"
-            uapi SSL check_autossl_coverage 2>&1 | head -60 >> "$OUT" || echo "coverage_failed" >> "$OUT"
+            echo "=== LetsEncrypt install ==="
+            uapi LetsEncrypt install_ssl domains='[{"domain":"tools.zulqurnainj.com","wildcard":false}]' 2>&1 | head -20 || true
 
-            echo "LE_INSTALL:" >> "$OUT"
-            uapi LetsEncrypt install_ssl domains='[{"domain":"tools.zulqurnainj.com","wildcard":false}]' 2>&1 | head -20 >> "$OUT" || echo "le_failed" >> "$OUT"
+            echo "Done"
 
-            uapi SSL start_autossl_check 2>/dev/null
-            chmod 644 "$OUT"
+      - name: Wait 5 min for cert provisioning
+        run: sleep 300
 
-      - name: Fetch diag + create GitHub issue
-        env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
+      - name: Verify cert from runner — FAIL if missing
         run: |
-          sleep 3
-          CONTENT=$(curl -sf --max-time 15 http://tools.zulqurnainj.com/ssl-diag.txt || echo "fetch_failed")
-          echo "=== DIAG ==="
-          echo "$CONTENT"
-          echo "==="
+          RESULT=$(echo | openssl s_client -connect tools.zulqurnainj.com:443 -servername tools.zulqurnainj.com 2>/dev/null | openssl x509 -noout -subject -issuer -dates -ext subjectAltName 2>/dev/null)
+          echo "$RESULT"
+          echo "$RESULT" | grep -qi "tools.zulqurnainj.com" && echo "PASS" || { echo "FAIL"; exit 1; }
 
-          # Create GitHub issue with the diagnostic
-          BODY=$(printf '```\n%s\n```' "$CONTENT")
-          curl -s -X POST "https://api.github.com/repos/Zulqurnain/zulqurnainj.com/issues" \
-            -H "Authorization: token $GH_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d "{\"title\":\"[ssl-diag] $(date +%H:%M)\",\"body\":$(echo "$BODY" | python3 -c 'import sys,json; print(json.dumps(sys.stdin.read()))')}" \
-            | python3 -c "import sys,json; d=json.load(sys.stdin); print('Issue URL:', d.get('html_url', d.get('message','error')))"
-
-      - name: Cleanup
-        if: always()
+      - name: Re-enable HTTPS redirect after cert is valid
+        if: success()
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           port: 21098
-          script: rm -f ~/tools.zulqurnainj.com/ssl-diag.txt
-
-      - name: Wait 5 min for AutoSSL
-        run: sleep 300
-
-      - name: Verify cert — FAIL if missing
-        run: |
-          RESULT=$(echo | openssl s_client -connect tools.zulqurnainj.com:443 -servername tools.zulqurnainj.com 2>/dev/null | openssl x509 -noout -subject -issuer -dates -ext subjectAltName 2>/dev/null)
-          echo "$RESULT"
-          echo "$RESULT" | grep -qi "tools.zulqurnainj.com" && echo "PASS" || { echo "FAIL"; exit 1; }
+          script: |
+            echo "Re-enabling HTTPS redirect for tools.zulqurnainj.com"
+            uapi HTTP enable_force_https domain=tools.zulqurnainj.com 2>&1 || true
