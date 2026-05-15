@@ -100,3 +100,12 @@ body {
 .animate-delay-8  { animation-delay: 0.8s; }
 .animate-delay-9  { animation-delay: 0.9s; }
 .animate-delay-10 { animation-delay: 1.0s; }
+
+/* Hide scrollbar for slider carousels */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
