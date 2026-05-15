@@ -51,6 +51,13 @@ const work: WorkItem[] = [
     url: "https://smacc.com",
     period: "2018–2019",
   },
+  {
+    id: "sdsol",
+    company: "SDSol Technologies",
+    role: "Native Android · Java, Kotlin, RxJava, Firebase · GAP analysis & PRD",
+    url: "https://sdsoltechnologies.com",
+    period: "2017–2018",
+  },
 ];
 
 function CompanyIcon({ company, url }: { company: string; url: string }) {
