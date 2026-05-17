@@ -13,60 +13,26 @@ jobs:
     steps:
       - name: Add A record for tools.zulqurnainj.com
         run: |
-          python3 << 'PYEOF'
+          cat > /tmp/dns.py << 'PYEOF'
           import os, subprocess, json
-
           h, u, p = os.environ['H'], os.environ['U'], os.environ['P']
-          uapi = f"https://{h}:2083/execute"
+          uapi = "https://" + h + ":2083/execute"
           domain = "zulqurnainj.com"
           vps_ip = "193.187.129.119"
-
-          def cget(url, timeout=30):
-              return subprocess.check_output(['curl','-sk','-u',f'{u}:{p}',url], text=True, timeout=timeout)
-
-          def cpost(url, data, timeout=30):
-              cmd = ['curl','-sk','-u',f'{u}:{p}','-X','POST']
+          def cget(url):
+              return subprocess.check_output(['curl','-sk','-u',u+':'+p,url], text=True, timeout=30)
+          def cpost(url, data):
+              cmd = ['curl','-sk','-u',u+':'+p,'-X','POST']
               for k,v in data.items():
-                  cmd += ['--data-urlencode', f'{k}={v}']
+                  cmd += ['--data-urlencode', k+'='+v]
               cmd.append(url)
-              return subprocess.check_output(cmd, text=True, timeout=timeout)
-
-          print(f"=== cPanel host: {h} ===")
-
-          # List existing A records to check if tools already exists
-          print("
---- Existing zone records ---")
-          r = cget(f"{uapi}/ZoneEdit/fetch_zone_records?domain={domain}&type=A")
-          print(r[:2000])
-
-          # Add A record for tools
-          print("
---- Adding tools A record ---")
-          r2 = cpost(f"{uapi}/ZoneEdit/add_zone_record", {
-              "domain": domain,
-              "type": "A",
-              "name": "tools",
-              "address": vps_ip,
-              "ttl": "300"
-          })
-          print(r2[:1000])
-
-          # Verify
-          print("
---- Verifying ---")
-          r3 = cget(f"{uapi}/ZoneEdit/fetch_zone_records?domain={domain}&type=A")
-          print(r3[:2000])
-
-          # Check if added
-          try:
-              data = json.loads(r3)
-              result = data.get('result', data)
-              records = result.get('data', {})
-              if isinstance(records, dict):
-                  records = records.get('record', [])
-              found = any('tools' in str(rec.get('name','')) for rec in (records or []))
-              print(f"
-==> tools A record found: {found}")
-          except Exception as e:
-              print(f"parse error: {e}")
+              return subprocess.check_output(cmd, text=True, timeout=30)
+          print("cPanel host:", h)
+          r = cget(uapi+"/ZoneEdit/fetch_zone_records?domain="+domain+"&type=A")
+          print("Current A records:", r[:1000])
+          r2 = cpost(uapi+"/ZoneEdit/add_zone_record", {"domain":domain,"type":"A","name":"tools","address":vps_ip,"ttl":"300"})
+          print("Add result:", r2[:500])
+          r3 = cget(uapi+"/ZoneEdit/fetch_zone_records?domain="+domain+"&type=A")
+          print("After add:", r3[:1000])
           PYEOF
+          python3 /tmp/dns.py
