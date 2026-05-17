@@ -373,7 +373,7 @@ export function ProjectsSection() {
           </div>
 
           {/* Projects grid */}
-          <div className="grid grid-cols-1 gap-6 pl-3 border-l border-olive-200 dark:border-olive-800">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 pl-3 border-l border-olive-200 dark:border-olive-800">
             {group.projects.map((project) => (
               <div
                 key={project.name}
