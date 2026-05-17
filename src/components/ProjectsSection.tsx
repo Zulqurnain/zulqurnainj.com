@@ -18,8 +18,7 @@ type EmployerGroup = {
   projects: Project[];
 };
 
-const U = (id: string) =>
-  `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=800&q=80`;
+const P = (name: string) => `/images/projects/${name}`;
 
 const groups: EmployerGroup[] = [
   {
@@ -35,9 +34,9 @@ const groups: EmployerGroup[] = [
         platform: "Web · AI",
         tools: ["Next.js", "React", "OpenAI", "RAG", "Kafka", "AWS ECS", "TypeScript"],
         images: [
-          U("1503676260728-1c00da094a0b"),
-          U("1596495577886-d920f1fb7238"),
-          U("1509062522246-3755977927d7"),
+          P("genius-drills-1.webp"),
+          P("genius-drills-2.png"),
+          P("genius-drills-3.webp"),
         ],
         storeUrl: "https://get.geniusdrills.com",
         storeLabel: "get.geniusdrills.com",
@@ -49,9 +48,9 @@ const groups: EmployerGroup[] = [
         platform: "Web",
         tools: ["Next.js", "React", "Node.js", "PostgreSQL", "AWS"],
         images: [
-          U("1635070041078-e363dbe005cb"),
-          U("1434030216411-0b793f4b4173"),
-          U("1509062522246-3755977927d7"),
+          P("spirit-math-3.png"),
+          P("spirit-math-4.jpg"),
+          P("spirit-math-5.jpg"),
         ],
         storeUrl: "https://spiritofmathcontest.com",
         storeLabel: "spiritofmathcontest.com",
@@ -71,9 +70,9 @@ const groups: EmployerGroup[] = [
         platform: "iOS & Android",
         tools: ["React Native", "Flutter", "Go", "Python", "FastAPI", "Pinecone", "FAISS", "AWS"],
         images: [
-          U("1445205170230-053b83016050"),
-          U("1483985988355-763728e1802c"),
-          U("1558769132-cb1aea458c5e"),
+          P("vs-1.jpg"),
+          P("vs-2.jpg"),
+          P("vs-3.jpg"),
         ],
         storeUrl: "https://apps.apple.com/us/app/victorias-secret/id409209402",
         storeLabel: "App Store",
@@ -93,9 +92,9 @@ const groups: EmployerGroup[] = [
         platform: "iOS & Android",
         tools: ["React Native", "Java", "Spring Boot", "Oracle DB", "SWIFT MT102/MT202", "ISO20022"],
         images: [
-          U("1563013544-824ae1b704d3"),
-          U("1579621970795-87facc2f976d"),
-          U("1460925895917-afdab827c52f"),
+          P("chase-1.jpg"),
+          P("chase-2.jpg"),
+          P("chase-3.jpg"),
         ],
         storeUrl: "https://apps.apple.com/us/app/chase-mobile/id298867247",
         storeLabel: "App Store",
@@ -115,9 +114,9 @@ const groups: EmployerGroup[] = [
         platform: "Web · AI",
         tools: ["React", "Node.js", "TypeScript", "AI/ML", "PostgreSQL", "AWS"],
         images: [
-          U("1560518883-ce09059eeffa"),
-          U("1582407947304-fd86f28320c3"),
-          U("1486406146926-c627a92ad1ab"),
+          P("rechat-2.jpg"),
+          P("rechat-3.jpg"),
+          P("rechat-4.jpg"),
         ],
         storeUrl: "https://rechat.ai",
         storeLabel: "rechat.ai",
@@ -137,9 +136,9 @@ const groups: EmployerGroup[] = [
         platform: "iOS & Android",
         tools: ["Swift", "SwiftUI", "Kotlin", "Jetpack Compose", "GraphQL", "GCP"],
         images: [
-          U("1544620347-c4fd4a3d5957"),
-          U("1449965408869-eaa3f722e40d"),
-          U("1477959858617-67f85cf4f1df"),
+          P("swvl-1.jpg"),
+          P("swvl-2.jpg"),
+          P("swvl-3.jpg"),
         ],
         storeUrl: "https://play.google.com/store/apps/details?id=com.swvl.android",
         storeLabel: "Google Play",
@@ -159,9 +158,9 @@ const groups: EmployerGroup[] = [
         platform: "Android",
         tools: ["Kotlin", "Android Native", "Frida", "Burp Suite", "REST APIs"],
         images: [
-          U("1526367790999-0150786686a2"),
-          U("1568901346375-23c9450c58cd"),
-          U("1526170375885-4d8ecf77b99f"),
+          P("cheetay-1.jpg"),
+          P("cheetay-2.jpg"),
+          P("cheetay-3.jpg"),
         ],
         storeUrl: "https://www.apkshub.com/app/com.app.cheetay",
         storeLabel: "APK Hub",
@@ -181,9 +180,9 @@ const groups: EmployerGroup[] = [
         platform: "Web",
         tools: ["Go", "Java", "Python", "React", "PostgreSQL", "Docker", "Kubernetes", "Jenkins"],
         images: [
-          U("1551288049-bebda4e38f71"),
-          U("1460925895917-afdab827c52f"),
-          U("1504868584819-f8e8b4b6d7e3"),
+          P("smacc-1.png"),
+          P("3spos-1.png"),
+          P("3spos-2.png"),
         ],
         storeUrl: "https://smacc.io",
         storeLabel: "smacc.io",
@@ -195,9 +194,9 @@ const groups: EmployerGroup[] = [
         platform: "Android",
         tools: ["Android Native", "Java", "SQLite", "Spring Boot"],
         images: [
-          U("1556742044-3c52d6e88c62"),
-          U("1607082348824-0a96f2a4b9da"),
-          U("1556742049-0cfed4f6a45d"),
+          P("3spos-1.png"),
+          P("3spos-2.png"),
+          P("3spos-3.png"),
         ],
       },
     ],
@@ -215,8 +214,9 @@ const groups: EmployerGroup[] = [
         platform: "iOS & Android",
         tools: ["React Native", "Java", "Spring Boot", "PostgreSQL", "AWS"],
         images: [
-          U("1563013544-824ae1b704d3"),
-          U("1579621970795-87facc2f976d"),
+          P("easypaisa-1.jpg"),
+          P("easypaisa-2.jpg"),
+          P("easypaisa-3.jpg"),
         ],
         storeUrl: "https://play.google.com/store/apps/details?id=pk.com.telenor.phoenix",
         storeLabel: "Google Play",
@@ -228,8 +228,9 @@ const groups: EmployerGroup[] = [
         platform: "iOS & Android",
         tools: ["React Native", "Java", "Spring Boot", "Oracle DB", "ISO20022"],
         images: [
-          U("1601597111158-2fceff292cdc"),
-          U("1563013544-824ae1b704d3"),
+          P("uob-1.png"),
+          P("uob-2.png"),
+          P("uob-3.png"),
         ],
         storeUrl: "https://apps.apple.com/sg/app/uob-mighty/id600660396",
         storeLabel: "App Store",
@@ -241,8 +242,9 @@ const groups: EmployerGroup[] = [
         platform: "iOS & Android",
         tools: ["Flutter", "Laravel", "MySQL", "AWS"],
         images: [
-          U("1521737604893-d14cc237f11d"),
-          U("1553877522-43269d4ea984"),
+          P("aysap-1.webp"),
+          P("aysap-2.webp"),
+          P("aysap-3.webp"),
         ],
         storeUrl: "https://play.google.com/store/apps/details?id=com.aysap.app",
         storeLabel: "Google Play",
@@ -254,8 +256,9 @@ const groups: EmployerGroup[] = [
         platform: "iOS & Android",
         tools: ["Flutter", "Node.js", "PostgreSQL", "Stripe", "AWS"],
         images: [
-          U("1506521781263-d8422e82f27a"),
-          U("1545569341-9eb8b30979d9"),
+          P("mypark-1.jpg"),
+          P("mypark-2.jpg"),
+          P("mypark-3.jpg"),
         ],
         storeUrl: "https://apps.apple.com/ae/app/mypark/id1458849640",
         storeLabel: "App Store",
@@ -267,8 +270,9 @@ const groups: EmployerGroup[] = [
         platform: "iOS & Android",
         tools: ["React Native", "Node.js", "Firebase", "AWS"],
         images: [
-          U("1576091160399-112ba8d25d1d"),
-          U("1559757175-0eb30cd8c063"),
+          P("cocare-1.jpg"),
+          P("cocare-2.jpg"),
+          P("cocare-3.jpg"),
         ],
         storeUrl: "https://apps.apple.com/app/cocare/id1484490359",
         storeLabel: "App Store",
@@ -280,8 +284,9 @@ const groups: EmployerGroup[] = [
         platform: "iOS & Android",
         tools: ["Flutter", "Django", "PostgreSQL", "Azure"],
         images: [
-          U("1559526324-593bc073d938"),
-          U("1444653614773-995cb1ef9efa"),
+          P("almarkaz-1.jpg"),
+          P("almarkaz-2.jpg"),
+          P("almarkaz-3.jpg"),
         ],
       },
       {
@@ -291,8 +296,9 @@ const groups: EmployerGroup[] = [
         platform: "iOS & Android",
         tools: ["React Native", "Node.js", "MongoDB", "GCP"],
         images: [
-          U("1512917774080-9991f1c4c750"),
-          U("1560518883-ce09059eeffa"),
+          P("alamakin-1.jpg"),
+          P("alamakin-2.jpg"),
+          P("alamakin-3.jpg"),
         ],
         storeUrl: "https://play.google.com/store/apps/details?id=com.alamakin.app",
         storeLabel: "Google Play",
@@ -304,8 +310,9 @@ const groups: EmployerGroup[] = [
         platform: "Web",
         tools: ["React", "Next.js", "Node.js", "WebRTC", "Stripe", "AWS"],
         images: [
-          U("1509062522246-3755977927d7"),
-          U("1580582932707-520aed937b7b"),
+          P("mytutorlab-1.jpg"),
+          P("mytutorlab-2.jpg"),
+          P("mytutorlab-3.jpg"),
         ],
         storeUrl: "https://mytutorlab.com",
         storeLabel: "mytutorlab.com",
@@ -317,8 +324,8 @@ const groups: EmployerGroup[] = [
         platform: "iOS & Android",
         tools: ["React Native", "Firebase", "Node.js", "Stripe"],
         images: [
-          U("1438032005730-c779502df39b"),
-          U("1529070538774-1843cb3265df"),
+          P("shekinah-2.jpg"),
+          P("shekinah-3.jpg"),
         ],
         storeUrl: "https://apps.apple.com/app/shekinah-church/id1541329048",
         storeLabel: "App Store",
