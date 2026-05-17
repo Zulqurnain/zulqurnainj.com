@@ -56,7 +56,7 @@ const tools: Tool[] = [
         <path d="M26 28l2 2 4-4" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
-    href: "https://tools.zulqurnainj.com/prompt-health-checker",
+    href: "/prompt-health-checker/",
     badge: "Live",
     category: "Developer Tools",
   },
@@ -75,7 +75,7 @@ const tools: Tool[] = [
         <path d="M26 24l6 6" stroke="#d97706" strokeWidth="1.8" strokeLinecap="round" />
       </svg>
     ),
-    href: "https://tools.zulqurnainj.com/text-to-leads",
+    href: "/text-to-leads",
     badge: "Live",
     category: "Job Search",
   },
