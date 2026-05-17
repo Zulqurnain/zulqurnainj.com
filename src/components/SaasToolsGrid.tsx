@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 
 type Tool = {
   id: string;
@@ -135,14 +135,14 @@ const badgeStyles: Record<Tool["badge"], string> = {
   "Coming Soon": "bg-stone-200 text-stone-600 dark:bg-olive-800 dark:text-olive-300",
 };
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: {},
   show: { transition: { staggerChildren: 0.09 } },
 };
 
-const cardVariants = {
+const cardVariants: Variants = {
   hidden: { opacity: 0, y: 28 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] } },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number] } },
 };
 
 function ToolCard({ tool }: { tool: Tool }) {
