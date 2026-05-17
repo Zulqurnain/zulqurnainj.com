@@ -20,13 +20,13 @@ export const metadata: Metadata = {
 export default function ProjectsPage() {
   return (
     <div className="bg-olive-100 dark:bg-olive-900 min-h-screen w-full flex justify-center py-10">
-      <div className="flex flex-col gap-6 items-center w-full max-w-xl px-4">
+      <div className="flex flex-col gap-6 w-full max-w-6xl px-4">
 
-        <div className="animate-in w-full">
+        <div className="animate-in w-full max-w-xl">
           <Header />
         </div>
 
-        <div className="animate-in animate-delay-1 w-full">
+        <div className="animate-in animate-delay-1 w-full max-w-xl">
           <Divider />
         </div>
 
@@ -34,11 +34,11 @@ export default function ProjectsPage() {
           <ProjectsSection />
         </div>
 
-        <div className="animate-in animate-delay-3 w-full">
+        <div className="animate-in animate-delay-3 w-full max-w-xl">
           <Divider />
         </div>
 
-        <div className="animate-in animate-delay-4 w-full">
+        <div className="animate-in animate-delay-4 w-full max-w-xl">
           <Footer />
         </div>
 
