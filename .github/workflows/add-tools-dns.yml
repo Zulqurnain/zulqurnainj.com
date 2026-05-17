@@ -1,51 +1,30 @@
-name: Add tools DNS A record
+name: Verify DNS zone
 
 on:
   workflow_dispatch:
 
 jobs:
-  add-dns:
+  verify:
     runs-on: ubuntu-latest
     env:
       H: ${{ secrets.CPANEL_HOST }}
       U: ${{ secrets.CPANEL_USER }}
       P: ${{ secrets.CPANEL_PASS }}
     steps:
-      - name: Add A record via cPanel v2 add_zone_record
+      - name: Fetch all A records from cPanel zone
         run: |
-          cat > /tmp/dns.py << 'PYEOF'
+          cat > /tmp/chk.py << 'PYEOF'
           import os, subprocess, json
           h, u, p = os.environ['H'], os.environ['U'], os.environ['P']
-          domain = "zulqurnainj.com"
-          vps_ip = "193.187.129.119"
           base_v2 = "https://" + h + ":2083/json-api/cpanel"
+          domain = "zulqurnainj.com"
           def cget(url):
               return subprocess.check_output(['curl','-sk','-u',u+':'+p,url], text=True, timeout=30)
-
-          print("=== Checking existing tools A record ===")
           r = cget(base_v2 + "?cpanel_jsonapi_version=2&cpanel_jsonapi_module=ZoneEdit&cpanel_jsonapi_func=fetchzone_records&domain=" + domain + "&type=A&customonly=0")
-          print("fetchzone_records:", r[:800])
-
-          print("=== Adding tools A record via add_zone_record ===")
-          url = (base_v2 +
-              "?cpanel_jsonapi_version=2&cpanel_jsonapi_module=ZoneEdit" +
-              "&cpanel_jsonapi_func=add_zone_record" +
-              "&domain=" + domain +
-              "&name=tools." + domain + "." +
-              "&address=" + vps_ip +
-              "&class=IN&type=A&ttl=300")
-          r2 = cget(url)
-          print("add_zone_record result:", r2[:800])
-
-          print("=== Verify ===")
-          r3 = cget(base_v2 + "?cpanel_jsonapi_version=2&cpanel_jsonapi_module=ZoneEdit&cpanel_jsonapi_func=fetchzone_records&domain=" + domain + "&type=A&customonly=0")
-          try:
-              data = json.loads(r3)
-              recs = data.get('cpanelresult',{}).get('data',[{}])[0].get('record',[])
-              for rec in recs:
-                  if 'tools' in str(rec.get('name','')):
-                      print("FOUND tools record:", rec)
-          except Exception as e:
-              print("parse err:", e)
+          d = json.loads(r)
+          recs = d.get('cpanelresult',{}).get('data',[])
+          print("All A records:")
+          for rec in recs:
+              print(f"  {rec.get('name')} -> {rec.get('address')} ttl={rec.get('ttl')}")
           PYEOF
-          python3 /tmp/dns.py
+          python3 /tmp/chk.py
