@@ -11,7 +11,7 @@ jobs:
       U: ${{ secrets.CPANEL_USER }}
       P: ${{ secrets.CPANEL_PASS }}
     steps:
-      - name: Add A record via cPanel v2 API
+      - name: Add A record via cPanel v2 add_zone_record
         run: |
           cat > /tmp/dns.py << 'PYEOF'
           import os, subprocess, json
@@ -19,35 +19,33 @@ jobs:
           domain = "zulqurnainj.com"
           vps_ip = "193.187.129.119"
           base_v2 = "https://" + h + ":2083/json-api/cpanel"
-          base_uapi = "https://" + h + ":2083/execute"
           def cget(url):
               return subprocess.check_output(['curl','-sk','-u',u+':'+p,url], text=True, timeout=30)
-          def cpost(url, data):
-              cmd = ['curl','-sk','-u',u+':'+p,'-X','POST']
-              for k,v in data.items():
-                  cmd += ['--data-urlencode', k+'='+v]
-              cmd.append(url)
-              return subprocess.check_output(cmd, text=True, timeout=30)
 
-          print("=== Testing cPanel v2 API ===")
-          v2_list = base_v2 + "?cpanel_jsonapi_version=2&cpanel_jsonapi_module=ZoneEdit&cpanel_jsonapi_func=fetchzone&domain=" + domain
-          r = cget(v2_list)
-          print("fetchzone:", r[:300])
+          print("=== Checking existing tools A record ===")
+          r = cget(base_v2 + "?cpanel_jsonapi_version=2&cpanel_jsonapi_module=ZoneEdit&cpanel_jsonapi_func=fetchzone_records&domain=" + domain + "&type=A&customonly=0")
+          print("fetchzone_records:", r[:800])
 
-          print("=== Adding A record via v2 API ===")
-          v2_add = (base_v2 +
+          print("=== Adding tools A record via add_zone_record ===")
+          url = (base_v2 +
               "?cpanel_jsonapi_version=2&cpanel_jsonapi_module=ZoneEdit" +
-              "&cpanel_jsonapi_func=adddns&domain=" + domain +
-              "&name=tools&address=" + vps_ip + "&class=IN&type=A&ttl=300")
-          r2 = cget(v2_add)
-          print("adddns result:", r2[:500])
+              "&cpanel_jsonapi_func=add_zone_record" +
+              "&domain=" + domain +
+              "&name=tools." + domain + "." +
+              "&address=" + vps_ip +
+              "&class=IN&type=A&ttl=300")
+          r2 = cget(url)
+          print("add_zone_record result:", r2[:800])
 
-          print("=== Also trying UAPI DNS module ===")
-          r3 = cget(base_uapi + "/DNS/parse_zone?domain=" + domain)
-          print("DNS/parse_zone:", r3[:300])
-
-          print("=== Trying DNS/mass_edit_zone ===")
-          r4 = cpost(base_uapi + "/DNS/mass_edit_zone", {"zone": domain, "add[0][name]": "tools", "add[0][type]": "A", "add[0][address]": vps_ip, "add[0][ttl]": "300"})
-          print("mass_edit:", r4[:300])
+          print("=== Verify ===")
+          r3 = cget(base_v2 + "?cpanel_jsonapi_version=2&cpanel_jsonapi_module=ZoneEdit&cpanel_jsonapi_func=fetchzone_records&domain=" + domain + "&type=A&customonly=0")
+          try:
+              data = json.loads(r3)
+              recs = data.get('cpanelresult',{}).get('data',[{}])[0].get('record',[])
+              for rec in recs:
+                  if 'tools' in str(rec.get('name','')):
+                      print("FOUND tools record:", rec)
+          except Exception as e:
+              print("parse err:", e)
           PYEOF
           python3 /tmp/dns.py
