@@ -374,58 +374,67 @@ export function ProjectsSection() {
 
           {/* Projects grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 pl-3 border-l border-olive-200 dark:border-olive-800">
-            {group.projects.map((project) => (
-              <div
-                key={project.name}
-                className="flex flex-col rounded-xl overflow-hidden border border-olive-200 dark:border-olive-800 bg-white dark:bg-olive-950 hover:border-olive-300 dark:hover:border-olive-700 transition-colors"
-              >
-                {/* Image slider */}
-                <ImageSlider images={project.images} alt={project.name} />
+            {group.projects.map((project) => {
+              const cardClass =
+                "flex flex-col rounded-xl overflow-hidden border border-olive-200 dark:border-olive-800 bg-white dark:bg-olive-950 hover:border-olive-400 dark:hover:border-olive-600 hover:shadow-md transition-all duration-200";
+              const inner = (
+                <>
+                  {/* Image slider — clicks handled inside, won't bubble to card link */}
+                  <ImageSlider images={project.images} alt={project.name} />
 
-                {/* Info */}
-                <div className="flex flex-col gap-2 p-3">
-                  <div className="flex items-start justify-between gap-2 flex-wrap">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span className="font-semibold text-sm text-olive-800 dark:text-olive-100">
-                        {project.name}
-                      </span>
-                      <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${platformColor(project.platform)}`}>
-                        {project.platform}
-                      </span>
+                  {/* Info */}
+                  <div className="flex flex-col gap-2 p-3">
+                    <div className="flex items-start justify-between gap-2 flex-wrap">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="font-semibold text-sm text-olive-800 dark:text-olive-100">
+                          {project.name}
+                        </span>
+                        <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${platformColor(project.platform)}`}>
+                          {project.platform}
+                        </span>
+                      </div>
+                      {project.storeUrl && (
+                        <span className="text-xs text-olive-400 dark:text-olive-500 shrink-0">↗</span>
+                      )}
                     </div>
-                    {project.storeUrl && (
-                      <a
-                        href={project.storeUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-xs text-olive-400 dark:text-olive-500 hover:text-olive-700 dark:hover:text-olive-200 transition-colors shrink-0"
-                        title={project.storeLabel}
-                      >
-                        ↗
-                      </a>
-                    )}
+                    <p className="text-xs text-olive-600 dark:text-olive-400 leading-relaxed line-clamp-2">
+                      {project.description}
+                    </p>
+                    <div className="flex flex-wrap gap-1 mt-0.5">
+                      {project.tools.slice(0, 5).map((tool) => (
+                        <span
+                          key={tool}
+                          className="text-[10px] bg-olive-100 dark:bg-olive-800 text-olive-600 dark:text-olive-300 px-1.5 py-0.5 rounded font-mono"
+                        >
+                          {tool}
+                        </span>
+                      ))}
+                      {project.tools.length > 5 && (
+                        <span className="text-[10px] text-olive-400 dark:text-olive-500 px-1 py-0.5">
+                          +{project.tools.length - 5}
+                        </span>
+                      )}
+                    </div>
                   </div>
-                  <p className="text-xs text-olive-600 dark:text-olive-400 leading-relaxed line-clamp-2">
-                    {project.description}
-                  </p>
-                  <div className="flex flex-wrap gap-1 mt-0.5">
-                    {project.tools.slice(0, 5).map((tool) => (
-                      <span
-                        key={tool}
-                        className="text-[10px] bg-olive-100 dark:bg-olive-800 text-olive-600 dark:text-olive-300 px-1.5 py-0.5 rounded font-mono"
-                      >
-                        {tool}
-                      </span>
-                    ))}
-                    {project.tools.length > 5 && (
-                      <span className="text-[10px] text-olive-400 dark:text-olive-500 px-1 py-0.5">
-                        +{project.tools.length - 5}
-                      </span>
-                    )}
-                  </div>
+                </>
+              );
+
+              return project.storeUrl ? (
+                <a
+                  key={project.name}
+                  href={project.storeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={cardClass}
+                >
+                  {inner}
+                </a>
+              ) : (
+                <div key={project.name} className={cardClass}>
+                  {inner}
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       ))}
