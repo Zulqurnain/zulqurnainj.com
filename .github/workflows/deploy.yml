@@ -21,7 +21,7 @@ jobs:
       - name: Rsync out/ to VPS
         uses: burnett01/rsync-deployments@7.0.1
         with:
-          switches: -avz --delete
+          switches: -avz --delete --exclude=images/
           path: out/
           remote_path: /var/www/zulqurnainj.com/out/
           remote_host: ${{ secrets.VPS_HOST }}
