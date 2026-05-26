@@ -70,7 +70,7 @@ export function Header() {
       {/* Chat buttons */}
       <div className="flex flex-wrap gap-2 w-full">
         <a
-          href="https://wa.me/923364116933"
+          href="https://wa.me/60178613992"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 hover:opacity-80 transition-opacity"
