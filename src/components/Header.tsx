@@ -17,6 +17,7 @@ const navItems: NavItem[] = [
   { label: "Apps", href: "/apps" },
   { label: "SaaS", href: "/saas" },
   { label: "Linktree", href: "https://linktr.ee/zulqurnainjj", external: true },
+  { label: "llms.txt", href: "/llms.txt", external: true },
 ];
 
 export function Header() {
@@ -41,7 +42,7 @@ export function Header() {
           Zulqurnain Haider
         </h1>
         <p className="text-sm text-olive-500 dark:text-olive-400 font-serif italic">
-          Senior Full Stack Developer
+          Software Engineer · Maker · Traveler
         </p>
       </div>
 

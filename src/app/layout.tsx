@@ -12,12 +12,12 @@ export const metadata: Metadata = {
   metadataBase: new URL(BASE),
 
   title: {
-    default: "Zulqurnain Haider — Senior Full Stack Developer | Pakistan",
+    default: "Zulqurnain Haider — Software Engineer & World Traveler | Pakistan",
     template: "%s | Zulqurnain Haider",
   },
 
   description:
-    "Zulqurnain Haider is a Senior Full Stack Developer from Lahore, Pakistan with 8+ years building mobile and web products at Victoria's Secret, JPMorgan Chase, SWVL, and Fuentes.tech. Expert in React Native, Flutter, Go, Python, AI/RAG.",
+    "Zulqurnain Haider — software engineer, maker, and traveler from Lahore, Pakistan. 8+ years building mobile and web products across fintech, e-commerce, EdTech, and transit. React Native, Flutter, Go, Python, AI/RAG.",
 
   keywords: [
     "Zulqurnain Haider",
@@ -26,8 +26,9 @@ export const metadata: Metadata = {
     "Zulqurnain developer",
     "Top Pakistani developer",
     "Pakistani software engineer",
-    "Senior Full Stack Developer Pakistan",
-    "Senior Full Stack Developer",
+    "Pakistani traveler",
+    "nomad software engineer",
+    "Software Engineer Pakistan",
     "Full Stack Developer Lahore",
     "Full Stack Developer",
     "React Native developer Pakistan",
@@ -35,11 +36,6 @@ export const metadata: Metadata = {
     "Mobile developer Pakistan",
     "iOS developer Pakistan",
     "Android developer Pakistan",
-    "Victoria Secret developer",
-    "Victoria's Secret engineer",
-    "JPMorgan Chase developer",
-    "SWVL developer",
-    "Fuentes tech developer",
     "AI developer Pakistan",
     "RAG developer",
     "LLM engineer",
@@ -48,6 +44,9 @@ export const metadata: Metadata = {
     "Next.js developer Pakistan",
     "remote developer Pakistan",
     "hire Pakistani developer",
+    "open source developer Pakistan",
+    "offLLama",
+    "Pakistani maker",
   ],
 
   authors: [{ name: "Zulqurnain Haider", url: BASE }],
@@ -63,15 +62,15 @@ export const metadata: Metadata = {
     type: "website",
     url: BASE,
     siteName: "Zulqurnain Haider",
-    title: "Zulqurnain Haider — Senior Full Stack Developer | Pakistan",
+    title: "Zulqurnain Haider — Software Engineer & World Traveler | Pakistan",
     description:
-      "Senior Full Stack Developer from Lahore, Pakistan. 8+ years at Victoria's Secret, JPMorgan Chase, SWVL. Expert in React Native, Flutter, Go, Python, AI/RAG.",
+      "Software engineer, maker, and traveler from Lahore, Pakistan. 8+ years building apps across fintech, e-commerce, EdTech, and transit. React Native · Flutter · Go · Python · AI/RAG.",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Zulqurnain Haider — Senior Full Stack Developer",
+        alt: "Zulqurnain Haider — Software Engineer & World Traveler",
       },
     ],
     locale: "en_US",
@@ -79,9 +78,9 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "Zulqurnain Haider — Senior Full Stack Developer | Pakistan",
+    title: "Zulqurnain Haider — Software Engineer & World Traveler | Pakistan",
     description:
-      "Senior Full Stack Developer from Lahore, Pakistan. 8+ years at Victoria's Secret, JPMorgan Chase, SWVL.",
+      "Software engineer, maker, and traveler from Lahore, Pakistan. React Native · Flutter · Go · Python · AI/RAG.",
     images: ["/og-image.jpg"],
     creator: "@zulqurnainjj",
     site: "@zulqurnainjj",
@@ -121,9 +120,9 @@ const jsonLd = {
         width: 1200,
         height: 630,
       },
-      jobTitle: "Senior Full Stack Developer",
+      jobTitle: "Software Engineer",
       description:
-        "Senior Full Stack Developer from Lahore, Pakistan with 8+ years experience in React Native, Flutter, Go, Python, AI/RAG. Previously at Victoria's Secret, JPMorgan Chase, SWVL.",
+        "Software engineer, maker, and traveler from Lahore, Pakistan with 8+ years experience building apps across fintech, e-commerce, EdTech, and transit. React Native, Flutter, Go, Python, AI/RAG.",
       nationality: { "@type": "Country", name: "Pakistan" },
       address: {
         "@type": "PostalAddress",
@@ -147,8 +146,7 @@ const jsonLd = {
       ],
       worksFor: {
         "@type": "Organization",
-        name: "Fuentes.tech",
-        url: "https://fuentes.tech",
+        name: "Independent / Freelance",
       },
     },
     {

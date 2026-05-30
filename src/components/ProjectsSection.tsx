@@ -10,22 +10,20 @@ type Project = {
   storeLabel?: string;
 };
 
-type EmployerGroup = {
+type ClientGroup = {
   id: string;
-  company: string;
+  client: string;
   period: string;
-  url: string;
   projects: Project[];
 };
 
 const P = (name: string) => `/images/projects/${name}`;
 
-const groups: EmployerGroup[] = [
+const groups: ClientGroup[] = [
   {
-    id: "fuentes",
-    company: "Fuentes.tech",
+    id: "edtech-client",
+    client: "EdTech Client",
     period: "2025–Present",
-    url: "https://fuentes.tech",
     projects: [
       {
         name: "Genius Drills",
@@ -58,13 +56,12 @@ const groups: EmployerGroup[] = [
     ],
   },
   {
-    id: "vs",
-    company: "Victoria's Secret & Co.",
+    id: "retail-client",
+    client: "Global Retail Client",
     period: "2023–2025",
-    url: "https://victoriassecret.com",
     projects: [
       {
-        name: "Victoria's Secret",
+        name: "Shopping App",
         description:
           "Official mobile shopping app for 70M+ customers — personalised LLM search, AR features, loyalty integration, and seamless checkout.",
         platform: "iOS & Android",
@@ -74,19 +71,16 @@ const groups: EmployerGroup[] = [
           P("vs-2.jpg"),
           P("vs-3.jpg"),
         ],
-        storeUrl: "https://apps.apple.com/us/app/victorias-secret/id409209402",
-        storeLabel: "App Store",
       },
     ],
   },
   {
-    id: "chase",
-    company: "JPMorgan Chase",
+    id: "banking-client",
+    client: "US Banking Client",
     period: "2022–2023",
-    url: "https://chase.com",
     projects: [
       {
-        name: "Chase Mobile",
+        name: "Banking App",
         description:
           "One of the largest mobile banking apps in the US — serving 50M+ customers with accounts, investing, P2P payments, and SWIFT messaging.",
         platform: "iOS & Android",
@@ -96,16 +90,13 @@ const groups: EmployerGroup[] = [
           P("chase-2.jpg"),
           P("chase-3.jpg"),
         ],
-        storeUrl: "https://apps.apple.com/us/app/chase-mobile/id298867247",
-        storeLabel: "App Store",
       },
     ],
   },
   {
     id: "independent_2021",
-    company: "Freelance / Independent",
+    client: "Freelance / Independent",
     period: "2021",
-    url: "",
     projects: [
       {
         name: "Rechat",
@@ -124,13 +115,12 @@ const groups: EmployerGroup[] = [
     ],
   },
   {
-    id: "swvl",
-    company: "SWVL",
+    id: "transit-client",
+    client: "Mass Transit Client",
     period: "2021–2022",
-    url: "https://swvl.com",
     projects: [
       {
-        name: "SWVL",
+        name: "Ride-sharing App",
         description:
           "Mass-transit ride-sharing across Africa, Middle East, and Pakistan — native iOS and Android apps with real-time booking and payments.",
         platform: "iOS & Android",
@@ -140,19 +130,16 @@ const groups: EmployerGroup[] = [
           P("swvl-2.jpg"),
           P("swvl-3.jpg"),
         ],
-        storeUrl: "https://play.google.com/store/apps/details?id=com.swvl.android",
-        storeLabel: "Google Play",
       },
     ],
   },
   {
-    id: "cheetay",
-    company: "Cheetay",
+    id: "delivery-client",
+    client: "Delivery Client",
     period: "2020–2021",
-    url: "https://cheetay.pk",
     projects: [
       {
-        name: "Cheetay",
+        name: "Delivery App",
         description:
           "Pakistan's leading on-demand delivery app — native Android with reverse-engineering security hardening using Frida and Burp Suite.",
         platform: "Android",
@@ -162,16 +149,13 @@ const groups: EmployerGroup[] = [
           P("cheetay-2.jpg"),
           P("cheetay-3.jpg"),
         ],
-        storeUrl: "https://www.apkshub.com/app/com.app.cheetay",
-        storeLabel: "APK Hub",
       },
     ],
   },
   {
-    id: "smacc",
-    company: "Arab Sea / SMACC",
+    id: "erp-saas-client",
+    client: "ERP / SaaS Client",
     period: "2018–2019",
-    url: "https://smacc.com",
     projects: [
       {
         name: "SMACC V3",
@@ -203,9 +187,8 @@ const groups: EmployerGroup[] = [
   },
   {
     id: "freelance",
-    company: "Freelance & Contract",
+    client: "Freelance & Contract",
     period: "Various",
-    url: "",
     projects: [
       {
         name: "EasyPaisa",
@@ -351,22 +334,11 @@ export function ProjectsSection() {
 
       {groups.map((group) => (
         <div key={group.id} className="flex flex-col gap-4">
-          {/* Employer header */}
+          {/* Client header */}
           <div className="flex items-center gap-2">
-            {group.url ? (
-              <a
-                href={group.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-semibold text-sm text-olive-800 dark:text-olive-100 hover:underline underline-offset-2"
-              >
-                {group.company}
-              </a>
-            ) : (
-              <span className="font-semibold text-sm text-olive-800 dark:text-olive-100">
-                {group.company}
-              </span>
-            )}
+            <span className="font-semibold text-sm text-olive-800 dark:text-olive-100">
+              {group.client}
+            </span>
             <span className="text-xs font-mono text-olive-400 dark:text-olive-600">
               {group.period}
             </span>
