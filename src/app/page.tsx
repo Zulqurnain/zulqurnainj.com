@@ -5,14 +5,14 @@ import { Divider } from "@/components/Divider";
 import { WorkSection } from "@/components/WorkSection";
 
 export const metadata: Metadata = {
-  title: "Zulqurnain Haider — Senior Full Stack Developer | Pakistan",
+  title: "Zulqurnain Haider — Software Engineer & World Traveler | Pakistan",
   description:
-    "Zulqurnain Haider — Senior Full Stack Developer from Lahore, Pakistan. 8+ years building apps at Victoria's Secret, JPMorgan Chase, SWVL. React Native, Flutter, Go, Python, AI/RAG.",
+    "Zulqurnain Haider — software engineer, maker, and traveler from Lahore, Pakistan. 8+ years building mobile and web products across fintech, e-commerce, EdTech, and transit. React Native, Flutter, Go, Python, AI/RAG.",
   alternates: { canonical: "https://zulqurnainj.com" },
   openGraph: {
     url: "https://zulqurnainj.com",
-    title: "Zulqurnain Haider — Senior Full Stack Developer | Pakistan",
-    description: "Senior Full Stack Developer from Pakistan. Victoria's Secret · JPMorgan Chase · SWVL · Fuentes.tech.",
+    title: "Zulqurnain Haider — Software Engineer & World Traveler | Pakistan",
+    description: "Software engineer, maker, and traveler from Lahore, Pakistan. React Native · Flutter · Go · Python · AI/RAG.",
     images: [{ url: "/og-image.jpg", width: 1200, height: 630 }],
   },
 };
@@ -30,69 +30,34 @@ export default function Home() {
         {/* Bio */}
         <div className="font-normal min-w-full text-olive-800 dark:text-olive-100 text-sm/6 text-justify flex flex-col gap-4">
           <p className="animate-in animate-delay-1">
-            I&apos;m a Senior Full Stack Developer with 8+ years of experience
-            building products used by millions. I started as a{" "}
-            <span className="font-medium">native Android and iOS engineer</span>,
-            progressed to cross-platform mobile with{" "}
-            <span className="font-medium">React Native and Flutter</span>, and have
-            since made a permanent move to full-stack development — owning backend,
-            frontend, and DevOps end-to-end.
+            I&apos;m a software engineer from Lahore, Pakistan — builder, traveler,
+            and creator of software used by millions. Over{" "}
+            <span className="font-medium">8+ years</span> I&apos;ve shipped mobile
+            and web products across{" "}
+            <span className="font-medium">fintech, e-commerce, EdTech, and mass transit</span>,
+            serving users in South Asia, the Middle East, Europe, and the US.
           </p>
           <p className="animate-in animate-delay-2">
-            My mobile roots run deep:{" "}
-            <a
-              href="https://swvl.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link"
-            >
-              SWVL
-            </a>{" "}
-            (native Swift/iOS and Kotlin/Android for city-scale ride-sharing) and{" "}
-            <a
-              href="https://victoriassecret.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link"
-            >
-              Victoria&apos;s Secret &amp; Co.
-            </a>{" "}
-            (React Native and Flutter for 70M+ customers, with LLM-powered search
-            via Pinecone and FAISS). I&apos;ve shipped 15+ consumer apps across
-            South Asia, the Middle East, and the US.
+            My journey started in native mobile —{" "}
+            <span className="font-medium">Swift for iOS, Kotlin for Android</span> — then
+            expanded to cross-platform with{" "}
+            <span className="font-medium">React Native and Flutter</span>. I&apos;ve
+            since gone full-stack, owning backend APIs, web frontends, and cloud
+            infrastructure end-to-end. 15+ consumer apps shipped and counting.
           </p>
           <p className="animate-in animate-delay-3">
-            On the full-stack side I&apos;ve delivered secure banking software at{" "}
-            <a
-              href="https://chase.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link"
-            >
-              JPMorgan Chase
+            On the AI side I build{" "}
+            <span className="font-medium">RAG pipelines and LLM-powered features</span>{" "}
+            using OpenAI, Pinecone, FAISS, and custom toolchains. I&apos;m also the
+            author of{" "}
+            <a href="https://github.com/Zulqurnain/offllama" target="_blank" rel="noopener noreferrer" className="link">
+              offLLama
             </a>{" "}
-            (Java, Spring Boot, SWIFT ISO20022), and I currently lead engineering
-            at{" "}
-            <a
-              href="https://fuentes.tech"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link"
-            >
-              Fuentes.tech
-            </a>{" "}
-            — building AI-powered EdTech products including{" "}
-            <a href="https://get.geniusdrills.com" target="_blank" rel="noopener noreferrer" className="link">
-              Genius Drills
-            </a>{" "}
-            and the{" "}
-            <a href="https://spiritofmathcontest.com" target="_blank" rel="noopener noreferrer" className="link">
-              Spirit of Math Contest
-            </a>{" "}
-            platform, with RAG pipelines, OpenAI integrations, and Kubernetes on AWS.
+            — an open-source library to run llama.cpp on shared hosting without a GPU.
           </p>
           <p className="animate-in animate-delay-4">
-            Always open to ambitious engineering challenges.{" "}
+            Always chasing the next challenge, from a café in Lahore to wherever
+            the work takes me.{" "}
             <a href="mailto:me@zulqurnainj.com" className="link">
               Say hello
             </a>{" "}

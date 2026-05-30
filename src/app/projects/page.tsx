@@ -7,12 +7,12 @@ import { ProjectsSection } from "@/components/ProjectsSection";
 export const metadata: Metadata = {
   title: "Projects",
   description:
-    "Projects by Zulqurnain Haider — 18+ apps shipped at Victoria's Secret, JPMorgan Chase, SWVL, and more. React Native, Flutter, iOS, Android, AI/RAG, Web.",
+    "Projects by Zulqurnain Haider — 18+ apps shipped across fintech, retail, EdTech, transit, and healthcare. React Native, Flutter, iOS, Android, AI/RAG, Web.",
   alternates: { canonical: "https://zulqurnainj.com/projects" },
   openGraph: {
     url: "https://zulqurnainj.com/projects",
     title: "Projects | Zulqurnain Haider",
-    description: "18+ apps shipped at Victoria's Secret, JPMorgan Chase, SWVL, Fuentes.tech and more.",
+    description: "18+ apps shipped across fintech, retail, EdTech, transit, and healthcare. React Native · Flutter · Go · AI/RAG.",
     images: [{ url: "/og-image.jpg", width: 1200, height: 630 }],
   },
 };
