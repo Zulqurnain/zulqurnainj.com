@@ -21,30 +21,52 @@ const navItems: NavItem[] = [
   { label: "llms.txt", href: "/llms.txt", external: true },
 ];
 
+const tags = [
+  { label: "🌍 Traveler", color: "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300" },
+  { label: "⚡ Builder", color: "bg-violet-100 text-violet-800 dark:bg-violet-900/30 dark:text-violet-300" },
+  { label: "🧭 Explorer", color: "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300" },
+  { label: "🤖 AI Engineer", color: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300" },
+];
+
 export function Header() {
   const pathname = usePathname();
 
   return (
     <div className="flex flex-col gap-4 items-start w-full">
-      {/* Avatar */}
-      <div className="flex h-10 items-center justify-start w-full">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/profile.jpg"
-          alt="Zulqurnain Haider"
-          className="size-10 rounded-full object-cover"
-          loading="eager"
-        />
+      {/* Avatar + identity row */}
+      <div className="flex items-center gap-4 w-full">
+        <div className="relative shrink-0">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/profile.jpg"
+            alt="Zulqurnain Haider"
+            className="size-14 rounded-full object-cover ring-2 ring-olive-300 dark:ring-olive-700"
+            loading="eager"
+          />
+          <span className="absolute -bottom-0.5 -right-0.5 text-base leading-none" title="Traveler from Pakistan">🇵🇰</span>
+        </div>
+        <div className="flex flex-col gap-0.5 min-w-0">
+          <h1 className="font-semibold text-olive-800 dark:text-olive-100 text-xl leading-tight">
+            Zulqurnain Haider
+          </h1>
+          <p className="text-sm text-olive-500 dark:text-olive-400 font-serif italic leading-snug">
+            Explorer · Maker · Software Engineer
+          </p>
+          <div className="flex items-center gap-1 mt-0.5">
+            <span className="text-xs text-olive-400 dark:text-olive-600">📍 Lahore, PK</span>
+            <span className="text-xs text-olive-300 dark:text-olive-700">·</span>
+            <span className="text-xs text-olive-400 dark:text-olive-600">Open to remote worldwide</span>
+          </div>
+        </div>
       </div>
 
-      {/* Name + role */}
-      <div className="flex flex-col gap-0.5 w-full">
-        <h1 className="font-semibold text-olive-800 dark:text-olive-100 text-xl">
-          Zulqurnain Haider
-        </h1>
-        <p className="text-sm text-olive-500 dark:text-olive-400 font-serif italic">
-          Software Engineer · Maker · Traveler
-        </p>
+      {/* Identity tags */}
+      <div className="flex flex-wrap gap-1.5">
+        {tags.map((t) => (
+          <span key={t.label} className={`text-[11px] font-medium px-2.5 py-1 rounded-full ${t.color}`}>
+            {t.label}
+          </span>
+        ))}
       </div>
 
       {/* Nav */}
@@ -91,7 +113,7 @@ export function Header() {
           <svg viewBox="0 0 24 24" className="size-3.5 fill-current" xmlns="http://www.w3.org/2000/svg">
             <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
           </svg>
-          Chat on Telegram
+          @zthenomad
         </a>
       </div>
     </div>

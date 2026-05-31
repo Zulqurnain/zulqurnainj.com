@@ -154,7 +154,7 @@ const jsonLd = {
       "@id": `${BASE}/#website`,
       url: BASE,
       name: "Zulqurnain Haider",
-      description: "Portfolio of Zulqurnain Haider — Senior Full Stack Developer from Pakistan",
+      description: "Personal site of Zulqurnain Haider — software engineer, explorer, and maker from Pakistan",
       author: { "@id": `${BASE}/#person` },
       inLanguage: "en-US",
       potentialAction: {
