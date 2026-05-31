@@ -17,42 +17,36 @@ export const metadata: Metadata = {
 
 const features = [
   {
-    icon: "📲",
     title: "Social Media — Fully Managed",
     desc: "Your AI employee writes captions, researches hashtags, schedules posts, and replies to comments on Instagram, Facebook, X (Twitter), TikTok, and YouTube. Consistent posting without you lifting a finger.",
   },
   {
-    icon: "📅",
     title: "Meeting Scheduling",
     desc: "Send a message like \"Schedule a call with Ahmed on Thursday\" and your AI checks your calendar, finds a free slot, sends the invite, and follows up. No more back-and-forth.",
   },
   {
-    icon: "📧",
     title: "Email Management",
     desc: "Reads your inbox, summarises what matters, drafts replies in your tone, and flags urgent messages. Handles routine emails so you only deal with what needs you.",
   },
   {
-    icon: "💡",
     title: "Content Ideas & Suggestions",
     desc: "Weekly content calendars, trending topic alerts, viral post ideas, and performance summaries — delivered as a simple chat message every morning.",
   },
   {
-    icon: "🤝",
     title: "Lead Follow-ups & Outreach",
     desc: "Follows up with leads, sends check-in messages, and keeps your pipeline warm — all personalised, none of it generic.",
   },
   {
-    icon: "🔁",
     title: "Anything Repetitive",
     desc: "Research, reminders, data entry, report generation, customer support FAQs — if it's repetitive, your AI employee does it.",
   },
 ];
 
 const platforms = [
-  { name: "WhatsApp", icon: "💬", color: "bg-green-50 border-green-200 text-green-800 dark:bg-green-900/20 dark:border-green-800/40 dark:text-green-300" },
-  { name: "Telegram", icon: "✈️", color: "bg-sky-50 border-sky-200 text-sky-800 dark:bg-sky-900/20 dark:border-sky-800/40 dark:text-sky-300" },
-  { name: "Discord", icon: "🎮", color: "bg-indigo-50 border-indigo-200 text-indigo-800 dark:bg-indigo-900/20 dark:border-indigo-800/40 dark:text-indigo-300" },
-  { name: "Web Chat", icon: "🌐", color: "bg-olive-100 border-olive-200 text-olive-800 dark:bg-olive-800/30 dark:border-olive-700/40 dark:text-olive-300" },
+  { name: "WhatsApp", color: "bg-green-50 border-green-200 text-green-800 dark:bg-green-900/20 dark:border-green-800/40 dark:text-green-300" },
+  { name: "Telegram", color: "bg-sky-50 border-sky-200 text-sky-800 dark:bg-sky-900/20 dark:border-sky-800/40 dark:text-sky-300" },
+  { name: "Discord", color: "bg-indigo-50 border-indigo-200 text-indigo-800 dark:bg-indigo-900/20 dark:border-indigo-800/40 dark:text-indigo-300" },
+  { name: "Web Chat", color: "bg-olive-100 border-olive-200 text-olive-800 dark:bg-olive-800/30 dark:border-olive-700/40 dark:text-olive-300" },
 ];
 
 const pricing = [
@@ -92,12 +86,9 @@ export default function AiEmployeePage() {
           <a href="/" className="text-violet-200 hover:text-white text-sm transition-colors inline-flex items-center gap-1.5">
             ← Zulqurnain Haider
           </a>
-          <div className="flex items-center gap-3">
-            <span className="text-5xl">🤖</span>
-            <div>
-              <p className="text-violet-200 text-sm font-medium uppercase tracking-wider">Service</p>
-              <h1 className="text-3xl font-bold leading-tight">Your AI Employee</h1>
-            </div>
+          <div>
+            <p className="text-violet-200 text-xs font-medium uppercase tracking-widest mb-2">Service</p>
+            <h1 className="text-3xl font-bold leading-tight">Your AI Employee</h1>
           </div>
           <p className="text-xl text-violet-100 leading-relaxed max-w-lg">
             A tireless digital team member that manages your socials, emails, and schedule —
@@ -114,7 +105,7 @@ export default function AiEmployeePage() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white text-violet-700 font-semibold hover:opacity-90 transition-opacity"
             >
-              💬 Chat on WhatsApp
+              Chat on WhatsApp
             </a>
             <a
               href="https://t.me/zthenomad"
@@ -122,7 +113,7 @@ export default function AiEmployeePage() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-violet-500/30 border border-violet-400/40 text-white font-semibold hover:bg-violet-500/40 transition-colors"
             >
-              ✈️ Message on Telegram
+              Message on Telegram
             </a>
           </div>
         </div>
@@ -137,7 +128,6 @@ export default function AiEmployeePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {features.map((f) => (
               <div key={f.title} className="flex flex-col gap-2 p-4 rounded-xl bg-white dark:bg-olive-950 border border-olive-200 dark:border-olive-800">
-                <span className="text-2xl">{f.icon}</span>
                 <h3 className="font-semibold text-sm text-olive-800 dark:text-olive-100">{f.title}</h3>
                 <p className="text-xs text-olive-600 dark:text-olive-400 leading-relaxed">{f.desc}</p>
               </div>
@@ -151,9 +141,8 @@ export default function AiEmployeePage() {
           <p className="text-sm text-olive-600 dark:text-olive-400">No new apps to install. Your AI employee lives inside your favourite chat platform.</p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {platforms.map((p) => (
-              <div key={p.name} className={`flex flex-col items-center gap-2 p-3 rounded-xl border ${p.color} text-center`}>
-                <span className="text-2xl">{p.icon}</span>
-                <span className="text-sm font-semibold">{p.name}</span>
+              <div key={p.name} className={`flex items-center justify-center p-3 rounded-xl border font-semibold text-sm ${p.color}`}>
+                {p.name}
               </div>
             ))}
           </div>
@@ -173,7 +162,7 @@ export default function AiEmployeePage() {
                 <ul className="flex flex-col gap-1.5">
                   {p.features.map((f) => (
                     <li key={f} className={`flex items-start gap-1.5 text-xs ${p.highlight ? "text-violet-100" : "text-olive-600 dark:text-olive-400"}`}>
-                      <span className="mt-0.5 shrink-0">✓</span>
+                      <span className="mt-0.5 shrink-0">—</span>
                       <span>{f}</span>
                     </li>
                   ))}
@@ -191,7 +180,7 @@ export default function AiEmployeePage() {
           </div>
         </section>
 
-        {/* FAQ / How it works */}
+        {/* How it works */}
         <section className="flex flex-col gap-4 p-5 rounded-2xl bg-white dark:bg-olive-950 border border-olive-200 dark:border-olive-800">
           <h2 className="text-lg font-bold text-olive-900 dark:text-olive-100">How does it work?</h2>
           <ol className="flex flex-col gap-3">
@@ -220,13 +209,13 @@ export default function AiEmployeePage() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-green-600 text-white font-semibold hover:opacity-90 transition-opacity"
             >
-              💬 Chat on WhatsApp
+              Chat on WhatsApp
             </a>
             <a
               href="mailto:me@zulqurnainj.com?subject=AI%20Employee%20Service"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-olive-800 dark:bg-olive-100 text-olive-100 dark:text-olive-900 font-semibold hover:opacity-80 transition-opacity"
             >
-              ✉️ Send Email
+              Send Email
             </a>
           </div>
         </section>
