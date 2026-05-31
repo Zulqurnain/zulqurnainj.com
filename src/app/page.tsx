@@ -47,19 +47,37 @@ const catColor: Record<string, string> = {
 const services = [
   {
     href: "/services/ai-employee",
-    icon: "🤖",
+    accent: "border-l-violet-400",
+    iconBg: "bg-violet-100 text-violet-600 dark:bg-violet-900/30 dark:text-violet-400",
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456Z" />
+      </svg>
+    ),
     title: "AI Employee For You",
     sub: "Manage your socials, emails & schedule — from $20/mo",
   },
   {
     href: "/services/mobile-developer",
-    icon: "📱",
+    accent: "border-l-blue-400",
+    iconBg: "bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400",
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18h3" />
+      </svg>
+    ),
     title: "Expert Mobile Developer",
     sub: "React Native · Flutter · Swift · Kotlin",
   },
   {
     href: "/services/web-developer",
-    icon: "🌐",
+    accent: "border-l-emerald-400",
+    iconBg: "bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400",
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" />
+      </svg>
+    ),
     title: "Expert Web Developer",
     sub: "Next.js · Go · Python · AI/RAG · Full Stack",
   },
@@ -124,10 +142,12 @@ export default function Home() {
               <a
                 key={svc.href}
                 href={svc.href}
-                className="flex items-center justify-between p-3.5 rounded-xl bg-white dark:bg-olive-950 border border-olive-200 dark:border-olive-800 hover:border-olive-400 dark:hover:border-olive-600 transition-all group"
+                className={`flex items-center justify-between p-3.5 rounded-xl bg-white dark:bg-olive-950 border border-olive-200 dark:border-olive-800 border-l-4 ${svc.accent} hover:border-olive-400 dark:hover:border-olive-600 transition-all group`}
               >
                 <div className="flex items-center gap-3">
-                  <span className="text-xl">{svc.icon}</span>
+                  <span className={`shrink-0 size-8 flex items-center justify-center rounded-lg ${svc.iconBg}`}>
+                    {svc.icon}
+                  </span>
                   <div>
                     <p className="font-semibold text-sm text-olive-800 dark:text-olive-100">{svc.title}</p>
                     <p className="text-xs text-olive-500 dark:text-olive-400">{svc.sub}</p>
