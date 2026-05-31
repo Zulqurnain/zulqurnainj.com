@@ -1,0 +1,69 @@
+# Zulqurnain Haider — Explorer, Maker & Software Engineer
+
+> Software engineer, explorer, and maker from Lahore, Pakistan.
+> I build mobile apps, web platforms, and AI tools from wherever the road takes me.
+> Open to client work, collabs, and remote worldwide.
+
+## About
+
+Zulqurnain Haider is a software engineer with 8+ years of experience shipping production software. He has built 15+ consumer mobile apps with millions of users across fintech, e-commerce, EdTech, transit, and healthcare. He travels extensively and works remotely from wherever the journey takes him.
+
+Contact: me@zulqurnainj.com
+WhatsApp: https://wa.me/60178613992
+Telegram: https://t.me/zthenomad
+LinkedIn: https://linkedin.com/in/zulqurnainjj
+Linktree: https://linktr.ee/zulqurnainjj
+
+## Services
+
+### AI Employee (from $20/month)
+A custom AI agent that manages social media (Instagram, Facebook, X, TikTok, YouTube), handles emails, schedules meetings, and runs inside WhatsApp, Telegram, or Discord. Everything a normal employee does — automated.
+Page: https://zulqurnainj.com/services/ai-employee
+
+### Expert Mobile Developer
+React Native, Flutter, Swift/SwiftUI, Kotlin/Compose. Native and cross-platform iOS and Android apps. 15+ shipped apps, full App Store and Google Play delivery.
+Page: https://zulqurnainj.com/services/mobile-developer
+
+### Expert Web Developer
+Next.js, React, TypeScript, Go, Python, Node.js. Full-stack web products, AI/RAG pipelines, SaaS platforms. Cloud (AWS, GCP), Docker, Kubernetes.
+Page: https://zulqurnainj.com/services/web-developer
+
+## Tech Skills
+
+Mobile: React Native, Flutter, iOS (Swift/SwiftUI), Android (Kotlin/Jetpack Compose)
+Web Frontend: Next.js, React, TypeScript
+Web Backend: Go, Python, Node.js
+AI / ML: OpenAI, LLM pipelines, RAG, Pinecone, FAISS
+DevOps: AWS, GCP, Docker, Kubernetes, PostgreSQL
+Tools: Git, CI/CD, REST, GraphQL
+
+## Projects
+
+A selection of shipped work across multiple industries.
+Full gallery: https://zulqurnainj.com/projects
+
+- Shopping App — multi-vendor iOS/Android platform with real-time cart and loyalty
+- Banking App — mobile banking with biometric auth and instant transfers
+- Ride-sharing App — transit booking with real-time tracking
+- Delivery App — last-mile delivery for iOS and Android
+- PromptHealth Checker — AI SaaS tool for prompt quality analysis
+- Text To Leads Extractor — web SaaS for extracting leads from text
+- Delete All Messages by Z — Chrome extension for bulk-deleting Facebook Messenger threads
+
+## SaaS Tools & Extensions
+
+- Prompt Health Checker: https://tools.zulqurnainj.com/prompt-health-checker
+- Text To Leads Extractor: https://tools.zulqurnainj.com
+- Delete All Messages by Z (Chrome): https://chromewebstore.google.com/detail/delete-all-messages-by-z/dpdlkdbgehhejkfpclhgdbaeahikfnof
+All tools run on self-hosted infrastructure powered by offLLama (https://github.com/Zulqurnain/offllama).
+
+## Site Structure
+
+- / — Homepage with bio, skills, and service overview
+- /services — Services overview (accordion)
+- /services/ai-employee — AI Employee service landing page
+- /services/mobile-developer — Mobile Developer service landing page
+- /services/web-developer — Web Developer service landing page
+- /projects — Full project gallery
+- /saas — SaaS tools and Chrome extensions
+- /llms.txt — This file (GEO / LLM-readable summary)
