@@ -12,12 +12,12 @@ export const metadata: Metadata = {
   metadataBase: new URL(BASE),
 
   title: {
-    default: "Zulqurnain Haider — Software Engineer & World Traveler | Pakistan",
+    default: "Zulqurnain Haider — Explorer, Maker & Software Engineer | Pakistan",
     template: "%s | Zulqurnain Haider",
   },
 
   description:
-    "Zulqurnain Haider — software engineer, maker, and traveler from Lahore, Pakistan. 8+ years building mobile and web products across fintech, e-commerce, EdTech, and transit. React Native, Flutter, Go, Python, AI/RAG.",
+    "Zulqurnain Haider — software engineer, explorer, and maker from Lahore, Pakistan. I build mobile apps, web platforms, and AI tools from wherever the road takes me. React Native, Flutter, Go, Python, AI/RAG.",
 
   keywords: [
     "Zulqurnain Haider",
@@ -62,9 +62,9 @@ export const metadata: Metadata = {
     type: "website",
     url: BASE,
     siteName: "Zulqurnain Haider",
-    title: "Zulqurnain Haider — Software Engineer & World Traveler | Pakistan",
+    title: "Zulqurnain Haider — Explorer, Maker & Software Engineer | Pakistan",
     description:
-      "Software engineer, maker, and traveler from Lahore, Pakistan. 8+ years building apps across fintech, e-commerce, EdTech, and transit. React Native · Flutter · Go · Python · AI/RAG.",
+      "Explorer and software engineer from Lahore, Pakistan. I build mobile apps, web platforms, and AI tools from wherever the road takes me. React Native · Flutter · Go · Python · AI/RAG.",
     images: [
       {
         url: "/og-image.jpg",
@@ -78,9 +78,9 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "Zulqurnain Haider — Software Engineer & World Traveler | Pakistan",
+    title: "Zulqurnain Haider — Explorer, Maker & Software Engineer | Pakistan",
     description:
-      "Software engineer, maker, and traveler from Lahore, Pakistan. React Native · Flutter · Go · Python · AI/RAG.",
+      "Explorer and maker from Lahore, Pakistan. Building apps, AI tools, and chasing adventures. React Native · Flutter · Go · Python · AI/RAG.",
     images: ["/og-image.jpg"],
     creator: "@zulqurnainjj",
     site: "@zulqurnainjj",
@@ -120,9 +120,9 @@ const jsonLd = {
         width: 1200,
         height: 630,
       },
-      jobTitle: "Software Engineer",
+      jobTitle: "Software Engineer & Explorer",
       description:
-        "Software engineer, maker, and traveler from Lahore, Pakistan with 8+ years experience building apps across fintech, e-commerce, EdTech, and transit. React Native, Flutter, Go, Python, AI/RAG.",
+        "Software engineer, explorer, and maker from Lahore, Pakistan. I build mobile apps, web platforms, and AI tools from wherever the road takes me. React Native, Flutter, Go, Python, AI/RAG.",
       nationality: { "@type": "Country", name: "Pakistan" },
       address: {
         "@type": "PostalAddress",

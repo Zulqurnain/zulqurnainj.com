@@ -11,11 +11,12 @@ type NavItem = {
 
 const navItems: NavItem[] = [
   { label: "Home", href: "/" },
-  { label: "Contact", href: "mailto:me@zulqurnainj.com" },
-  { label: "LinkedIn", href: "https://linkedin.com/in/zulqurnainjj", external: true },
+  { label: "Services", href: "/services" },
   { label: "Projects", href: "/projects" },
   { label: "Apps", href: "/apps" },
   { label: "SaaS", href: "/saas" },
+  { label: "Contact", href: "mailto:me@zulqurnainj.com" },
+  { label: "LinkedIn", href: "https://linkedin.com/in/zulqurnainjj", external: true },
   { label: "Linktree", href: "https://linktr.ee/zulqurnainjj", external: true },
   { label: "llms.txt", href: "/llms.txt", external: true },
 ];
