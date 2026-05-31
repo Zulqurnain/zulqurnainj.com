@@ -13,7 +13,6 @@ const navItems: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "Services", href: "/services" },
   { label: "Projects", href: "/projects" },
-  { label: "Apps", href: "/apps" },
   { label: "SaaS", href: "/saas" },
   { label: "Contact", href: "mailto:me@zulqurnainj.com" },
   { label: "LinkedIn", href: "https://linkedin.com/in/zulqurnainjj", external: true },
