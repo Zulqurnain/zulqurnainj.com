@@ -77,10 +77,10 @@ export default function SaasPage() {
           </svg>
           <p className="text-xs text-amber-800 dark:text-amber-300 leading-relaxed">
             All tools run on self-hosted infrastructure (no Vercel, no third-party AI APIs). AI inference powered by{" "}
-            <a href="https://github.com/Zulqurnain/offllama" target="_blank" rel="noopener noreferrer" className="font-semibold underline underline-offset-2 hover:text-amber-600">
-              offLLama
+            <a href="https://github.com/Zulqurnain/llmizeoff" target="_blank" rel="noopener noreferrer" className="font-semibold underline underline-offset-2 hover:text-amber-600">
+              llmizeOFF
             </a>
-            {" "}— an open-source library I built to run llama.cpp on shared hosting.
+            {" "}— an open-source self-hosted LLM runtime I built (runs on VPS, cPanel, Android &amp; local).
           </p>
         </div>
 

@@ -74,7 +74,7 @@ const tools: Tool[] = [
   {
     id: "nayab",
     name: "Nayab",
-    tagline: "Chat · Private · offLLama",
+    tagline: "Chat · Demo of llmizeOFF",
     image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=800&q=80",
     icon: (
       <svg viewBox="0 0 40 40" className="size-8" fill="none">
@@ -86,7 +86,7 @@ const tools: Tool[] = [
         <path d="M28.5 12h5M31 9.5v5" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" />
       </svg>
     ),
-    href: "https://chat.zulqurnainj.com",
+    href: "https://zulqurnainj.com/chat",
     badge: "Live",
   },
 ];
