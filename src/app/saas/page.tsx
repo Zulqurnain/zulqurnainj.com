@@ -55,7 +55,7 @@ export default function SaasPage() {
               SaaS Tools
             </h2>
             <span className="text-xs text-stone-500 dark:text-olive-400 font-medium bg-stone-100 dark:bg-olive-800 px-2.5 py-1 rounded-full">
-              2 live · 5 in development
+              4 live · 4 in development
             </span>
           </div>
           <p className="text-sm text-stone-600 dark:text-olive-400 max-w-xl leading-relaxed">
