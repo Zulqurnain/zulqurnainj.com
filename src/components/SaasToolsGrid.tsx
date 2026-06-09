@@ -21,6 +21,21 @@ const ArrowIcon = () => (
 
 const tools: Tool[] = [
   {
+    id: "dummyflights",
+    name: "Dummy Flights",
+    tagline: "Sample Itinerary · Educational",
+    image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=800&q=80",
+    icon: (
+      <svg viewBox="0 0 40 40" className="size-8" fill="none">
+        <rect width="40" height="40" rx="10" fill="#fef3c7" />
+        <path d="M20 9l2 9 7 4-7 1-2 8-2-8-7-1 7-4z" fill="#d97706" />
+        <path d="M11 31h18" stroke="#fbbf24" strokeWidth="1.8" strokeLinecap="round" />
+      </svg>
+    ),
+    href: "https://zulqurnainj.com/dummyflights/",
+    badge: "Live",
+  },
+  {
     id: "prompt-health-checker",
     name: "Prompt Health Checker",
     tagline: "Score · Analyze · Strengthen",
