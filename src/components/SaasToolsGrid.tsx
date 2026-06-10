@@ -49,7 +49,7 @@ const tools: Tool[] = [
         <path d="M26 28l2 2 4-4" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
-    href: "https://tools.zulqurnainj.com/prompt-health-checker",
+    href: "https://github.com/Zulqurnain/prompt-health-checker",
     badge: "Live",
   },
   {
@@ -66,7 +66,7 @@ const tools: Tool[] = [
         <path d="M28 14h4M30 12v4" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" />
       </svg>
     ),
-    href: "https://tools.zulqurnainj.com/text-to-leads",
+    href: "https://github.com/Zulqurnain/text-to-leads-extractor",
     badge: "Live",
   },
   {
