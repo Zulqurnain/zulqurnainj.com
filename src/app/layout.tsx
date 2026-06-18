@@ -132,7 +132,9 @@ const jsonLd = {
       email: "me@zulqurnainj.com",
       sameAs: [
         "https://github.com/zulqurnain",
-        "https://linkedin.com/in/zulqurnainjj",
+        "https://linkedin.com/in/zulqurnainj",
+        "https://instagram.com/nomad",
+        "https://fb.com/zjnomad",
         "https://medium.com/@zulqurnainjj",
         "https://linktr.ee/zulqurnainjj",
         "https://stackexchange.com/users/11459153/zulqurnain-haider",

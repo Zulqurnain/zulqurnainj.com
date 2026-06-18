@@ -114,7 +114,7 @@ export default function Home() {
             Open to client work, collabs, and new adventures.{" "}
             <a href="mailto:me@zulqurnainj.com" className="link">Say hello</a>{" "}
             or find me on{" "}
-            <a href="https://linkedin.com/in/zulqurnainjj" target="_blank" rel="noopener noreferrer" className="link">LinkedIn</a>.
+            <a href="https://linkedin.com/in/zulqurnainj" target="_blank" rel="noopener noreferrer" className="link">LinkedIn</a>.
           </p>
         </div>
 

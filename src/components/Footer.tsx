@@ -12,7 +12,7 @@ export function Footer() {
           Email
         </a>
         <a
-          href="https://linkedin.com/in/zulqurnainjj"
+          href="https://linkedin.com/in/zulqurnainj"
           target="_blank"
           rel="noopener noreferrer"
           className="hover:text-olive-800 dark:hover:text-olive-100 transition-colors"
@@ -26,6 +26,22 @@ export function Footer() {
           className="hover:text-olive-800 dark:hover:text-olive-100 transition-colors"
         >
           GitHub
+        </a>
+        <a
+          href="https://instagram.com/nomad"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:text-olive-800 dark:hover:text-olive-100 transition-colors"
+        >
+          Instagram
+        </a>
+        <a
+          href="https://fb.com/zjnomad"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:text-olive-800 dark:hover:text-olive-100 transition-colors"
+        >
+          Facebook
         </a>
         <a
           href="https://medium.com/@zulqurnainjj"
