@@ -28,7 +28,7 @@ export function Footer() {
           GitHub
         </a>
         <a
-          href="https://instagram.com/nomad"
+          href="https://instagram.com/zjnomad"
           target="_blank"
           rel="noopener noreferrer"
           className="hover:text-olive-800 dark:hover:text-olive-100 transition-colors"
