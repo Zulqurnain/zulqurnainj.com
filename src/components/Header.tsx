@@ -16,8 +16,6 @@ const navItems: NavItem[] = [
   { label: "SaaS", href: "/saas" },
   { label: "Contact", href: "mailto:me@zulqurnainj.com" },
   { label: "LinkedIn", href: "https://linkedin.com/in/zulqurnainj", external: true },
-  { label: "Instagram", href: "https://instagram.com/zjnomad", external: true },
-  { label: "Facebook", href: "https://fb.com/zjnomad", external: true },
   { label: "Linktree", href: "https://linktr.ee/zulqurnainjj", external: true },
   { label: "llms.txt", href: "/llms.txt", external: true },
 ];
