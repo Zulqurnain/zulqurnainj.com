@@ -100,3 +100,16 @@ body {
 .animate-delay-8  { animation-delay: 0.8s; }
 .animate-delay-9  { animation-delay: 0.9s; }
 .animate-delay-10 { animation-delay: 1.0s; }
+
+/* 3D card tilt effect */
+.card-3d {
+  transition: transform 0.35s cubic-bezier(.25,.46,.45,.94), box-shadow 0.35s ease;
+  will-change: transform;
+}
+.card-3d:hover {
+  transform: perspective(900px) rotateY(-4deg) rotateX(4deg) scale(1.025);
+  box-shadow: 12px 24px 48px rgba(0,0,0,0.18);
+}
+.dark .card-3d:hover {
+  box-shadow: 12px 24px 48px rgba(0,0,0,0.45);
+}
