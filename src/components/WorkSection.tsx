@@ -1,104 +1,106 @@
 "use client";
 
-interface WorkItem {
-  id: string;
-  client: string;
-  role: string;
-  period: string;
-}
-
-const work: WorkItem[] = [
+const techStack: { category: string; items: string[] }[] = [
   {
-    id: "edtech-client",
-    client: "EdTech Startup",
-    role: "Full Stack + AI Focus · RAG, OpenAI, Kafka, Next.js, Go, AWS ECS",
-    period: "2025–Present",
+    category: "Mobile",
+    items: [
+      "Native Android · Kotlin · Jetpack Compose",
+      "Native iOS · Swift · SwiftUI",
+      "React Native · Expo",
+      "Flutter · Dart",
+    ],
   },
   {
-    id: "retail-senior",
-    client: "Global Retail Brand",
-    role: "Senior App Dev · React Native, Flutter, NestJS, Go, Python, LLMs",
-    period: "2024–2025",
+    category: "Backend",
+    items: [
+      "Go · Gin · gRPC",
+      "Python · FastAPI · Django",
+      "Java · Spring Boot",
+      "Node.js · NestJS · Express",
+    ],
   },
   {
-    id: "retail-fullstack",
-    client: "Global Retail Brand",
-    role: "Full Stack · Next.js, NestJS, Angular, Golang, RAG pipelines",
-    period: "2023–2024",
+    category: "AI / ML",
+    items: [
+      "LLM Integration · Prompt Engineering",
+      "RAG Pipelines · Vector Search",
+      "OpenAI · Anthropic Claude · Groq",
+      "Whisper STT · Piper TTS · ChromaDB",
+      "FAISS · Pinecone · sentence-transformers",
+    ],
   },
   {
-    id: "banking-client",
-    client: "US Investment Bank",
-    role: "Senior Full Stack · Java, Spring Boot, React · SWIFT ISO20022",
-    period: "2022–2023",
+    category: "Frontend",
+    items: [
+      "Next.js 15 · React · Angular",
+      "TypeScript · Tailwind CSS",
+      "WebRTC · WebSocket · framer-motion",
+    ],
   },
   {
-    id: "transit-client",
-    client: "Mass Transit Platform",
-    role: "Application Engineer · Native iOS (Swift) · Android (Kotlin/Compose)",
-    period: "2021–2022",
+    category: "Cloud & DevOps",
+    items: [
+      "AWS ECS · EKS · Lambda · S3",
+      "GCP · Azure",
+      "Docker · Kubernetes · Nginx",
+      "PM2 · GitHub Actions · CI/CD",
+    ],
   },
   {
-    id: "delivery-client",
-    client: "On-demand Delivery App",
-    role: "Android Engineer · Kotlin, Jetpack Compose · Security testing",
-    period: "2020–2021",
+    category: "Databases",
+    items: [
+      "PostgreSQL · MySQL · MongoDB",
+      "Redis · Oracle DB · SQLite",
+      "PocketBase · ChromaDB",
+    ],
   },
   {
-    id: "erp-client",
-    client: "ERP SaaS Company",
-    role: "Backend Engineer · Go, Java, Python · SaaS ERP · Docker, K8s",
-    period: "2018–2019",
-  },
-  {
-    id: "agency-client",
-    client: "Software Development Agency",
-    role: "Android Engineer · Java, Kotlin, RxJava, Firebase",
-    period: "2017–2018",
+    category: "Protocols",
+    items: [
+      "SWIFT MT102/MT202 · ISO20022",
+      "SIP · VOIP · Twilio · Telnyx",
+      "REST · GraphQL · gRPC",
+    ],
   },
 ];
 
-function ClientIcon({ client }: { client: string }) {
-  const initial = client.charAt(0).toUpperCase();
-
-  return (
-    <div className="shrink-0 size-5 relative">
-      <span
-        className="absolute inset-0 flex items-center justify-center rounded-sm text-[10px] font-bold bg-olive-300 dark:bg-olive-700 text-olive-800 dark:text-olive-100"
-      >
-        {initial}
-      </span>
-    </div>
-  );
-}
+const categoryColor = (cat: string) => {
+  const map: Record<string, string> = {
+    "Mobile": "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400",
+    "Backend": "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400",
+    "AI / ML": "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400",
+    "Frontend": "bg-sky-100 text-sky-800 dark:bg-sky-900/30 dark:text-sky-400",
+    "Cloud & DevOps": "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400",
+    "Databases": "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400",
+    "Protocols": "bg-rose-100 text-rose-800 dark:bg-rose-900/30 dark:text-rose-400",
+  };
+  return map[cat] ?? "bg-olive-200 text-olive-700 dark:bg-olive-800/40 dark:text-olive-300";
+};
 
 export function WorkSection() {
   return (
-    <div className="flex flex-col gap-3 items-start w-full">
-      <p className="text-olive-400 dark:text-olive-600 text-sm mb-3 uppercase font-mono">
-        Clients
+    <div className="flex flex-col gap-4 w-full">
+      <p className="text-olive-400 dark:text-olive-600 text-sm uppercase font-mono">
+        Tech Stack
       </p>
       <div className="flex flex-col gap-3 w-full">
-        {work.map((item) => (
-          <div
-            key={item.id}
-            className="flex gap-4 items-center w-full"
-          >
-            <div className="flex gap-4 grow items-center min-w-0">
-              <ClientIcon client={item.client} />
-              <div className="flex gap-2 grow items-center min-w-0">
-                <p className="font-semibold shrink-0 text-olive-800 dark:text-olive-100 text-sm text-nowrap whitespace-pre">
-                  {item.client}
-                </p>
-                <p className="shrink-0 text-xs text-olive-500">/</p>
-                <p className="grow min-w-0 overflow-hidden text-ellipsis text-olive-500 dark:text-olive-400 text-sm text-nowrap">
-                  {item.role}
-                </p>
-              </div>
+        {techStack.map((group) => (
+          <div key={group.category} className="flex gap-3 items-start">
+            <span
+              className={`text-[10px] font-semibold px-2 py-1 rounded shrink-0 mt-0.5 ${categoryColor(group.category)}`}
+            >
+              {group.category}
+            </span>
+            <div className="flex flex-wrap gap-x-3 gap-y-1 pt-1">
+              {group.items.map((item) => (
+                <span
+                  key={item}
+                  className="text-xs text-olive-600 dark:text-olive-400 font-mono"
+                >
+                  {item}
+                </span>
+              ))}
             </div>
-            <p className="shrink-0 text-xs text-olive-400 dark:text-olive-600 font-mono">
-              {item.period}
-            </p>
           </div>
         ))}
       </div>
