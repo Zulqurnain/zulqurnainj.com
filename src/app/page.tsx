@@ -4,14 +4,14 @@ import { Footer } from "@/components/Footer";
 import { Divider } from "@/components/Divider";
 
 export const metadata: Metadata = {
-  title: "Zulqurnain Haider — Explorer, Maker & Software Engineer | Pakistan",
+  title: "Zulqurnain Haider — AI × Mobile | Senior Mobile & Gen AI Engineer",
   description:
-    "Zulqurnain Haider — software engineer, explorer, and maker from Lahore, Pakistan. I build mobile apps, web platforms, and AI tools from wherever the road takes me. React Native, Flutter, Go, Python, AI/RAG.",
+    "Zulqurnain Haider — Senior Mobile Engineer and Gen AI Engineer bridging AI and full-stack mobile. React Native, Flutter, on-device LLM inference, RAG pipelines.",
   alternates: { canonical: "https://zulqurnainj.com" },
   openGraph: {
     url: "https://zulqurnainj.com",
-    title: "Zulqurnain Haider — Explorer, Maker & Software Engineer | Pakistan",
-    description: "Explorer and software engineer from Pakistan. I build apps, AI tools, and ship ideas — from wherever the road takes me.",
+    title: "Zulqurnain Haider — AI × Mobile | Senior Mobile & Gen AI Engineer",
+    description: "I bridge AI and mobile — shipping apps that run LLM inference on-device, integrate RAG pipelines, and keep production latency under 2 seconds.",
     images: [{ url: "/og-image.jpg", width: 1200, height: 630 }],
   },
 };
@@ -90,6 +90,30 @@ export default function Home() {
 
         <div className="animate-in w-full">
           <Header />
+        </div>
+
+        {/* AI × Mobile positioning block */}
+        <div className="animate-in animate-delay-2 w-full flex flex-col gap-3 rounded-2xl bg-white dark:bg-olive-950 border border-olive-200 dark:border-olive-800 p-5">
+          <p className="text-xs font-mono text-olive-500 dark:text-olive-400 uppercase tracking-wider">AI × Mobile</p>
+          <p className="text-olive-800 dark:text-olive-100 text-sm leading-relaxed">
+            <span className="font-semibold">On-device AI, production-grade.</span>{" "}
+            Last month I shipped an app that runs LLM inference on-device — no cloud round-trips — while keeping sub-2s cold-start latency.
+            I pair <span className="font-medium">mobile engineering</span> with <span className="font-medium">RAG and LLM pipelines</span> so AI actually ships inside the app users touch daily.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {[
+              "On-device LLM",
+              "RAG pipelines",
+              "React Native",
+              "Flutter",
+              "Sub-2s latency",
+              "Full-stack AI",
+            ].map((t) => (
+              <span key={t} className="text-[11px] px-2 py-1 rounded-md bg-olive-100 dark:bg-olive-900 text-olive-700 dark:text-olive-300 font-medium">
+                {t}
+              </span>
+            ))}
+          </div>
         </div>
 
         {/* Bio */}
