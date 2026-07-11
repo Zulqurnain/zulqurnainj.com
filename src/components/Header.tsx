@@ -14,7 +14,7 @@ const navItems: NavItem[] = [
   { label: "Services", href: "/services" },
   { label: "Projects", href: "/projects" },
   { label: "SaaS", href: "/saas" },
-  { label: "Contact", href: "mailto:me@zulqurnainj.com" },
+  { label: "Contact", href: "mailto:zulqurnainjj@gmail.com" },
   { label: "LinkedIn", href: "https://linkedin.com/in/zulqurnainj", external: true },
   { label: "Linktree", href: "https://linktr.ee/zulqurnainjj", external: true },
   { label: "llms.txt", href: "/llms.txt", external: true },
@@ -73,10 +73,10 @@ export function Header() {
             Zulqurnain Haider
           </h1>
           <p className="text-sm text-olive-500 dark:text-olive-400 font-serif italic leading-snug">
-            Explorer · Maker · Software Engineer
+            Senior AI × Mobile Engineer — I ship intelligent products, not just apps.
           </p>
           <p className="text-xs text-olive-400 dark:text-olive-600 mt-0.5">
-            Lahore, Pakistan · Open to remote worldwide
+            Kuala Lumpur, Malaysia · Open to remote worldwide
           </p>
         </div>
       </div>

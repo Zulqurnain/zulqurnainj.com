@@ -96,10 +96,17 @@ export default function Home() {
         <div className="animate-in animate-delay-2 w-full flex flex-col gap-3 rounded-2xl bg-white dark:bg-olive-950 border border-olive-200 dark:border-olive-800 p-5">
           <p className="text-xs font-mono text-olive-500 dark:text-olive-400 uppercase tracking-wider">AI × Mobile</p>
           <p className="text-olive-800 dark:text-olive-100 text-sm leading-relaxed">
-            <span className="font-semibold">On-device AI, production-grade.</span>{" "}
-            Last month I shipped an app that runs LLM inference on-device — no cloud round-trips — while keeping sub-2s cold-start latency.
-            I pair <span className="font-medium">mobile engineering</span> with <span className="font-medium">RAG and LLM pipelines</span> so AI actually ships inside the app users touch daily.
+            <span className="font-semibold">Senior AI × Mobile Engineer — I ship intelligent products, not just apps.</span>{" "}
+            I pair mobile engineering with RAG and LLM pipelines so AI actually ships inside the app users touch daily — running on-device, not in the cloud.
           </p>
+          <div className="flex flex-col gap-2 text-xs">
+            <a href="https://apps.apple.com/us/app/victorias-secret/id409209402" target="_blank" rel="noopener noreferrer" className="text-olive-700 dark:text-olive-300 hover:underline">
+              → Victoria&apos;s Secret: personalised LLM search + AR try-on in a 70M-user React Native / Flutter app
+            </a>
+            <span className="text-olive-700 dark:text-olive-300">
+              → On-device LLM runtime: shipped LLM inference locally — sub-2s cold start, RN bridge to a native inference engine
+            </span>
+          </div>
           <div className="flex flex-wrap gap-2">
             {[
               "On-device LLM",
@@ -120,9 +127,9 @@ export default function Home() {
         <div className="font-normal min-w-full text-olive-800 dark:text-olive-100 text-sm/6 text-justify flex flex-col gap-4">
           <p className="animate-in animate-delay-1">
             I&apos;m Zulqurnain — a{" "}
-            <span className="font-medium">software engineer, explorer, and maker</span>{" "}
-            from Lahore, Pakistan. I build mobile apps, web platforms, and AI tools
-            from wherever the road takes me. The world is my office.
+            <span className="font-medium">Senior AI + Mobile Engineer</span>{" "}
+            based in Kuala Lumpur. I build production mobile apps and private,
+            on-device AI that runs on the phone — your data never leaves the device.
           </p>
           <p className="animate-in animate-delay-2">
             8+ years of engineering, 15+ shipped consumer apps, millions of users —
@@ -136,7 +143,7 @@ export default function Home() {
           </p>
           <p className="animate-in animate-delay-4">
             Open to client work, collabs, and new adventures.{" "}
-            <a href="mailto:me@zulqurnainj.com" className="link">Say hello</a>{" "}
+            <a href="mailto:zulqurnainjj@gmail.com" className="link">Say hello</a>{" "}
             or find me on{" "}
             <a href="https://linkedin.com/in/zulqurnainj" target="_blank" rel="noopener noreferrer" className="link">LinkedIn</a>.
           </p>
