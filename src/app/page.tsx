@@ -103,9 +103,9 @@ export default function Home() {
             <a href="https://apps.apple.com/us/app/victorias-secret/id409209402" target="_blank" rel="noopener noreferrer" className="text-olive-700 dark:text-olive-300 hover:underline">
               → Victoria&apos;s Secret: personalised LLM search + AR try-on in a 70M-user React Native / Flutter app
             </a>
-            <span className="text-olive-700 dark:text-olive-300">
-              → On-device LLM runtime: shipped LLM inference locally — sub-2s cold start, RN bridge to a native inference engine
-            </span>
+            <a href="/on-device" className="text-olive-700 dark:text-olive-300 hover:underline">
+              → On-device LLM runtime: shipped LLM inference locally — sub-2s cold start, RN bridge to a native inference engine. See the proof →
+            </a>
           </div>
           <div className="flex flex-wrap gap-2">
             {[
