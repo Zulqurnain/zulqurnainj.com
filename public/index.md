@@ -1,8 +1,8 @@
-# Zulqurnain Haider — Explorer, Maker & Software Engineer
+# Zulqurnain Haider — Senior AI + Mobile Engineer
 
-Software engineer, explorer, and maker from Lahore, Pakistan. I build mobile apps, web platforms, and AI tools from wherever the road takes me.
+Senior AI + Mobile Engineer based in Kuala Lumpur, Malaysia. I build mobile apps, web platforms, and AI tools for clients worldwide.
 
-**Contact:** me@zulqurnainj.com | [WhatsApp](https://wa.me/60178613992) | [Telegram](https://t.me/zthenomad) | [LinkedIn](https://linkedin.com/in/zulqurnainjj)
+**Contact:** zulqurnainjj@gmail.com | [WhatsApp](https://wa.me/60178613992) | [Telegram](https://t.me/zthenomad) | [LinkedIn](https://linkedin.com/in/zulqurnainjj)
 
 ## About Me
 

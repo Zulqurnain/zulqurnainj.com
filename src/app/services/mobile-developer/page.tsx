@@ -88,7 +88,7 @@ export default function MobileDeveloperPage() {
               Discuss Your Project
             </a>
             <a
-              href="mailto:me@zulqurnainj.com?subject=Mobile%20Development%20Project"
+              href="mailto:zulqurnainjj@gmail.com?subject=Mobile%20Development%20Project"
               className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-blue-500/30 border border-blue-400/40 text-white font-semibold hover:bg-blue-500/40 transition-colors"
             >
               Send Brief
@@ -194,7 +194,7 @@ export default function MobileDeveloperPage() {
               Chat on WhatsApp
             </a>
             <a
-              href="mailto:me@zulqurnainj.com?subject=Mobile%20App%20Project"
+              href="mailto:zulqurnainjj@gmail.com?subject=Mobile%20App%20Project"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-olive-800 dark:bg-olive-100 text-olive-100 dark:text-olive-900 font-semibold hover:opacity-80 transition-opacity"
             >
               Send Brief

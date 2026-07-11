@@ -6,7 +6,7 @@ export function Footer() {
       </p>
       <div className="flex gap-5 text-sm text-olive-500 dark:text-olive-400">
         <a
-          href="mailto:me@zulqurnainj.com"
+          href="mailto:zulqurnainjj@gmail.com"
           className="hover:text-olive-800 dark:hover:text-olive-100 transition-colors"
         >
           Email
@@ -61,7 +61,7 @@ export function Footer() {
         </a>
       </div>
       <p className="text-xs text-olive-400 dark:text-olive-600">
-        Lahore, Pakistan · Open to remote worldwide
+        Kuala Lumpur, Malaysia · Open to remote worldwide
       </p>
     </div>
   );

@@ -12,12 +12,12 @@ export const metadata: Metadata = {
   metadataBase: new URL(BASE),
 
   title: {
-    default: "Zulqurnain Haider — Explorer, Maker & Software Engineer | Pakistan",
+    default: "Zulqurnain Haider — Senior AI + Mobile Engineer | Private on-device AI",
     template: "%s | Zulqurnain Haider",
   },
 
   description:
-    "Zulqurnain Haider — software engineer, explorer, and maker from Lahore, Pakistan. I build mobile apps, web platforms, and AI tools from wherever the road takes me. React Native, Flutter, Go, Python, AI/RAG.",
+    "Zulqurnain Haider — Senior AI + Mobile Engineer. I build production mobile apps and private on-device AI that runs on the phone — your data never leaves the device.",
 
   keywords: [
     "Zulqurnain Haider",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     "Pakistani traveler",
     "nomad software engineer",
     "Software Engineer Pakistan",
-    "Full Stack Developer Lahore",
+    "Full Stack Developer Pakistan",
     "Full Stack Developer",
     "React Native developer Pakistan",
     "Flutter developer Pakistan",
@@ -62,15 +62,15 @@ export const metadata: Metadata = {
     type: "website",
     url: BASE,
     siteName: "Zulqurnain Haider",
-    title: "Zulqurnain Haider — Explorer, Maker & Software Engineer | Pakistan",
+    title: "Zulqurnain Haider — Senior AI + Mobile Engineer | Private on-device AI",
     description:
-      "Explorer and software engineer from Lahore, Pakistan. I build mobile apps, web platforms, and AI tools from wherever the road takes me. React Native · Flutter · Go · Python · AI/RAG.",
+      "Senior AI + Mobile Engineer. I build production mobile apps and private on-device AI that runs on the phone — your data never leaves the device.",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Zulqurnain Haider — Software Engineer & World Traveler",
+        alt: "Zulqurnain Haider — Senior AI + Mobile Engineer",
       },
     ],
     locale: "en_US",
@@ -78,9 +78,9 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "Zulqurnain Haider — Explorer, Maker & Software Engineer | Pakistan",
+    title: "Zulqurnain Haider — Senior AI + Mobile Engineer | Private on-device AI",
     description:
-      "Explorer and maker from Lahore, Pakistan. Building apps, AI tools, and chasing adventures. React Native · Flutter · Go · Python · AI/RAG.",
+      "Senior AI + Mobile Engineer. I build production mobile apps and private on-device AI that runs on the phone — your data never leaves the device.",
     images: ["/og-image.jpg"],
     creator: "@zulqurnainjj",
     site: "@zulqurnainjj",
@@ -120,16 +120,16 @@ const jsonLd = {
         width: 1200,
         height: 630,
       },
-      jobTitle: "Software Engineer & Explorer",
+      jobTitle: "Senior AI + Mobile Engineer",
       description:
-        "Software engineer, explorer, and maker from Lahore, Pakistan. I build mobile apps, web platforms, and AI tools from wherever the road takes me. React Native, Flutter, Go, Python, AI/RAG.",
+        "Senior AI + Mobile Engineer building production mobile apps and private, on-device AI that runs on the phone — your data never leaves the device. React Native, Flutter, Go, Python, AI/RAG.",
       nationality: { "@type": "Country", name: "Pakistan" },
       address: {
         "@type": "PostalAddress",
-        addressLocality: "Lahore",
-        addressCountry: "PK",
+        addressLocality: "Kuala Lumpur",
+        addressCountry: "MY",
       },
-      email: "me@zulqurnainj.com",
+      email: "zulqurnainjj@gmail.com",
       sameAs: [
         "https://github.com/zulqurnain",
         "https://linkedin.com/in/zulqurnainj",
@@ -156,7 +156,7 @@ const jsonLd = {
       "@id": `${BASE}/#website`,
       url: BASE,
       name: "Zulqurnain Haider",
-      description: "Personal site of Zulqurnain Haider — software engineer, explorer, and maker from Pakistan",
+      description: "Personal site of Zulqurnain Haider — Senior AI + Mobile Engineer shipping private on-device AI",
       author: { "@id": `${BASE}/#person` },
       inLanguage: "en-US",
       potentialAction: {
