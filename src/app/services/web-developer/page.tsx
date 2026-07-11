@@ -89,7 +89,7 @@ export default function WebDeveloperPage() {
               Discuss Your Project
             </a>
             <a
-              href="mailto:me@zulqurnainj.com?subject=Web%20Development%20Project"
+              href="mailto:zulqurnainjj@gmail.com?subject=Web%20Development%20Project"
               className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-500/30 border border-emerald-400/40 text-white font-semibold hover:bg-emerald-500/40 transition-colors"
             >
               Send Brief
@@ -188,7 +188,7 @@ export default function WebDeveloperPage() {
               Chat on WhatsApp
             </a>
             <a
-              href="mailto:me@zulqurnainj.com?subject=Web%20Development%20Project"
+              href="mailto:zulqurnainjj@gmail.com?subject=Web%20Development%20Project"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-olive-800 dark:bg-olive-100 text-olive-100 dark:text-olive-900 font-semibold hover:opacity-80 transition-opacity"
             >
               Send Brief

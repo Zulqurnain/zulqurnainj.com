@@ -2,7 +2,7 @@
 
 A tireless digital team member that lives in your favourite chat app. From $20/month.
 
-**Get started:** [WhatsApp](https://wa.me/60178613992) | [Telegram](https://t.me/zthenomad) | me@zulqurnainj.com
+**Get started:** [WhatsApp](https://wa.me/60178613992) | [Telegram](https://t.me/zthenomad) | zulqurnainjj@gmail.com
 
 ## What It Does
 
@@ -33,6 +33,6 @@ No new apps to learn.
 
 ## About the Builder
 
-Built and managed by Zulqurnain Haider — software engineer and AI specialist from Lahore, Pakistan. 8+ years of engineering, shipped 15+ production apps.
+Built and managed by Zulqurnain Haider — Senior AI + Mobile Engineer based in Kuala Lumpur, Malaysia. 8+ years of engineering, shipped 15+ production apps.
 
 [Back to Services →](/services)

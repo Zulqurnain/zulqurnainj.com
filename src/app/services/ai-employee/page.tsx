@@ -212,7 +212,7 @@ export default function AiEmployeePage() {
               Chat on WhatsApp
             </a>
             <a
-              href="mailto:me@zulqurnainj.com?subject=AI%20Employee%20Service"
+              href="mailto:zulqurnainjj@gmail.com?subject=AI%20Employee%20Service"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-olive-800 dark:bg-olive-100 text-olive-100 dark:text-olive-900 font-semibold hover:opacity-80 transition-opacity"
             >
               Send Email

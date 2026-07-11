@@ -2,7 +2,7 @@
 
 AI-powered tools and browser extensions built to solve real productivity problems. All run on self-hosted infrastructure.
 
-**Contact:** me@zulqurnainj.com | [LinkedIn](https://linkedin.com/in/zulqurnainjj)
+**Contact:** zulqurnainjj@gmail.com | [LinkedIn](https://linkedin.com/in/zulqurnainjj)
 
 ## Live SaaS Tools
 

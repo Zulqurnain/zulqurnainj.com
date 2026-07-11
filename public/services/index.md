@@ -2,7 +2,7 @@
 
 Three ways I can help your business grow.
 
-**Contact:** me@zulqurnainj.com | [WhatsApp](https://wa.me/60178613992) | [Telegram](https://t.me/zthenomad)
+**Contact:** zulqurnainjj@gmail.com | [WhatsApp](https://wa.me/60178613992) | [Telegram](https://t.me/zthenomad)
 
 ## AI Employee For You — From $20/month
 

@@ -2,7 +2,7 @@
 
 A selection of shipped work across mobile, web, and AI. 15+ consumer apps, millions of users.
 
-**Contact:** me@zulqurnainj.com | [LinkedIn](https://linkedin.com/in/zulqurnainjj) | [WhatsApp](https://wa.me/60178613992)
+**Contact:** zulqurnainjj@gmail.com | [LinkedIn](https://linkedin.com/in/zulqurnainjj) | [WhatsApp](https://wa.me/60178613992)
 
 ## Mobile Projects
 
