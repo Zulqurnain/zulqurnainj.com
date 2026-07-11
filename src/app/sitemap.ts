@@ -12,6 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/services/mobile-developer`,               lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     { url: `${base}/services/web-developer`,                  lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     { url: `${base}/projects`,                                lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${base}/on-device`,                              lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${base}/saas`,                                    lastModified: now, changeFrequency: "monthly", priority: 0.8 },
   ];
 }

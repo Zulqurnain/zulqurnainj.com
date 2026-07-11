@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 1080 1080">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#33391f"/>
+      <stop offset="1" stop-color="#1f2418"/>
+    </linearGradient>
+    <linearGradient id="bar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#34d399"/>
+      <stop offset="1" stop-color="#a7ad7e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="1080" fill="url(#bg)"/>
+  <rect x="60" y="60" width="960" height="960" rx="48" fill="none" stroke="#a7ad7e" stroke-opacity="0.35" stroke-width="2"/>
+  <rect x="0" y="120" width="14" height="840" fill="url(#bar)"/>
+  <text x="120" y="470" font-family="Inter, Helvetica, Arial, sans-serif" font-size="150" font-weight="700" fill="#f4f3e7">Offline ✓</text>
+  <text x="122" y="640" font-family="Inter, Helvetica, Arial, sans-serif" font-size="64" font-weight="600" fill="#a7ad7e">AIRPLANE MODE</text>
+  <text x="122" y="720" font-family="Inter, Helvetica, Arial, sans-serif" font-size="40" fill="#f4f3e7" fill-opacity="0.7">works after first download</text>
+  <text x="120" y="980" font-family="Inter, Helvetica, Arial, sans-serif" font-size="34" font-weight="600" fill="#34d399">ON-DEVICE LLM · REACT NATIVE</text>
+</svg>
