@@ -1,6 +1,8 @@
-# Zulqurnain Haider — Senior AI + Mobile Engineer
+# Zulqurnain Haider — Senior Mobile & AI Engineer (On-Device AI)
 
-Senior AI + Mobile Engineer based in Kuala Lumpur, Malaysia. I build mobile apps, web platforms, and AI tools for clients worldwide.
+Senior Mobile & AI Engineer — shipping on-device AI that keeps data on the phone. I build mobile apps, web platforms, and on-device AI that runs on the phone.
+
+**Validated this month** — this on-device angle landed 2 interviews (Property Finder, AIM) and an offer (Mashreq).
 
 **Contact:** zulqurnainjj@gmail.com | [WhatsApp](https://wa.me/60178613992) | [Telegram](https://t.me/zthenomad) | [LinkedIn](https://linkedin.com/in/zulqurnainjj)
 
@@ -19,7 +21,7 @@ Senior AI + Mobile Engineer based in Kuala Lumpur, Malaysia. I build mobile apps
 
 - [AI Employee For You](/services/ai-employee) — from $20/month
 - [Expert Mobile Developer](/services/mobile-developer) — iOS & Android
-- [Expert Web Developer](/services/web-developer) — full-stack & AI
+- [Expert Web Developer](/services/web-developer) — web + AI, mobile-first
 
 ## Pages
 
