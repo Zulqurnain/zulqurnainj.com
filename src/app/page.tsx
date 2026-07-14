@@ -4,13 +4,13 @@ import { Footer } from "@/components/Footer";
 import { Divider } from "@/components/Divider";
 
 export const metadata: Metadata = {
-  title: "Zulqurnain Haider — AI × Mobile | Senior Mobile & Gen AI Engineer",
+  title: "Zulqurnain Haider — Senior Mobile & AI Engineer | shipping on-device AI that keeps data on the phone",
   description:
-    "Zulqurnain Haider — Senior Mobile Engineer and Gen AI Engineer bridging AI and full-stack mobile. React Native, Flutter, on-device LLM inference, RAG pipelines.",
+    "Zulqurnain Haider — Senior AI + Mobile Engineer. He ships private, on-device AI that runs on the phone — your data never leaves the device. React Native, Flutter, on-device LLM, RAG.",
   alternates: { canonical: "https://zulqurnainj.com" },
   openGraph: {
     url: "https://zulqurnainj.com",
-    title: "Zulqurnain Haider — AI × Mobile | Senior Mobile & Gen AI Engineer",
+    title: "Zulqurnain Haider — Senior Mobile & AI Engineer | shipping on-device AI that keeps data on the phone",
     description: "I bridge AI and mobile — shipping apps that run LLM inference on-device, integrate RAG pipelines, and keep production latency under 2 seconds.",
     images: [{ url: "/og-image.jpg", width: 1200, height: 630 }],
   },
@@ -79,7 +79,7 @@ const services = [
       </svg>
     ),
     title: "Expert Web Developer",
-    sub: "Next.js · Go · Python · AI/RAG · Full Stack",
+    sub: "Next.js · Go · Python · AI/RAG · Mobile-first",
   },
 ];
 
@@ -96,7 +96,7 @@ export default function Home() {
         <div className="animate-in animate-delay-2 w-full flex flex-col gap-3 rounded-2xl bg-white dark:bg-olive-950 border border-olive-200 dark:border-olive-800 p-5">
           <p className="text-xs font-mono text-olive-500 dark:text-olive-400 uppercase tracking-wider">AI × Mobile</p>
           <p className="text-olive-800 dark:text-olive-100 text-sm leading-relaxed">
-            <span className="font-semibold">Senior AI × Mobile Engineer — I ship intelligent products, not just apps.</span>{" "}
+            <span className="font-semibold">Senior Mobile & AI Engineer — shipping on-device AI that keeps data on the phone.</span>{" "}
             I pair mobile engineering with RAG and LLM pipelines so AI actually ships inside the app users touch daily — running on-device, not in the cloud.
           </p>
           <div className="flex flex-col gap-2 text-xs">
@@ -107,6 +107,12 @@ export default function Home() {
               → On-device LLM runtime: shipped LLM inference locally — sub-2s cold start, RN bridge to a native inference engine. See the proof →
             </a>
           </div>
+          <p className="mt-4 flex items-center gap-2 text-xs text-olive-700 dark:text-olive-300">
+            <svg className="h-4 w-4 shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fillRule="evenodd" d="M16.704 5.29a1 1 0 010 1.42l-7.5 7.5a1 1 0 01-1.42 0l-3.5-3.5a1 1 0 111.42-1.42l2.79 2.79 6.79-6.79a1 1 0 011.42 0z" clipRule="evenodd" />
+            </svg>
+            <span>Validated this month — this on-device angle landed 2 interviews (Property Finder, AIM) and an offer (Mashreq).</span>
+          </p>
           <div className="flex flex-wrap gap-2">
             {[
               "On-device LLM",
@@ -114,7 +120,7 @@ export default function Home() {
               "React Native",
               "Flutter",
               "Sub-2s latency",
-              "Full-stack AI",
+              "Private by design",
             ].map((t) => (
               <span key={t} className="text-[11px] px-2 py-1 rounded-md bg-olive-100 dark:bg-olive-900 text-olive-700 dark:text-olive-300 font-medium">
                 {t}
@@ -127,7 +133,7 @@ export default function Home() {
         <div className="font-normal min-w-full text-olive-800 dark:text-olive-100 text-sm/6 text-justify flex flex-col gap-4">
           <p className="animate-in animate-delay-1">
             I&apos;m Zulqurnain — a{" "}
-            <span className="font-medium">Senior AI + Mobile Engineer</span>{" "}
+            <span className="font-medium">Senior Mobile & AI Engineer — shipping on-device AI that keeps data on the phone.</span>{" "}
             based in Kuala Lumpur. I build production mobile apps and private,
             on-device AI that runs on the phone — your data never leaves the device.
           </p>

@@ -2,17 +2,17 @@ import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Expert Web Developer — Next.js, Go, Python, AI & Full Stack | Zulqurnain",
+  title: "Expert Web Developer — Next.js, Go, Python & On-Device AI | Zulqurnain",
   description:
-    "Hire an expert full-stack web developer. Next.js, React, Go, Python, TypeScript, AI/RAG pipelines, AWS, and SaaS platforms. Fast, scalable, production-ready.",
+    "Hire an expert web developer who ships on-device AI. Next.js, React, Go, Python, TypeScript, AI/RAG pipelines, AWS, and SaaS platforms. Fast, scalable, production-ready.",
   alternates: { canonical: "https://zulqurnainj.com/services/web-developer" },
   openGraph: {
     url: "https://zulqurnainj.com/services/web-developer",
     title: "Expert Web Developer — Next.js · Go · Python · AI",
-    description: "Full-stack web development with AI built in. Next.js, Go, Python, TypeScript, RAG pipelines, AWS. From landing pages to complex SaaS.",
+    description: "Web products with private on-device AI built in. Next.js, Go, Python, TypeScript, RAG pipelines, AWS. From landing pages to complex SaaS.",
     images: [{ url: "/og-image.jpg", width: 1200, height: 630 }],
   },
-  twitter: { card: "summary_large_image", title: "Expert Web Developer", description: "Next.js · Go · Python · AI/RAG · Full Stack. Fast, scalable web products." },
+  twitter: { card: "summary_large_image", title: "Expert Web Developer", description: "Next.js · Go · Python · On-Device AI/RAG. Fast, scalable web products." },
 };
 
 const skills = [
@@ -72,7 +72,7 @@ export default function WebDeveloperPage() {
           </div>
           <p className="text-xl text-emerald-100 leading-relaxed max-w-lg">
             Fast, scalable web products with AI built in — from landing pages to complex SaaS platforms.
-            Full stack: frontend, backend, database, cloud, and AI pipelines.
+            From UI to on-device AI that keeps data on the phone: I ship the full product — frontend, backend, cloud, and private AI pipelines that run on-device.
           </p>
           <div className="flex flex-wrap gap-2">
             {["Next.js", "Go", "Python", "TypeScript", "AI/RAG", "AWS"].map((t) => (

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(BASE),
 
   title: {
-    default: "Zulqurnain Haider — Senior AI + Mobile Engineer | Private on-device AI",
+    default: "Zulqurnain Haider — Senior Mobile & AI Engineer | shipping on-device AI that keeps data on the phone",
     template: "%s | Zulqurnain Haider",
   },
 
@@ -29,8 +29,8 @@ export const metadata: Metadata = {
     "Pakistani traveler",
     "nomad software engineer",
     "Software Engineer Pakistan",
-    "Full Stack Developer Pakistan",
-    "Full Stack Developer",
+    "AI Mobile Engineer Pakistan",
+    "On-Device AI Engineer",
     "React Native developer Pakistan",
     "Flutter developer Pakistan",
     "Mobile developer Pakistan",
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     type: "website",
     url: BASE,
     siteName: "Zulqurnain Haider",
-    title: "Zulqurnain Haider — Senior AI + Mobile Engineer | Private on-device AI",
+    title: "Zulqurnain Haider — Senior Mobile & AI Engineer | shipping on-device AI that keeps data on the phone",
     description:
       "Senior AI + Mobile Engineer. I build production mobile apps and private on-device AI that runs on the phone — your data never leaves the device.",
     images: [
@@ -78,7 +78,7 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "Zulqurnain Haider — Senior AI + Mobile Engineer | Private on-device AI",
+    title: "Zulqurnain Haider — Senior Mobile & AI Engineer | shipping on-device AI that keeps data on the phone",
     description:
       "Senior AI + Mobile Engineer. I build production mobile apps and private on-device AI that runs on the phone — your data never leaves the device.",
     images: ["/og-image.jpg"],
@@ -120,7 +120,7 @@ const jsonLd = {
         width: 1200,
         height: 630,
       },
-      jobTitle: "Senior AI + Mobile Engineer",
+      jobTitle: "Senior Mobile & AI Engineer",
       description:
         "Senior AI + Mobile Engineer building production mobile apps and private, on-device AI that runs on the phone — your data never leaves the device. React Native, Flutter, Go, Python, AI/RAG.",
       nationality: { "@type": "Country", name: "Pakistan" },
@@ -144,7 +144,7 @@ const jsonLd = {
         "Go", "Python", "TypeScript", "Next.js", "React",
         "AI", "RAG", "LLM", "OpenAI", "Machine Learning",
         "AWS", "Kubernetes", "Docker", "DevOps",
-        "SWIFT ISO20022", "Fintech", "Mobile Development", "Full Stack Development",
+        "SWIFT ISO20022", "Fintech", "Mobile Development", "On-Device AI Development",
       ],
       worksFor: {
         "@type": "Organization",

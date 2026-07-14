@@ -1,6 +1,6 @@
 # zulqurnainj.com
 
-Portfolio website for Zulqurnain Haider — Senior Full Stack Developer.
+Portfolio website for Zulqurnain Haider — Senior Mobile & AI Engineer.
 
 Built with Next.js (static export), React 19, Tailwind CSS v4. Deployed to Namecheap cPanel shared hosting via GitHub Actions FTP on every push to `master`.
 
@@ -72,4 +72,4 @@ Pushes to `master` trigger GitHub Actions which:
 
 ---
 
-**[Zulqurnain Haider](https://zulqurnainj.com/) — Senior Full Stack Engineer**
+**[Zulqurnain Haider](https://zulqurnainj.com/) — Senior Mobile & AI Engineer — shipping on-device AI that keeps data on the phone**

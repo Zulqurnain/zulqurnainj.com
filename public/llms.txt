@@ -1,8 +1,9 @@
-# Zulqurnain Haider — Senior AI + Mobile Engineer
+# Zulqurnain Haider — Senior Mobile & AI Engineer (On-Device AI)
 
-> Senior AI + Mobile Engineer based in Kuala Lumpur, Malaysia.
-> I build mobile apps, web platforms, and AI tools for clients worldwide.
+> Senior Mobile & AI Engineer — shipping on-device AI that keeps data on the phone.
+> I build mobile apps, web platforms, and on-device AI that runs on the phone — your data never leaves the device.
 > Open to client work, collabs, and remote worldwide.
+> Validated this month — this on-device angle landed 2 interviews (Property Finder, AIM) and an offer (Mashreq).
 
 ## About
 
@@ -25,7 +26,7 @@ React Native, Flutter, Swift/SwiftUI, Kotlin/Compose. Native and cross-platform 
 Page: https://zulqurnainj.com/services/mobile-developer
 
 ### Expert Web Developer
-Next.js, React, TypeScript, Go, Python, Node.js. Full-stack web products, AI/RAG pipelines, SaaS platforms. Cloud (AWS, GCP), Docker, Kubernetes.
+Next.js, React, TypeScript, Go, Python, Node.js. Web products with AI/RAG pipelines, SaaS platforms, mobile-first. Cloud (AWS, GCP), Docker, Kubernetes.
 Page: https://zulqurnainj.com/services/web-developer
 
 ## Tech Skills
