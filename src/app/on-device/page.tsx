@@ -166,7 +166,7 @@ export default function OnDevicePage() {
             The proof: offline, on camera
           </h3>
           <p className="text-olive-600 dark:text-olive-300 max-w-2xl leading-relaxed">
-            A 6-minute walkthrough: ask the app a question, turn on airplane mode, and it still
+            A 45-second proof: ask the app a question, turn on airplane mode, and it still
             answers — with the live latency line (cold-start ms, first-token ms, tok/s) on screen.
           </p>
 
@@ -181,12 +181,12 @@ export default function OnDevicePage() {
               </svg>
             </div>
             <p className="font-medium text-olive-700 dark:text-olive-200">
-              Loom walkthrough — 6 min
+              Loom walkthrough — 45 sec
             </p>
             <p className="text-xs text-olive-400 dark:text-olive-500 max-w-md leading-snug">
-              Recording slot pending. The script (hook → code tour → offline toggle → live metrics →
-              why it matters) is finished in the repo&rsquo;s <code>LOOM_SCRIPT.md</code>. Drop the
-              Loom embed iframe in this card once recorded.
+              Recording slot pending. The 45-second script (hook → offline toggle → live metrics →
+              where to find me) is in the repo&rsquo;s <code>LOOM_SCRIPT.md</code> (a longer 6-min
+              version is also there). Drop the Loom embed iframe in this card once recorded.
             </p>
           </div>
 
@@ -273,12 +273,36 @@ export default function OnDevicePage() {
                 Happy to walk through this in a technical read-through.
               </p>
             </div>
-            <a
-              href="mailto:zulqurnainjj@gmail.com"
-              className="inline-flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-full bg-olive-800 text-olive-100 dark:bg-olive-100 dark:text-olive-900 hover:opacity-90 transition-opacity whitespace-nowrap"
-            >
-              zulqurnainjj@gmail.com
-            </a>
+            <div className="flex flex-wrap gap-2 items-center">
+              <a
+                href="mailto:zulqurnainjj@gmail.com"
+                className="inline-flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-full bg-olive-800 text-olive-100 dark:bg-olive-100 dark:text-olive-900 hover:opacity-90 transition-opacity whitespace-nowrap"
+              >
+                zulqurnainjj@gmail.com
+              </a>
+              <a
+                href="tel:+923364116933"
+                className="inline-flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-full bg-white/60 dark:bg-olive-800/40 text-olive-700 dark:text-olive-200 ring-1 ring-olive-300/60 dark:ring-olive-700/60 hover:opacity-90 transition-opacity whitespace-nowrap"
+              >
+                +923364116933
+              </a>
+              <a
+                href="https://zulqurnainj.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-full bg-white/60 dark:bg-olive-800/40 text-olive-700 dark:text-olive-200 ring-1 ring-olive-300/60 dark:ring-olive-700/60 hover:opacity-90 transition-opacity whitespace-nowrap"
+              >
+                zulqurnainj.com
+              </a>
+              <a
+                href="https://linkedin.com/in/zulqurnainjj"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-full bg-white/60 dark:bg-olive-800/40 text-olive-700 dark:text-olive-200 ring-1 ring-olive-300/60 dark:ring-olive-700/60 hover:opacity-90 transition-opacity whitespace-nowrap"
+              >
+                linkedin.com/in/zulqurnainjj
+              </a>
+            </div>
           </div>
         </section>
 
