@@ -1,8 +1,8 @@
 # zulqurnainj.com
 
-Portfolio website for Zulqurnain Haider — Senior Mobile & AI Engineer.
+Portfolio website for Zulqurnain Haider — Senior Full Stack Developer (Gen AI).
 
-Built with Next.js (static export), React 19, Tailwind CSS v4. Deployed to Namecheap cPanel shared hosting via GitHub Actions FTP on every push to `master`.
+Built with Next.js (static export), React 19, Tailwind CSS v4. Deployed to a self-managed VPS via GitHub Actions (build → rsync `out/` to the server → nginx reload) on every push to `master`.
 
 **Live at:** [zulqurnainj.com](https://zulqurnainj.com)
 
@@ -12,10 +12,15 @@ Built with Next.js (static export), React 19, Tailwind CSS v4. Deployed to Namec
 
 | Route | Description |
 |-------|-------------|
-| `/` | Home — intro, skills, links |
-| `/apps` | Open-source and personal projects |
+| `/` | Home — intro, skills, experience, links |
+| `/services` | Services overview |
+| `/services/ai-employee` | AI Employee service landing page |
+| `/services/mobile-developer` | Mobile Developer service landing page |
+| `/services/web-developer` | Web Developer service landing page |
+| `/projects` | Client project gallery |
 | `/saas` | SaaS tools — Text To Leads Extractor and upcoming tools |
-| `/blog` | Technical writing |
+| `/on-device` | On-device LLM inference proof page |
+| `/notepad` | Redirects to the NotePackz app |
 
 ---
 
@@ -41,7 +46,7 @@ All tools run on self-hosted infrastructure powered by [offLLama](https://github
 | Repo | Description |
 |------|-------------|
 | [text-to-leads-extractor](https://github.com/Zulqurnain/text-to-leads-extractor) | AI outreach tool at `tools.zulqurnainj.com/text-to-leads` |
-| [offllama](https://github.com/Zulqurnain/offllama) | npm library: llama.cpp on cPanel, universal client for browser/RN/Android |
+| [offllama](https://github.com/Zulqurnain/offllama) | npm library: self-hosted llama.cpp inference, universal client for browser/RN/Android |
 
 ---
 
@@ -57,9 +62,12 @@ npm run build      # static export to out/
 
 ## Deployment
 
-Pushes to `master` trigger GitHub Actions which:
+Pushes to `master` trigger GitHub Actions (`.github/workflows/deploy.yml`) which:
 1. Builds the static site (`npm run build`)
-2. FTPs the `out/` directory to `public_html/` on Namecheap cPanel
+2. rsyncs the `out/` directory to `/var/www/zulqurnainj.com/out/` on the VPS
+3. Reloads nginx
+
+A manual fallback script (`scripts/deploy-portfolio.sh`) exists on the server for cases where GitHub Actions isn't available.
 
 ---
 
@@ -67,9 +75,9 @@ Pushes to `master` trigger GitHub Actions which:
 
 - **Framework**: Next.js (static export, `output: "export"`)
 - **Styling**: Tailwind CSS v4 with custom olive color palette (oklch)
-- **Hosting**: Namecheap cPanel shared hosting
-- **Deploy**: GitHub Actions → FTP
+- **Hosting**: Self-managed VPS (nginx)
+- **Deploy**: GitHub Actions → rsync → nginx reload
 
 ---
 
-**[Zulqurnain Haider](https://zulqurnainj.com/) — Senior Mobile & AI Engineer — shipping on-device AI that keeps data on the phone**
+**[Zulqurnain Haider](https://zulqurnainj.com/) — Senior Full Stack Developer (Gen AI) — shipping on-device AI that keeps data on the phone**
