@@ -73,10 +73,10 @@ export function Header() {
             Zulqurnain Haider
           </h1>
           <p className="text-sm text-olive-500 dark:text-olive-400 font-serif italic leading-snug">
-            Senior Mobile & AI Engineer — shipping on-device AI that keeps data on the phone.
+            Senior Full Stack Developer (Gen AI) — shipping on-device AI that keeps data on the phone.
           </p>
           <p className="text-xs text-olive-400 dark:text-olive-600 mt-0.5">
-            Kuala Lumpur, Malaysia · Open to remote worldwide
+            Lahore, Pakistan · Open to remote worldwide
           </p>
         </div>
       </div>

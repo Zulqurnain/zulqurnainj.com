@@ -1,13 +1,13 @@
-# Zulqurnain Haider — Senior Mobile & AI Engineer (On-Device AI)
+# Zulqurnain Haider — Senior Full Stack Developer (Gen AI)
 
-> Senior Mobile & AI Engineer — shipping on-device AI that keeps data on the phone.
-> I build mobile apps, web platforms, and on-device AI that runs on the phone — your data never leaves the device.
+> Senior Full Stack Developer (Gen AI) — shipping on-device AI that keeps data on the phone.
+> I build mobile apps, full-stack web platforms, and on-device AI that runs on the phone — your data never leaves the device.
 > Open to client work, collabs, and remote worldwide.
 > Validated this month — this on-device angle landed 2 interviews and an offer.
 
 ## About
 
-Zulqurnain Haider is a software engineer with 8+ years of experience shipping production software. He has built 15+ consumer mobile apps with millions of users across fintech, e-commerce, EdTech, transit, and healthcare. He travels extensively and works remotely from wherever the journey takes him.
+Zulqurnain Haider is a software engineer with 8+ years of experience shipping production software across mobile, full-stack web, and Gen AI/LLM engineering. He has delivered systems for Chase, Victoria's Secret, Cartier, and JPMorgan Chase, plus 15+ consumer mobile apps with millions of users across fintech, e-commerce, EdTech, transit, and healthcare. He travels extensively and works remotely from wherever the journey takes him.
 
 Contact: zulqurnainjj@gmail.com
 WhatsApp: https://wa.me/60178613992
@@ -32,10 +32,10 @@ Page: https://zulqurnainj.com/services/web-developer
 ## Tech Skills
 
 Mobile: React Native, Flutter, iOS (Swift/SwiftUI), Android (Kotlin/Jetpack Compose)
-Web Frontend: Next.js, React, TypeScript
-Web Backend: Go, Python, Node.js
-AI / ML: OpenAI, LLM pipelines, RAG, Pinecone, FAISS
-DevOps: AWS, GCP, Docker, Kubernetes, PostgreSQL
+Web Frontend: Next.js, React, Angular, TypeScript
+Web Backend: NestJS, Go, Python, Node.js
+AI / ML: Gen AI, LLMs, RAG, Agentic AI, OpenAI / Claude API
+DevOps: AWS, GCP, Docker, Kubernetes, PostgreSQL, Redis, Kafka
 Tools: Git, CI/CD, REST, GraphQL
 
 ## Projects

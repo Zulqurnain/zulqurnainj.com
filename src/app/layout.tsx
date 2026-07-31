@@ -12,12 +12,12 @@ export const metadata: Metadata = {
   metadataBase: new URL(BASE),
 
   title: {
-    default: "Zulqurnain Haider — Senior Mobile & AI Engineer | shipping on-device AI that keeps data on the phone",
+    default: "Zulqurnain Haider — Senior Full Stack Developer (Gen AI)",
     template: "%s",
   },
 
   description:
-    "Zulqurnain Haider — Senior AI + Mobile Engineer. I build production mobile apps and private on-device AI that runs on the phone — your data never leaves the device.",
+    "Zulqurnain Haider — Senior Full Stack Developer (Gen AI). I build production mobile apps, full-stack web systems, and private on-device AI that runs on the phone — your data never leaves the device.",
 
   keywords: [
     "Zulqurnain Haider",
@@ -62,15 +62,15 @@ export const metadata: Metadata = {
     type: "website",
     url: BASE,
     siteName: "Zulqurnain Haider",
-    title: "Zulqurnain Haider — Senior Mobile & AI Engineer | shipping on-device AI that keeps data on the phone",
+    title: "Zulqurnain Haider — Senior Full Stack Developer (Gen AI)",
     description:
-      "Senior AI + Mobile Engineer. I build production mobile apps and private on-device AI that runs on the phone — your data never leaves the device.",
+      "Senior Full Stack Developer (Gen AI). I build production mobile apps, full-stack web systems, and private on-device AI that runs on the phone — your data never leaves the device.",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Zulqurnain Haider — Senior AI + Mobile Engineer",
+        alt: "Zulqurnain Haider — Senior Full Stack Developer (Gen AI)",
       },
     ],
     locale: "en_US",
@@ -78,9 +78,9 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "Zulqurnain Haider — Senior Mobile & AI Engineer | shipping on-device AI that keeps data on the phone",
+    title: "Zulqurnain Haider — Senior Full Stack Developer (Gen AI)",
     description:
-      "Senior AI + Mobile Engineer. I build production mobile apps and private on-device AI that runs on the phone — your data never leaves the device.",
+      "Senior Full Stack Developer (Gen AI). I build production mobile apps, full-stack web systems, and private on-device AI that runs on the phone — your data never leaves the device.",
     images: ["/og-image.jpg"],
     creator: "@zulqurnainjj",
     site: "@zulqurnainjj",
@@ -120,14 +120,14 @@ const jsonLd = {
         width: 1200,
         height: 630,
       },
-      jobTitle: "Senior Mobile & AI Engineer",
+      jobTitle: "Senior Full Stack Developer (Gen AI)",
       description:
-        "Senior AI + Mobile Engineer building production mobile apps and private, on-device AI that runs on the phone — your data never leaves the device. React Native, Flutter, Go, Python, AI/RAG.",
+        "Senior Full Stack Developer (Gen AI) building production mobile apps, full-stack web systems, and private on-device AI that runs on the phone — your data never leaves the device. React Native, Flutter, NestJS, Go, Python, AI/RAG.",
       nationality: { "@type": "Country", name: "Pakistan" },
       address: {
         "@type": "PostalAddress",
-        addressLocality: "Kuala Lumpur",
-        addressCountry: "MY",
+        addressLocality: "Lahore",
+        addressCountry: "PK",
       },
       email: "zulqurnainjj@gmail.com",
       sameAs: [
@@ -141,8 +141,8 @@ const jsonLd = {
       ],
       knowsAbout: [
         "React Native", "Flutter", "iOS Development", "Android Development",
-        "Go", "Python", "TypeScript", "Next.js", "React",
-        "AI", "RAG", "LLM", "OpenAI", "Machine Learning",
+        "Go", "Python", "TypeScript", "Next.js", "React", "Angular", "NestJS",
+        "AI", "RAG", "Agentic AI", "LLM", "OpenAI", "Claude API", "Machine Learning",
         "AWS", "Kubernetes", "Docker", "DevOps",
         "SWIFT ISO20022", "Fintech", "Mobile Development", "On-Device AI Development",
       ],
@@ -156,7 +156,7 @@ const jsonLd = {
       "@id": `${BASE}/#website`,
       url: BASE,
       name: "Zulqurnain Haider",
-      description: "Personal site of Zulqurnain Haider — Senior AI + Mobile Engineer shipping private on-device AI",
+      description: "Personal site of Zulqurnain Haider — Senior Full Stack Developer (Gen AI) shipping private on-device AI",
       author: { "@id": `${BASE}/#person` },
       inLanguage: "en-US",
       potentialAction: {

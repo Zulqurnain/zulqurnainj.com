@@ -2,16 +2,17 @@ import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Divider } from "@/components/Divider";
+import { ExperienceSection } from "@/components/ExperienceSection";
 
 export const metadata: Metadata = {
-  title: "Zulqurnain Haider — Senior Mobile & AI Engineer | shipping on-device AI that keeps data on the phone",
+  title: "Zulqurnain Haider — Senior Full Stack Developer (Gen AI)",
   description:
-    "Zulqurnain Haider — Senior AI + Mobile Engineer. He ships private, on-device AI that runs on the phone — your data never leaves the device. React Native, Flutter, on-device LLM, RAG.",
+    "Zulqurnain Haider — Senior Full Stack Developer (Gen AI). 8+ years shipping mobile, web, and AI/LLM systems for Chase, Victoria's Secret, Cartier, and fintech platforms — Android, React Native, Node.js, RAG pipelines.",
   alternates: { canonical: "https://zulqurnainj.com" },
   openGraph: {
     url: "https://zulqurnainj.com",
-    title: "Zulqurnain Haider — Senior Mobile & AI Engineer | shipping on-device AI that keeps data on the phone",
-    description: "I bridge AI and mobile — shipping apps that run LLM inference on-device, integrate RAG pipelines, and keep production latency under 2 seconds.",
+    title: "Zulqurnain Haider — Senior Full Stack Developer (Gen AI)",
+    description: "8+ years shipping mobile, web, and AI/LLM systems for Chase, Victoria's Secret, Cartier, and fintech platforms.",
     images: [{ url: "/og-image.jpg", width: 1200, height: 630 }],
   },
 };
@@ -23,18 +24,23 @@ const skills = [
   { label: "Android · Kotlin", cat: "mobile" },
   { label: "Next.js", cat: "web" },
   { label: "React", cat: "web" },
+  { label: "Angular", cat: "web" },
+  { label: "NestJS", cat: "web" },
   { label: "TypeScript", cat: "web" },
   { label: "Go", cat: "web" },
   { label: "Python", cat: "web" },
   { label: "Node.js", cat: "web" },
-  { label: "AI / RAG", cat: "ai" },
-  { label: "OpenAI", cat: "ai" },
-  { label: "LLM Pipelines", cat: "ai" },
-  { label: "Pinecone / FAISS", cat: "ai" },
+  { label: "Gen AI", cat: "ai" },
+  { label: "LLMs", cat: "ai" },
+  { label: "RAG", cat: "ai" },
+  { label: "Agentic AI", cat: "ai" },
+  { label: "OpenAI / Claude API", cat: "ai" },
   { label: "AWS", cat: "devops" },
   { label: "Docker", cat: "devops" },
   { label: "Kubernetes", cat: "devops" },
   { label: "PostgreSQL", cat: "devops" },
+  { label: "Redis", cat: "devops" },
+  { label: "Kafka", cat: "devops" },
 ];
 
 const catColor: Record<string, string> = {
@@ -96,7 +102,7 @@ export default function Home() {
         <div className="animate-in animate-delay-2 w-full flex flex-col gap-3 rounded-2xl bg-white dark:bg-olive-950 border border-olive-200 dark:border-olive-800 p-5">
           <p className="text-xs font-mono text-olive-500 dark:text-olive-400 uppercase tracking-wider">AI × Mobile</p>
           <p className="text-olive-800 dark:text-olive-100 text-sm leading-relaxed">
-            <span className="font-semibold">Senior Mobile & AI Engineer — shipping on-device AI that keeps data on the phone.</span>{" "}
+            <span className="font-semibold">Senior Full Stack Developer (Gen AI) — shipping on-device AI that keeps data on the phone.</span>{" "}
             I pair mobile engineering with RAG and LLM pipelines so AI actually ships inside the app users touch daily — running on-device, not in the cloud.
           </p>
           <div className="flex flex-col gap-2 text-xs">
@@ -150,14 +156,16 @@ export default function Home() {
         <div className="font-normal min-w-full text-olive-800 dark:text-olive-100 text-sm/6 text-justify flex flex-col gap-4">
           <p className="animate-in animate-delay-1">
             I&apos;m Zulqurnain — a{" "}
-            <span className="font-medium">Senior Mobile & AI Engineer — shipping on-device AI that keeps data on the phone.</span>{" "}
-            based in Kuala Lumpur. I build production mobile apps and private,
-            on-device AI that runs on the phone — your data never leaves the device.
+            <span className="font-medium">Senior Full Stack Developer (Gen AI) — shipping on-device AI that keeps data on the phone.</span>{" "}
+            based in Lahore, Pakistan. I build production mobile apps, full-stack web
+            systems, and private, on-device AI that runs on the phone — your data
+            never leaves the device.
           </p>
           <p className="animate-in animate-delay-2">
-            8+ years of engineering, 15+ shipped consumer apps, millions of users —
-            across fintech, e-commerce, EdTech, transit, and healthcare. I move fast,
-            own the full stack, and take ideas from zero to production.
+            8+ years of engineering across mobile, full-stack web, and Gen AI —
+            shipping production systems for Chase, Victoria&apos;s Secret, Cartier,
+            JPMorgan Chase, and fintech/EdTech platforms serving millions of users.
+            I move fast, own the full stack, and take ideas from zero to production.
           </p>
           <p className="animate-in animate-delay-3">
             When I&apos;m not writing code, I&apos;m on the road —{" "}
@@ -185,11 +193,15 @@ export default function Home() {
         </div>
 
         <div className="animate-in animate-delay-6 w-full">
+          <ExperienceSection />
+        </div>
+
+        <div className="animate-in animate-delay-7 w-full">
           <Divider />
         </div>
 
         {/* Services */}
-        <div className="animate-in animate-delay-7 w-full flex flex-col gap-3">
+        <div className="animate-in animate-delay-8 w-full flex flex-col gap-3">
           <p className="text-olive-400 dark:text-olive-600 text-sm uppercase font-mono">What I offer</p>
           <div className="flex flex-col gap-2.5">
             {services.map((svc) => (
@@ -213,11 +225,11 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="animate-in animate-delay-8 w-full">
+        <div className="animate-in animate-delay-9 w-full">
           <Divider />
         </div>
 
-        <div className="animate-in animate-delay-8 w-full">
+        <div className="animate-in animate-delay-9 w-full">
           <Footer />
         </div>
 
