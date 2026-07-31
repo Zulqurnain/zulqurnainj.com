@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
   title: {
     default: "Zulqurnain Haider — Senior Mobile & AI Engineer | shipping on-device AI that keeps data on the phone",
-    template: "%s | Zulqurnain Haider",
+    template: "%s",
   },
 
   description:
@@ -132,7 +132,7 @@ const jsonLd = {
       email: "zulqurnainjj@gmail.com",
       sameAs: [
         "https://github.com/zulqurnain",
-        "https://linkedin.com/in/zulqurnainj",
+        "https://linkedin.com/in/zulqurnainjj",
         "https://instagram.com/zjnomad",
         "https://fb.com/zjnomad",
         "https://medium.com/@zulqurnainjj",

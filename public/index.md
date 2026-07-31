@@ -2,7 +2,7 @@
 
 Senior Mobile & AI Engineer — shipping on-device AI that keeps data on the phone. I build mobile apps, web platforms, and on-device AI that runs on the phone.
 
-**Validated this month** — this on-device angle landed 2 interviews (Property Finder, AIM) and an offer (Mashreq).
+**Validated this month** — this on-device angle landed 2 interviews and an offer.
 
 **Contact:** zulqurnainjj@gmail.com | [WhatsApp](https://wa.me/60178613992) | [Telegram](https://t.me/zthenomad) | [LinkedIn](https://linkedin.com/in/zulqurnainjj)
 

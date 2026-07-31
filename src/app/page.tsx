@@ -111,7 +111,7 @@ export default function Home() {
             <svg className="h-4 w-4 shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
               <path fillRule="evenodd" d="M16.704 5.29a1 1 0 010 1.42l-7.5 7.5a1 1 0 01-1.42 0l-3.5-3.5a1 1 0 111.42-1.42l2.79 2.79 6.79-6.79a1 1 0 011.42 0z" clipRule="evenodd" />
             </svg>
-            <span>Validated this month — this on-device angle landed 2 interviews (Property Finder, AIM) and an offer (Mashreq).</span>
+            <span>Validated this month — this on-device angle landed 2 interviews and an offer.</span>
           </p>
           <div className="flex flex-wrap gap-2">
             {[
@@ -126,6 +126,23 @@ export default function Home() {
                 {t}
               </span>
             ))}
+          </div>
+          <div className="mt-3 rounded-xl bg-olive-50 dark:bg-olive-900/60 border border-olive-200 dark:border-olive-800 p-3">
+            <p className="text-[11px] font-mono uppercase tracking-wider text-olive-500 dark:text-olive-400 mb-2">Shipped: on-device GenAI rec layer (ZBuyme, Pakistan)</p>
+            <div className="grid grid-cols-3 gap-2 text-center">
+              <div>
+                <p className="text-base font-semibold text-olive-800 dark:text-olive-100">8.2s → 1.8s</p>
+                <p className="text-[10px] text-olive-500 dark:text-olive-400">cold start</p>
+              </div>
+              <div>
+                <p className="text-base font-semibold text-olive-800 dark:text-olive-100">−92%</p>
+                <p className="text-[10px] text-olive-500 dark:text-olive-400">cloud spend</p>
+              </div>
+              <div>
+                <p className="text-base font-semibold text-olive-800 dark:text-olive-100">11% → 47%</p>
+                <p className="text-[10px] text-olive-500 dark:text-olive-400">activation</p>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -151,7 +168,7 @@ export default function Home() {
             Open to client work, collabs, and new adventures.{" "}
             <a href="mailto:zulqurnainjj@gmail.com" className="link">Say hello</a>{" "}
             or find me on{" "}
-            <a href="https://linkedin.com/in/zulqurnainj" target="_blank" rel="noopener noreferrer" className="link">LinkedIn</a>.
+            <a href="https://linkedin.com/in/zulqurnainjj" target="_blank" rel="noopener noreferrer" className="link">LinkedIn</a>.
           </p>
         </div>
 

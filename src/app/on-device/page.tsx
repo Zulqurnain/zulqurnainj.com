@@ -25,42 +25,18 @@ type Metric = {
 };
 
 const METRICS: Metric[] = [
-  {
-    value: "< 2",
-    unit: "s",
-    label: "Cold start",
-    note: "to first context, 1.5B Q4_K_M",
-  },
-  {
-    value: "< 200",
-    unit: "ms",
-    label: "Time to first token",
-    note: "on-device, no round-trip",
-  },
-  {
-    value: "0",
-    unit: "bytes",
-    label: "Network egress",
-    note: "at inference time",
-  },
-  {
-    value: "✓",
-    unit: "",
-    label: "Offline / airplane mode",
-    note: "works after first download",
-  },
+  { value: "< 2", unit: "s", label: "Cold start", note: "to first context, 1.5B Q4_K_M" },
+  { value: "< 200", unit: "ms", label: "Time to first token", note: "on-device, no round-trip" },
+  { value: "0", unit: "bytes", label: "Network egress", note: "at inference time" },
+  { value: "✓", unit: "", label: "Offline / airplane mode", note: "works after first download" },
 ];
 
 function MetricCard({ m }: { m: Metric }) {
   return (
     <div className="flex flex-col gap-1 rounded-2xl border border-olive-300/60 dark:border-olive-700/60 bg-white/60 dark:bg-olive-800/40 p-5">
       <div className="flex items-baseline gap-1">
-        <span className="font-semibold text-3xl text-olive-800 dark:text-olive-100 leading-none">
-          {m.value}
-        </span>
-        {m.unit ? (
-          <span className="text-lg text-olive-500 dark:text-olive-400">{m.unit}</span>
-        ) : null}
+        <span className="font-semibold text-3xl text-olive-800 dark:text-olive-100 leading-none">{m.value}</span>
+        {m.unit ? <span className="text-lg text-olive-500 dark:text-olive-400">{m.unit}</span> : null}
       </div>
       <p className="font-medium text-sm text-olive-700 dark:text-olive-200">{m.label}</p>
       <p className="text-xs text-olive-400 dark:text-olive-500 leading-snug">{m.note}</p>
@@ -68,23 +44,19 @@ function MetricCard({ m }: { m: Metric }) {
   );
 }
 
+const STRIP = `I ship mobile AI that actually runs on-device: a React Native demo powered by llama.rn/llama.cpp with Q4_K_M quant, on-screen latency, and zero network egress at inference — airplane mode on, it still answers.
+
+In production, I shipped the same discipline inside a React Native checkout flow: cold start dropped from 8.2s to under 2s, cloud inference cost dropped roughly 92%, and user activation moved from 11% to 47%.
+
+I'm looking for senior AI + mobile roles where data privacy matters, and I can prove the engineering in code: https://github.com/Zulqurnain/on-device-llm-rn, https://zulqurnainj.com/on-device, https://linkedin.com/in/zulqurnainjj.`;
+
+const REPO_URL = "https://github.com/Zulqurnain/on-device-llm-rn";
+
 const STACK = [
-  {
-    title: "llama.cpp via llama.rn",
-    body: "Battle-tested native runtime, not a toy wrapper. Runs through JSI — no bridge serialization penalty.",
-  },
-  {
-    title: "INT4 / Q4_K_M quant",
-    body: "A 1.5B model drops to ~1 GB at minimal quality loss. Ships small, loads fast, fits mid-tier devices.",
-  },
-  {
-    title: "SoC layer sharding (n_gpu_layers)",
-    body: "Layers offload to the GPU/NPU when present; automatic CPU fallback on devices without it.",
-  },
-  {
-    title: "Prompt + KV-cache per context",
-    body: "The same completion() call accepts retrieved context — so context-only RAG stays on-device too.",
-  },
+  { title: "llama.cpp via llama.rn", body: "Battle-tested native runtime, not a toy wrapper. Runs through JSI — no bridge serialization penalty." },
+  { title: "INT4 / Q4_K_M quant", body: "A 1.5B model drops to ~1 GB at minimal quality loss. Ships small, loads fast, fits mid-tier devices." },
+  { title: "SoC layer sharding (n_gpu_layers)", body: "Layers offload to the GPU/NPU when present; automatic CPU fallback on devices without it." },
+  { title: "Prompt + KV-cache per context", body: "The same completion() call accepts retrieved context — so context-only RAG stays on-device too." },
 ];
 
 const WHY = [
@@ -94,6 +66,32 @@ const WHY = [
   { k: "Offline / spotty 4G", on: "✅ works", cloud: "❌" },
   { k: "Data localisation (GDPR, fintech)", on: "✅ by construction", cloud: "needs extra controls" },
 ];
+
+function StripSection() {
+  return (
+    <section className="animate-in animate-delay-2 flex flex-col gap-3 w-full">
+      <span className="inline-flex w-fit items-center gap-1.5 text-[11px] font-medium px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">
+        Portable Proof Strip
+      </span>
+      <h3 className="font-semibold text-xl text-olive-800 dark:text-olive-100">Proof copy</h3>
+      <div className="flex flex-col gap-3 rounded-2xl border border-olive-300/60 dark:border-olive-700/60 bg-white/60 dark:bg-olive-800/40 p-5">
+        <p className="text-sm text-olive-800 dark:text-olive-100 leading-relaxed whitespace-pre-line">{STRIP}</p>
+        <div className="flex flex-wrap gap-2 text-xs">
+          <a href={REPO_URL} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 text-olive-700 dark:text-olive-200">
+            github.com/Zulqurnain/on-device-llm-rn
+          </a>
+          <span className="text-olive-400 dark:text-olive-500">·</span>
+          <span className="text-olive-700 dark:text-olive-200">zulqurnainj.com/on-device</span>
+          <span className="text-olive-400 dark:text-olive-500">·</span>
+          <span className="text-olive-700 dark:text-olive-200">linkedin.com/in/zulqurnainjj</span>
+        </div>
+        <p className="text-xs text-olive-500 dark:text-olive-400">
+          Reuse this section verbatim across recruiter replies, HN comments, and email/RM signature blocks. Do not change claims per surface.
+        </p>
+      </div>
+    </section>
+  );
+}
 
 export default function OnDevicePage() {
   return (
@@ -107,7 +105,12 @@ export default function OnDevicePage() {
           <Divider />
         </div>
 
-        {/* Hero */}
+        <StripSection />
+
+        <div className="animate-in animate-delay-3 w-full max-w-xl">
+          <Divider />
+        </div>
+
         <section className="animate-in animate-delay-2 flex flex-col gap-4 w-full">
           <span className="inline-flex w-fit items-center gap-1.5 text-[11px] font-medium px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">
             AI × Mobile · Edge Inference
@@ -116,43 +119,20 @@ export default function OnDevicePage() {
             A real LLM, running entirely on the phone.
           </h2>
           <p className="text-olive-600 dark:text-olive-300 max-w-2xl leading-relaxed">
-            No API keys. No server. No network at inference time. This is a runnable React Native
-            demo — pick a small GGUF, load it once, then toggle airplane mode and it still answers,
-            because the model lives in the app sandbox. The pattern behind &ldquo;ship AI features
-            without sending user data to the cloud.&rdquo;
+            No API keys. No server. No network at inference time. This is a runnable React Native demo — pick a small GGUF, load it once, then toggle airplane mode and it still answers, because the model lives in the app sandbox. The pattern behind “ship AI features without sending user data to the cloud.”
           </p>
-          <div className="flex flex-wrap gap-2">
-            <a
-              href="https://github.com/Zulqurnain/on-device-llm-rn"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-full bg-olive-800 text-olive-100 dark:bg-olive-100 dark:text-olive-900 hover:opacity-90 transition-opacity"
-            >
-              View the repo on GitHub →
-            </a>
-            <a
-              href="/services"
-              className="inline-flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-full bg-white/60 dark:bg-olive-800/40 text-olive-700 dark:text-olive-200 ring-1 ring-olive-300/60 dark:ring-olive-700/60 hover:opacity-90 transition-opacity"
-            >
-              See the AI × Mobile service →
-            </a>
-          </div>
         </section>
 
         {/* Metric cards */}
         <section className="animate-in animate-delay-2 flex flex-col gap-3 w-full">
-          <h3 className="font-semibold text-xl text-olive-800 dark:text-olive-100">
-            Measured on-device
-          </h3>
+          <h3 className="font-semibold text-xl text-olive-800 dark:text-olive-100">Measured on-device</h3>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
             {METRICS.map((m) => (
               <MetricCard key={m.label} m={m} />
             ))}
           </div>
           <p className="text-xs text-olive-400 dark:text-olive-500 leading-snug max-w-2xl">
-            Representative figures from the live demo on a mid-tier Android device with GPU offload
-            (1.5B Q4_K_M). Actual numbers vary by SoC, model size, and quant. Run the repo on your
-            own hardware to benchmark.
+            Representative figures from the live demo on a mid-tier Android device with GPU offload (1.5B Q4_K_M). Actual numbers vary by SoC, model size, and quant. Run the repo on your own hardware to benchmark.
           </p>
         </section>
 
@@ -162,12 +142,9 @@ export default function OnDevicePage() {
 
         {/* The proof — Loom slot */}
         <section className="animate-in animate-delay-3 flex flex-col gap-3 w-full">
-          <h3 className="font-semibold text-xl text-olive-800 dark:text-olive-100">
-            The proof: offline, on camera
-          </h3>
+          <h3 className="font-semibold text-xl text-olive-800 dark:text-olive-100">The proof: offline, on camera</h3>
           <p className="text-olive-600 dark:text-olive-300 max-w-2xl leading-relaxed">
-            A 45-second proof: ask the app a question, turn on airplane mode, and it still
-            answers — with the live latency line (cold-start ms, first-token ms, tok/s) on screen.
+            A 45-second proof: ask the app a question, turn on airplane mode, and it still answers — with the live latency line (cold-start ms, first-token ms, tok/s) on screen.
           </p>
 
           {/* Loom embed slot — replace the placeholder below with the recorded video.
@@ -180,13 +157,9 @@ export default function OnDevicePage() {
                 <path d="M8 5v14l11-7z" />
               </svg>
             </div>
-            <p className="font-medium text-olive-700 dark:text-olive-200">
-              Loom walkthrough — 45 sec
-            </p>
+            <p className="font-medium text-olive-700 dark:text-olive-200">Loom walkthrough — 45 sec</p>
             <p className="text-xs text-olive-400 dark:text-olive-500 max-w-md leading-snug">
-              Recording slot pending. The 45-second script (hook → offline toggle → live metrics →
-              where to find me) is in the repo&rsquo;s <code>LOOM_SCRIPT.md</code> (a longer 6-min
-              version is also there). Drop the Loom embed iframe in this card once recorded.
+              Recording slot pending. The 45-second script (hook → offline toggle → live metrics → where to find me) is in the repo's <code>LOOM_SCRIPT.md</code> (a longer 6-min version is also there). Drop the Loom embed iframe in this card once recorded.
             </p>
           </div>
 
@@ -201,7 +174,7 @@ export default function OnDevicePage() {
               <li>Tap Generate, let tokens stream, then toggle airplane mode and Generate again.</li>
               <li>Open <code>src/llm/OnDeviceLLM.ts</code> to highlight <code>n_gpu_layers: 99</code> + the latency measurement.</li>
               <li>Switch to a second model, load, generate, read the new tok/s live.</li>
-              <li>Title: &ldquo;Private LLM inside React Native — fully offline, sub-2s cold start.&rdquo;</li>
+              <li>Title: “Private LLM inside React Native — fully offline, sub-2s cold start.”</li>
             </ul>
           </details>
         </section>
@@ -212,9 +185,7 @@ export default function OnDevicePage() {
 
         {/* How it works */}
         <section className="animate-in animate-delay-4 flex flex-col gap-3 w-full">
-          <h3 className="font-semibold text-xl text-olive-800 dark:text-olive-100">
-            How it works (the 60-second version)
-          </h3>
+          <h3 className="font-semibold text-xl text-olive-800 dark:text-olive-100">How it works (the 60-second version)</h3>
           <div className="grid sm:grid-cols-2 gap-3">
             {STACK.map((s) => (
               <div
@@ -230,9 +201,7 @@ export default function OnDevicePage() {
 
         {/* Why it matters */}
         <section className="animate-in animate-delay-4 flex flex-col gap-3 w-full">
-          <h3 className="font-semibold text-xl text-olive-800 dark:text-olive-100">
-            Why engineering leaders should care
-          </h3>
+          <h3 className="font-semibold text-xl text-olive-800 dark:text-olive-100">Why engineering leaders should care</h3>
           <div className="overflow-x-auto rounded-2xl border border-olive-300/60 dark:border-olive-700/60">
             <table className="w-full text-sm border-collapse">
               <thead>
@@ -266,40 +235,14 @@ export default function OnDevicePage() {
         <section className="animate-in animate-delay-5 flex flex-col gap-3 w-full">
           <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between rounded-2xl border border-olive-300/60 dark:border-olive-700/60 bg-white/50 dark:bg-olive-800/40 p-5">
             <div className="flex flex-col gap-1">
-              <p className="font-semibold text-olive-800 dark:text-olive-100">
-                Evaluating edge-AI on mobile?
-              </p>
-              <p className="text-sm text-olive-500 dark:text-olive-400">
-                Happy to walk through this in a technical read-through.
-              </p>
+              <p className="font-semibold text-olive-800 dark:text-olive-100">Evaluating edge-AI on mobile?</p>
+              <p className="text-sm text-olive-500 dark:text-olive-400">Happy to walk through this in a technical read-through.</p>
             </div>
             <div className="flex flex-wrap gap-2 items-center">
-              <a
-                href="mailto:zulqurnainjj@gmail.com"
-                className="inline-flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-full bg-olive-800 text-olive-100 dark:bg-olive-100 dark:text-olive-900 hover:opacity-90 transition-opacity whitespace-nowrap"
-              >
+              <a href="mailto:zulqurnainjj@gmail.com" className="inline-flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-full bg-olive-800 text-olive-100 dark:bg-olive-100 dark:text-olive-900 hover:opacity-90 transition-opacity whitespace-nowrap">
                 zulqurnainjj@gmail.com
               </a>
-              <a
-                href="tel:+923364116933"
-                className="inline-flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-full bg-white/60 dark:bg-olive-800/40 text-olive-700 dark:text-olive-200 ring-1 ring-olive-300/60 dark:ring-olive-700/60 hover:opacity-90 transition-opacity whitespace-nowrap"
-              >
-                +923364116933
-              </a>
-              <a
-                href="https://zulqurnainj.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-full bg-white/60 dark:bg-olive-800/40 text-olive-700 dark:text-olive-200 ring-1 ring-olive-300/60 dark:ring-olive-700/60 hover:opacity-90 transition-opacity whitespace-nowrap"
-              >
-                zulqurnainj.com
-              </a>
-              <a
-                href="https://linkedin.com/in/zulqurnainjj"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-full bg-white/60 dark:bg-olive-800/40 text-olive-700 dark:text-olive-200 ring-1 ring-olive-300/60 dark:ring-olive-700/60 hover:opacity-90 transition-opacity whitespace-nowrap"
-              >
+              <a href="https://linkedin.com/in/zulqurnainjj" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-full bg-white/60 dark:bg-olive-800/40 text-olive-700 dark:text-olive-200 ring-1 ring-olive-300/60 dark:ring-olive-700/60 hover:opacity-90 transition-opacity whitespace-nowrap">
                 linkedin.com/in/zulqurnainjj
               </a>
             </div>

@@ -24,6 +24,6 @@ React Native, Flutter, Swift/SwiftUI, Kotlin/Jetpack Compose. 15+ shipped apps, 
 
 ## Expert Web Developer
 
-Next.js, Go, Python, Node.js, TypeScript. Full-stack web products with AI/RAG pipelines. SaaS platforms, APIs, cloud infrastructure (AWS, GCP, Docker, Kubernetes).
+Next.js, Go, Python, Node.js, TypeScript. Web products with on-device AI/RAG pipelines. SaaS platforms, APIs, cloud infrastructure (AWS, GCP, Docker, Kubernetes).
 
 [Learn more about Web Development →](/services/web-developer)
