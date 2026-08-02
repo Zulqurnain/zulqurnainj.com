@@ -83,7 +83,7 @@ const tools: Tool[] = [
         <path d="M27.5 29h5M30 26.5v5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" />
       </svg>
     ),
-    href: "https://tools.zulqurnainj.com/notepackz",
+    href: "https://notepad.zulqurnainj.com",
     badge: "Live",
   },
   {

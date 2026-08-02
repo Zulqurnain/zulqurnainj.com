@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { NotepadRedirectClient } from "./NotepadRedirectClient";
 
-const TARGET    = "https://tools.zulqurnainj.com/notepackz";
-const OG_IMAGE  = "https://tools.zulqurnainj.com/notepackz/opengraph-image";
+const TARGET    = "https://notepad.zulqurnainj.com";
+const OG_IMAGE  = "https://notepad.zulqurnainj.com/opengraph-image";
 
 export const metadata: Metadata = {
   // ── Core ──────────────────────────────────────────────────────────────────
