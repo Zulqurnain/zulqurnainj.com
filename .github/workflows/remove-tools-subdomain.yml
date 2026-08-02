@@ -10,16 +10,43 @@ jobs:
   remove:
     runs-on: ubuntu-latest
     env:
-      H: ${{ secrets.CPANEL_HOST }}
-      U: ${{ secrets.CPANEL_USER }}
-      P: ${{ secrets.CPANEL_PASS }}
       D: zulqurnainj.com
-      GT: ${{ secrets.GITHUB_TOKEN }}
+      GT: ${{ secrets.GH_PAT }}
       GR: ${{ github.repository }}
 
     steps:
       - uses: actions/checkout@v4
-      - name: install dig
-        run: sudo apt-get install -y dnsutils -q
-      - name: remove tools subdomain from cPanel
-        run: python3 scripts/remove_tools_subdomain.py
+
+      - name: Pre-check from runner
+        run: |
+          echo "=== Current DNS ==="
+          dig +short A tools.zulqurnainj.com || true
+
+      - name: SSH into cPanel host - run uapi delsubdomain locally
+        uses: appleboy/ssh-action@v1.0.3
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+        with:
+          host: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          envs: GH_PAT
+          script: |
+            {
+              echo "=== DATE ==="
+              date
+              echo "=== BEFORE: subdomain list ==="
+              uapi SubDomain listsubdomains 2>&1 | grep -A3 "tools\." || echo "not found in listsubdomains"
+              echo "=== Removing tools.zulqurnainj.com ==="
+              uapi SubDomain delsubdomain domain=tools.zulqurnainj.com 2>&1
+              echo "=== AFTER: subdomain list ==="
+              uapi SubDomain listsubdomains 2>&1 | grep -A3 "tools\." || echo "confirmed gone from listsubdomains"
+            } > /tmp/tools-removal.txt 2>&1
+            echo "=== Posting diagnostic to GitHub issue ==="
+            python3 -c "import json,urllib.request as u,os; c=open('/tmp/tools-removal.txt').read()[:50000]; d=json.dumps({'title':'[dns] tools.zulqurnainj.com subdomain removal (via local uapi over SSH)','body':c}).encode(); r=u.Request('https://api.github.com/repos/Zulqurnain/zulqurnainj.com/issues',data=d,headers={'Authorization':'token '+os.environ['GH_PAT'],'Content-Type':'application/json'}); print(json.loads(u.urlopen(r).read())['html_url'])" 2>&1 || echo "issue_post_failed"
+
+      - name: Verify from runner
+        run: |
+          sleep 5
+          echo "=== DNS after removal ==="
+          dig +short A tools.zulqurnainj.com || echo "(no A record -- removed)"
