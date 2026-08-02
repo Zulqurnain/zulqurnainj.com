@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
+import { motion } from "framer-motion";
 
 type Channel = {
   label: string;
@@ -12,26 +12,7 @@ type Channel = {
 };
 
 export function FloatingContact() {
-  const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
-  const rootRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    function onClickOutside(e: MouseEvent) {
-      if (rootRef.current && !rootRef.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
-    }
-    function onEscape(e: KeyboardEvent) {
-      if (e.key === "Escape") setOpen(false);
-    }
-    document.addEventListener("mousedown", onClickOutside);
-    document.addEventListener("keydown", onEscape);
-    return () => {
-      document.removeEventListener("mousedown", onClickOutside);
-      document.removeEventListener("keydown", onEscape);
-    };
-  }, []);
 
   const copyDiscord = async () => {
     try {
@@ -39,7 +20,7 @@ export function FloatingContact() {
       setCopied(true);
       setTimeout(() => setCopied(false), 1800);
     } catch {
-      // clipboard API unavailable — silently no-op, label already shows the handle
+      // clipboard API unavailable — tooltip already shows the handle
     }
   };
 
@@ -65,7 +46,7 @@ export function FloatingContact() {
       ),
     },
     {
-      label: "Discord",
+      label: "zulqurnainjutt",
       onClick: copyDiscord,
       color: "bg-[#5865F2] hover:bg-[#4752c4]",
       icon: (
@@ -97,75 +78,40 @@ export function FloatingContact() {
   ];
 
   return (
-    <div ref={rootRef} className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-3">
-      <AnimatePresence>
-        {open && (
-          <div className="flex flex-col items-end gap-2.5">
-            {channels.map((c, i) => (
-              <motion.div
-                key={c.label}
-                initial={{ opacity: 0, y: 12, scale: 0.85 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 8, scale: 0.85 }}
-                transition={{ duration: 0.18, delay: open ? i * 0.035 : 0, ease: "easeOut" }}
-                className="flex items-center gap-2.5"
-              >
-                <span className="text-xs font-medium px-2 py-1 rounded-md bg-white dark:bg-olive-900 text-olive-700 dark:text-olive-200 shadow-md border border-olive-200 dark:border-olive-800 whitespace-nowrap">
-                  {c.label === "Discord" && copied ? "Copied!" : c.label === "Discord" ? "zulqurnainjutt" : c.label}
-                </span>
-                {c.href ? (
-                  <a
-                    href={c.href}
-                    target={c.href.startsWith("http") ? "_blank" : undefined}
-                    rel={c.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                    aria-label={c.label}
-                    className={`flex items-center justify-center size-11 rounded-full text-white shadow-lg transition-colors ${c.color}`}
-                  >
-                    {c.icon}
-                  </a>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={c.onClick}
-                    aria-label={c.label}
-                    className={`flex items-center justify-center size-11 rounded-full text-white shadow-lg transition-colors ${c.color}`}
-                  >
-                    {c.icon}
-                  </button>
-                )}
-              </motion.div>
-            ))}
-          </div>
-        )}
-      </AnimatePresence>
-
-      <button
-        type="button"
-        onClick={() => setOpen((o) => !o)}
-        aria-label={open ? "Close contact menu" : "Open contact menu"}
-        aria-expanded={open}
-        className="flex items-center justify-center size-14 rounded-full bg-olive-800 dark:bg-olive-100 text-olive-100 dark:text-olive-900 shadow-xl hover:opacity-90 transition-all"
-      >
-        <motion.svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={1.8}
-          className="size-6"
-          animate={{ rotate: open ? 45 : 0 }}
-          transition={{ duration: 0.2, ease: "easeInOut" }}
+    <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-2.5">
+      {channels.map((c, i) => (
+        <motion.div
+          key={c.label}
+          initial={{ opacity: 0, y: 12, scale: 0.85 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.25, delay: i * 0.05, ease: "easeOut" }}
+          className="group relative flex items-center"
         >
-          {open ? (
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          <span className="absolute right-full mr-2.5 text-xs font-medium px-2 py-1 rounded-md bg-white dark:bg-olive-900 text-olive-700 dark:text-olive-200 shadow-md border border-olive-200 dark:border-olive-800 whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity">
+            {c.label === "zulqurnainjutt" && copied ? "Copied!" : c.label}
+          </span>
+          {c.href ? (
+            <a
+              href={c.href}
+              target={c.href.startsWith("http") ? "_blank" : undefined}
+              rel={c.href.startsWith("http") ? "noopener noreferrer" : undefined}
+              aria-label={c.label}
+              className={`flex items-center justify-center size-12 rounded-full text-white shadow-lg transition-colors ${c.color}`}
+            >
+              {c.icon}
+            </a>
           ) : (
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z"
-            />
+            <button
+              type="button"
+              onClick={c.onClick}
+              aria-label={c.label}
+              className={`flex items-center justify-center size-12 rounded-full text-white shadow-lg transition-colors ${c.color}`}
+            >
+              {c.icon}
+            </button>
           )}
-        </motion.svg>
-      </button>
+        </motion.div>
+      ))}
     </div>
   );
 }
