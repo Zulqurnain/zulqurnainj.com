@@ -1,6 +1,6 @@
 export function Divider() {
   return (
-    <div className="flex gap-2 items-center justify-center py-4 w-full">
+    <div className="flex gap-2 items-center justify-center py-2 w-full">
       <div className="size-2">
         <svg viewBox="0 0 8 8" fill="none" className="size-full">
           <circle cx="4" cy="4" r="4" fill="#E9573F" />

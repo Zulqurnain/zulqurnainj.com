@@ -1,7 +1,7 @@
 export function Footer() {
   return (
-    <div className="flex flex-col gap-4 items-center justify-center w-full text-center">
-      <p className="font-serif italic text-2xl text-olive-800 dark:text-olive-100">
+    <div className="flex flex-col gap-2 items-center justify-center w-full text-center">
+      <p className="font-serif italic text-lg text-olive-800 dark:text-olive-100">
         Zulqurnain Haider
       </p>
       <div className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-olive-500 dark:text-olive-400">

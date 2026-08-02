@@ -2,17 +2,16 @@ import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Divider } from "@/components/Divider";
-import { ExperienceSection } from "@/components/ExperienceSection";
 
 export const metadata: Metadata = {
   title: "Zulqurnain Haider — Senior Full Stack Developer (Gen AI)",
   description:
-    "Zulqurnain Haider — Senior Full Stack Developer (Gen AI). 8+ years shipping mobile, web, and AI/LLM systems for Chase, Victoria's Secret, Cartier, and fintech platforms — Android, React Native, Node.js, RAG pipelines.",
+    "Zulqurnain Haider — Senior Full Stack Developer (Gen AI). 8+ years shipping mobile, web, and AI/LLM systems for enterprise fintech and retail platforms — Android, React Native, Node.js, RAG pipelines.",
   alternates: { canonical: "https://zulqurnainj.com" },
   openGraph: {
     url: "https://zulqurnainj.com",
     title: "Zulqurnain Haider — Senior Full Stack Developer (Gen AI)",
-    description: "8+ years shipping mobile, web, and AI/LLM systems for Chase, Victoria's Secret, Cartier, and fintech platforms.",
+    description: "8+ years shipping mobile, web, and AI/LLM systems for enterprise fintech and retail platforms.",
     images: [{ url: "/og-image.jpg", width: 1200, height: 630 }],
   },
 };
@@ -24,14 +23,11 @@ const skills = [
   { label: "Android · Kotlin", cat: "mobile" },
   { label: "Next.js", cat: "web" },
   { label: "React", cat: "web" },
-  { label: "Angular", cat: "web" },
   { label: "NestJS", cat: "web" },
   { label: "TypeScript", cat: "web" },
   { label: "Go", cat: "web" },
   { label: "Python", cat: "web" },
-  { label: "Node.js", cat: "web" },
   { label: "Gen AI", cat: "ai" },
-  { label: "LLMs", cat: "ai" },
   { label: "RAG", cat: "ai" },
   { label: "Agentic AI", cat: "ai" },
   { label: "OpenAI / Claude API", cat: "ai" },
@@ -39,8 +35,6 @@ const skills = [
   { label: "Docker", cat: "devops" },
   { label: "Kubernetes", cat: "devops" },
   { label: "PostgreSQL", cat: "devops" },
-  { label: "Redis", cat: "devops" },
-  { label: "Kafka", cat: "devops" },
 ];
 
 const catColor: Record<string, string> = {
@@ -51,129 +45,51 @@ const catColor: Record<string, string> = {
 };
 
 const services = [
-  {
-    href: "/services/ai-employee",
-    accent: "border-l-violet-400",
-    iconBg: "bg-violet-100 text-violet-600 dark:bg-violet-900/30 dark:text-violet-400",
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456Z" />
-      </svg>
-    ),
-    title: "AI Employee For You",
-    sub: "Manage your socials, emails & schedule — from $20/mo",
-  },
-  {
-    href: "/services/mobile-developer",
-    accent: "border-l-blue-400",
-    iconBg: "bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400",
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18h3" />
-      </svg>
-    ),
-    title: "Expert Mobile Developer",
-    sub: "React Native · Flutter · Swift · Kotlin",
-  },
-  {
-    href: "/services/web-developer",
-    accent: "border-l-emerald-400",
-    iconBg: "bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400",
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" />
-      </svg>
-    ),
-    title: "Expert Web Developer",
-    sub: "Next.js · Go · Python · AI/RAG · Mobile-first",
-  },
+  { href: "/services/ai-employee", label: "AI Employee", color: "bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-400" },
+  { href: "/services/mobile-developer", label: "Mobile Developer", color: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400" },
+  { href: "/services/web-developer", label: "Web Developer", color: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400" },
 ];
 
 export default function Home() {
   return (
-    <div className="bg-olive-100 dark:bg-olive-900 min-h-screen w-full flex justify-center py-10">
-      <div className="flex flex-col gap-6 items-center w-full max-w-xl px-4">
+    <div className="bg-olive-100 dark:bg-olive-900 min-h-screen w-full flex justify-center py-5">
+      <div className="flex flex-col gap-3 items-center w-full max-w-xl px-4">
 
         <div className="animate-in w-full">
           <Header />
         </div>
 
         {/* AI × Mobile positioning block */}
-        <div className="animate-in animate-delay-2 w-full flex flex-col gap-3 rounded-2xl bg-white dark:bg-olive-950 border border-olive-200 dark:border-olive-800 p-5">
+        <div className="animate-in animate-delay-2 w-full flex flex-col gap-2 rounded-2xl bg-white dark:bg-olive-950 border border-olive-200 dark:border-olive-800 p-3.5">
           <p className="text-xs font-mono text-olive-500 dark:text-olive-400 uppercase tracking-wider">AI × Mobile</p>
           <p className="text-olive-800 dark:text-olive-100 text-sm leading-relaxed">
-            <span className="font-semibold">Senior Full Stack Developer (Gen AI) — shipping on-device AI that keeps data on the phone.</span>{" "}
-            I pair mobile engineering with RAG and LLM pipelines so AI actually ships inside the app users touch daily — running on-device, not in the cloud.
-          </p>
-          <div className="flex flex-col gap-2 text-xs">
-            <a href="https://apps.apple.com/us/app/victorias-secret/id409209402" target="_blank" rel="noopener noreferrer" className="text-olive-700 dark:text-olive-300 hover:underline">
-              → Victoria&apos;s Secret: personalised LLM search + AR try-on in a 70M-user React Native / Flutter app
-            </a>
-            <a href="/on-device" className="text-olive-700 dark:text-olive-300 hover:underline">
-              → On-device LLM runtime: shipped LLM inference locally — sub-2s cold start, RN bridge to a native inference engine. See the proof →
-            </a>
-          </div>
-          <p className="mt-4 flex items-center gap-2 text-xs text-olive-700 dark:text-olive-300">
-            <svg className="h-4 w-4 shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-              <path fillRule="evenodd" d="M16.704 5.29a1 1 0 010 1.42l-7.5 7.5a1 1 0 01-1.42 0l-3.5-3.5a1 1 0 111.42-1.42l2.79 2.79 6.79-6.79a1 1 0 011.42 0z" clipRule="evenodd" />
-            </svg>
-            <span>Validated this month — this on-device angle landed 2 interviews and an offer.</span>
+            <span className="font-semibold">Shipping on-device AI that keeps data on the phone.</span>{" "}
+            RAG and LLM pipelines that run on-device, not in the cloud —{" "}
+            <a href="/on-device" className="text-olive-700 dark:text-olive-300 hover:underline font-medium">see the proof →</a>
           </p>
           <div className="flex flex-wrap gap-2">
-            {[
-              "On-device LLM",
-              "RAG pipelines",
-              "React Native",
-              "Flutter",
-              "Sub-2s latency",
-              "Private by design",
-            ].map((t) => (
+            {["On-device LLM", "RAG pipelines", "React Native", "Flutter"].map((t) => (
               <span key={t} className="text-[11px] px-2 py-1 rounded-md bg-olive-100 dark:bg-olive-900 text-olive-700 dark:text-olive-300 font-medium">
                 {t}
               </span>
             ))}
           </div>
-          <div className="mt-3 rounded-xl bg-olive-50 dark:bg-olive-900/60 border border-olive-200 dark:border-olive-800 p-3">
-            <p className="text-[11px] font-mono uppercase tracking-wider text-olive-500 dark:text-olive-400 mb-2">Shipped: on-device GenAI rec layer (ZBuyme, Pakistan)</p>
-            <div className="grid grid-cols-3 gap-2 text-center">
-              <div>
-                <p className="text-base font-semibold text-olive-800 dark:text-olive-100">8.2s → 1.8s</p>
-                <p className="text-[10px] text-olive-500 dark:text-olive-400">cold start</p>
-              </div>
-              <div>
-                <p className="text-base font-semibold text-olive-800 dark:text-olive-100">−92%</p>
-                <p className="text-[10px] text-olive-500 dark:text-olive-400">cloud spend</p>
-              </div>
-              <div>
-                <p className="text-base font-semibold text-olive-800 dark:text-olive-100">11% → 47%</p>
-                <p className="text-[10px] text-olive-500 dark:text-olive-400">activation</p>
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* Bio */}
-        <div className="font-normal min-w-full text-olive-800 dark:text-olive-100 text-sm/6 text-justify flex flex-col gap-4">
+        <div className="font-normal min-w-full text-olive-800 dark:text-olive-100 text-sm/5 text-justify flex flex-col gap-2.5">
           <p className="animate-in animate-delay-1">
             I&apos;m Zulqurnain — a{" "}
-            <span className="font-medium">Senior Full Stack Developer (Gen AI) — shipping on-device AI that keeps data on the phone.</span>{" "}
-            based in Lahore, Pakistan. I build production mobile apps, full-stack web
-            systems, and private, on-device AI that runs on the phone — your data
-            never leaves the device.
+            <span className="font-medium">Senior Full Stack Developer (Gen AI)</span>{" "}
+            based in Lahore, Pakistan, with 8+ years across mobile, full-stack web,
+            and Gen AI. I build production mobile apps, private on-device AI, and
+            full-stack web systems for enterprise fintech and EdTech platforms
+            serving millions of users — moving fast, owning the full stack, zero
+            to production.
           </p>
           <p className="animate-in animate-delay-2">
-            8+ years of engineering across mobile, full-stack web, and Gen AI —
-            shipping production systems for Chase, Victoria&apos;s Secret, Cartier,
-            JPMorgan Chase, and fintech/EdTech platforms serving millions of users.
-            I move fast, own the full stack, and take ideas from zero to production.
-          </p>
-          <p className="animate-in animate-delay-3">
-            When I&apos;m not writing code, I&apos;m on the road —{" "}
-            <span className="font-medium">exploring new places, cultures, and perspectives</span>.
-            Adventure sharpens the mind. Curiosity drives the work.
-          </p>
-          <p className="animate-in animate-delay-4">
-            Open to client work, collabs, and new adventures.{" "}
+            When I&apos;m not writing code, I&apos;m on the road exploring new places and
+            cultures. Open to client work, collabs, and new adventures.{" "}
             <a href="mailto:zulqurnainjj@gmail.com" className="link">Say hello</a>{" "}
             or find me on{" "}
             <a href="https://linkedin.com/in/zulqurnainjj" target="_blank" rel="noopener noreferrer" className="link">LinkedIn</a>.
@@ -181,7 +97,7 @@ export default function Home() {
         </div>
 
         {/* Skills */}
-        <div className="animate-in animate-delay-5 w-full flex flex-col gap-3">
+        <div className="animate-in animate-delay-3 w-full flex flex-col gap-2.5">
           <p className="text-olive-400 dark:text-olive-600 text-sm uppercase font-mono">Skills</p>
           <div className="flex flex-wrap gap-2">
             {skills.map((s) => (
@@ -192,44 +108,31 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="animate-in animate-delay-6 w-full">
-          <ExperienceSection />
-        </div>
-
-        <div className="animate-in animate-delay-7 w-full">
+        <div className="animate-in animate-delay-4 w-full">
           <Divider />
         </div>
 
         {/* Services */}
-        <div className="animate-in animate-delay-8 w-full flex flex-col gap-3">
+        <div className="animate-in animate-delay-5 w-full flex flex-col gap-2.5">
           <p className="text-olive-400 dark:text-olive-600 text-sm uppercase font-mono">What I offer</p>
-          <div className="flex flex-col gap-2.5">
+          <div className="flex flex-wrap gap-2">
             {services.map((svc) => (
               <a
                 key={svc.href}
                 href={svc.href}
-                className={`flex items-center justify-between p-3.5 rounded-xl bg-white dark:bg-olive-950 border border-olive-200 dark:border-olive-800 border-l-4 ${svc.accent} hover:border-olive-400 dark:hover:border-olive-600 transition-all group`}
+                className={`text-xs font-medium px-3 py-1.5 rounded-full ${svc.color} hover:opacity-80 transition-opacity`}
               >
-                <div className="flex items-center gap-3">
-                  <span className={`shrink-0 size-8 flex items-center justify-center rounded-lg ${svc.iconBg}`}>
-                    {svc.icon}
-                  </span>
-                  <div>
-                    <p className="font-semibold text-sm text-olive-800 dark:text-olive-100">{svc.title}</p>
-                    <p className="text-xs text-olive-500 dark:text-olive-400">{svc.sub}</p>
-                  </div>
-                </div>
-                <span className="text-olive-400 group-hover:text-olive-700 dark:group-hover:text-olive-200 transition-colors text-lg leading-none">→</span>
+                {svc.label}
               </a>
             ))}
           </div>
         </div>
 
-        <div className="animate-in animate-delay-9 w-full">
+        <div className="animate-in animate-delay-6 w-full">
           <Divider />
         </div>
 
-        <div className="animate-in animate-delay-9 w-full">
+        <div className="animate-in animate-delay-6 w-full">
           <Footer />
         </div>
 
