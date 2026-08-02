@@ -222,17 +222,6 @@ const projects: Project[] = [
     category: "personal",
   },
   {
-    name: "CC Platform",
-    description:
-      "AI-powered outbound call center SaaS — businesses bring their own VOIP keys, train AI agents from recordings, and run 24/7 calling campaigns.",
-    platform: "Web · AI · SaaS",
-    tools: ["Next.js 15", "FastAPI", "Pipecat", "Whisper STT", "Piper TTS", "ChromaDB", "PocketBase"],
-    images: [P("cc-platform-1.jpg")],
-    storeUrl: "https://cc.zulqurnainj.com",
-    storeLabel: "Open App",
-    category: "personal",
-  },
-  {
     name: "DummyFlights",
     description:
       "Instant flight reservation PDFs for visa applications — real airline data, verified format, generated in minutes with no account required.",
