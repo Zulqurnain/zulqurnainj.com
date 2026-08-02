@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Schibsted_Grotesk, IM_Fell_Great_Primer, Sono } from "next/font/google";
 import "./globals.css";
+import { FloatingContact } from "@/components/FloatingContact";
 
 const grotesk = Schibsted_Grotesk({ subsets: ["latin"], variable: "--font-grotesk", display: "swap" });
 const fell    = IM_Fell_Great_Primer({ subsets: ["latin"], variable: "--font-fell", style: ["normal", "italic"], weight: "400", display: "swap" });
@@ -181,6 +182,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         {/* Prevents dark-mode flash on load */}
         <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;if(t==='dark'||(t===null&&d)){document.documentElement.classList.add('dark');}}catch(e){}})()` }} />
         {children}
+        <FloatingContact />
       </body>
     </html>
   );

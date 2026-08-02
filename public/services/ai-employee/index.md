@@ -2,7 +2,7 @@
 
 A tireless digital team member that lives in your favourite chat app. From $20/month.
 
-**Get started:** [WhatsApp](https://wa.me/60178613992) | [Telegram](https://t.me/zthenomad) | zulqurnainjj@gmail.com
+**Get started:** [WhatsApp](https://wa.me/923364116933) | [Telegram](https://t.me/zthenomad) | zulqurnainjj@gmail.com
 
 ## What It Does
 

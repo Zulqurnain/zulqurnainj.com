@@ -2,7 +2,7 @@
 
 Pixel-perfect iOS and Android apps that perform at scale. 8+ years, 15+ shipped apps, millions of users.
 
-**Hire me:** zulqurnainjj@gmail.com | [WhatsApp](https://wa.me/60178613992) | [LinkedIn](https://linkedin.com/in/zulqurnainjj)
+**Hire me:** zulqurnainjj@gmail.com | [WhatsApp](https://wa.me/923364116933) | [LinkedIn](https://linkedin.com/in/zulqurnainjj)
 
 ## Tech Stack
 
