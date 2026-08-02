@@ -7,10 +7,10 @@ AI-powered tools and browser extensions built to solve real productivity problem
 ## Live SaaS Tools
 
 - **Prompt Health Checker** — Analyses AI prompt quality, scores clarity and specificity, suggests improvements
-  URL: https://tools.zulqurnainj.com/prompt-health-checker
+  URL: https://github.com/Zulqurnain/prompt-health-checker
 
 - **Text To Leads Extractor** — Extracts and formats lead data from raw unstructured text, exports to CSV
-  URL: https://tools.zulqurnainj.com
+  URL: https://github.com/Zulqurnain/text-to-leads-extractor
 
 ## In Development
 

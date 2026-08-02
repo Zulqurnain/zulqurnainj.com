@@ -30,7 +30,7 @@ The `/saas` page showcases AI-powered tools built on self-hosted infrastructure:
 
 | Tool | Status | URL |
 |------|--------|-----|
-| Text To Leads Extractor | Live | [tools.zulqurnainj.com/text-to-leads](https://tools.zulqurnainj.com/text-to-leads) |
+| Text To Leads Extractor | Live | [GitHub](https://github.com/Zulqurnain/text-to-leads-extractor) |
 | CV Builder AI | Coming Soon | — |
 | LinkedIn Outreach | Coming Soon | — |
 | Interview Prep AI | Coming Soon | — |
@@ -45,7 +45,7 @@ All tools run on self-hosted infrastructure powered by [offLLama](https://github
 
 | Repo | Description |
 |------|-------------|
-| [text-to-leads-extractor](https://github.com/Zulqurnain/text-to-leads-extractor) | AI outreach tool at `tools.zulqurnainj.com/text-to-leads` |
+| [text-to-leads-extractor](https://github.com/Zulqurnain/text-to-leads-extractor) | AI outreach tool for extracting leads from job posts |
 | [offllama](https://github.com/Zulqurnain/offllama) | npm library: self-hosted llama.cpp inference, universal client for browser/RN/Android |
 
 ---

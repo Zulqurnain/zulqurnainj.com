@@ -53,8 +53,8 @@ Full gallery: https://zulqurnainj.com/projects
 
 ## SaaS Tools & Extensions
 
-- Prompt Health Checker: https://tools.zulqurnainj.com/prompt-health-checker
-- Text To Leads Extractor: https://tools.zulqurnainj.com
+- Prompt Health Checker: https://github.com/Zulqurnain/prompt-health-checker
+- Text To Leads Extractor: https://github.com/Zulqurnain/text-to-leads-extractor
 - Delete All Messages by Z (Chrome): https://chromewebstore.google.com/detail/delete-all-messages-by-z/dpdlkdbgehhejkfpclhgdbaeahikfnof
 All tools run on self-hosted infrastructure powered by offLLama (https://github.com/Zulqurnain/offllama).
 
