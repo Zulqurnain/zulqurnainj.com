@@ -4,7 +4,7 @@ export function Footer() {
       <p className="font-serif italic text-2xl text-olive-800 dark:text-olive-100">
         Zulqurnain Haider
       </p>
-      <div className="flex gap-5 text-sm text-olive-500 dark:text-olive-400">
+      <div className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-olive-500 dark:text-olive-400">
         <a
           href="mailto:zulqurnainjj@gmail.com"
           className="hover:text-olive-800 dark:hover:text-olive-100 transition-colors"
@@ -61,7 +61,7 @@ export function Footer() {
         </a>
       </div>
       <p className="text-xs text-olive-400 dark:text-olive-600">
-        Kuala Lumpur, Malaysia · Open to remote worldwide
+        Lahore, Pakistan · Open to remote worldwide
       </p>
     </div>
   );
