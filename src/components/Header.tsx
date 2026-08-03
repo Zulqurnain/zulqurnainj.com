@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "./ThemeToggle";
 
@@ -22,6 +23,7 @@ const navItems: NavItem[] = [
 
 export function Header() {
   const pathname = usePathname();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <div className="flex flex-col gap-2.5 items-start w-full">
@@ -49,8 +51,8 @@ export function Header() {
         </div>
       </div>
 
-      {/* Nav */}
-      <nav className="flex flex-wrap gap-x-4 gap-y-1.5 items-center w-full">
+      {/* Nav — desktop: single row, always visible */}
+      <nav className="hidden sm:flex flex-wrap gap-x-4 gap-y-1.5 items-center w-full">
         {navItems.map(({ label, href, external }) => {
           const isActive = !external && pathname === href;
           return (
@@ -70,6 +72,50 @@ export function Header() {
         })}
         <ThemeToggle />
       </nav>
+
+      {/* Nav — mobile: hamburger + dropdown, avoids nav items wrapping across lines */}
+      <div className="flex sm:hidden items-center gap-3 w-full">
+        <button
+          type="button"
+          onClick={() => setMenuOpen((v) => !v)}
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={menuOpen}
+          className="flex items-center justify-center size-9 rounded-lg border border-olive-300 dark:border-olive-700 text-olive-600 dark:text-olive-300"
+        >
+          {menuOpen ? (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className="size-5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          ) : (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className="size-5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5" />
+            </svg>
+          )}
+        </button>
+        <ThemeToggle />
+      </div>
+      {menuOpen && (
+        <div className="flex sm:hidden flex-col w-full rounded-lg border border-olive-200 dark:border-olive-800 divide-y divide-olive-200 dark:divide-olive-800 overflow-hidden">
+          {navItems.map(({ label, href, external }) => {
+            const isActive = !external && pathname === href;
+            return (
+              <a
+                key={label}
+                href={href}
+                {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                onClick={() => setMenuOpen(false)}
+                className={
+                  isActive
+                    ? "px-3 py-2.5 font-semibold text-sm text-olive-800 dark:text-olive-100"
+                    : "px-3 py-2.5 font-medium text-sm text-olive-500 dark:text-olive-400"
+                }
+              >
+                {label}
+              </a>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

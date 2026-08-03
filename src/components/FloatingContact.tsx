@@ -13,6 +13,7 @@ type Channel = {
 
 export function FloatingContact() {
   const [copied, setCopied] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const copyDiscord = async () => {
     try {
@@ -77,41 +78,68 @@ export function FloatingContact() {
     },
   ];
 
-  return (
-    <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-2.5">
-      {channels.map((c, i) => (
-        <motion.div
-          key={c.label}
-          initial={{ opacity: 0, y: 12, scale: 0.85 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.25, delay: i * 0.05, ease: "easeOut" }}
-          className="group relative flex items-center"
+  const renderChannel = (c: Channel, i: number) => (
+    <motion.div
+      key={c.label}
+      initial={{ opacity: 0, y: 12, scale: 0.85 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: 0.25, delay: i * 0.05, ease: "easeOut" }}
+      className="group relative flex items-center"
+    >
+      <span className="absolute right-full mr-2.5 text-xs font-medium px-2 py-1 rounded-md bg-white dark:bg-olive-900 text-olive-700 dark:text-olive-200 shadow-md border border-olive-200 dark:border-olive-800 whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity">
+        {c.label === "zulqurnainjutt" && copied ? "Copied!" : c.label}
+      </span>
+      {c.href ? (
+        <a
+          href={c.href}
+          target={c.href.startsWith("http") ? "_blank" : undefined}
+          rel={c.href.startsWith("http") ? "noopener noreferrer" : undefined}
+          aria-label={c.label}
+          className={`flex items-center justify-center size-12 rounded-full text-white shadow-lg transition-colors ${c.color}`}
         >
-          <span className="absolute right-full mr-2.5 text-xs font-medium px-2 py-1 rounded-md bg-white dark:bg-olive-900 text-olive-700 dark:text-olive-200 shadow-md border border-olive-200 dark:border-olive-800 whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity">
-            {c.label === "zulqurnainjutt" && copied ? "Copied!" : c.label}
-          </span>
-          {c.href ? (
-            <a
-              href={c.href}
-              target={c.href.startsWith("http") ? "_blank" : undefined}
-              rel={c.href.startsWith("http") ? "noopener noreferrer" : undefined}
-              aria-label={c.label}
-              className={`flex items-center justify-center size-12 rounded-full text-white shadow-lg transition-colors ${c.color}`}
-            >
-              {c.icon}
-            </a>
+          {c.icon}
+        </a>
+      ) : (
+        <button
+          type="button"
+          onClick={c.onClick}
+          aria-label={c.label}
+          className={`flex items-center justify-center size-12 rounded-full text-white shadow-lg transition-colors ${c.color}`}
+        >
+          {c.icon}
+        </button>
+      )}
+    </motion.div>
+  );
+
+  return (
+    <>
+      {/* Desktop/tablet: always expanded, no toggle (deliberate — kept as-is) */}
+      <div className="hidden sm:flex fixed bottom-5 right-5 z-50 flex-col items-end gap-2.5">
+        {channels.map(renderChannel)}
+      </div>
+
+      {/* Mobile: collapsed by default — 5 stacked buttons would cover page content on narrow screens */}
+      <div className="flex sm:hidden fixed bottom-5 right-5 z-50 flex-col items-end gap-2.5">
+        {mobileOpen && channels.map(renderChannel)}
+        <button
+          type="button"
+          onClick={() => setMobileOpen((v) => !v)}
+          aria-label={mobileOpen ? "Close contact options" : "Open contact options"}
+          aria-expanded={mobileOpen}
+          className="flex items-center justify-center size-12 rounded-full text-white shadow-lg bg-olive-700 dark:bg-olive-600"
+        >
+          {mobileOpen ? (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className="size-5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
           ) : (
-            <button
-              type="button"
-              onClick={c.onClick}
-              aria-label={c.label}
-              className={`flex items-center justify-center size-12 rounded-full text-white shadow-lg transition-colors ${c.color}`}
-            >
-              {c.icon}
-            </button>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className="size-5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+            </svg>
           )}
-        </motion.div>
-      ))}
-    </div>
+        </button>
+      </div>
+    </>
   );
 }

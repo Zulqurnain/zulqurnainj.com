@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
@@ -83,9 +84,9 @@ export default function AiEmployeePage() {
       {/* Hero */}
       <div className="w-full bg-gradient-to-br from-violet-600 via-purple-600 to-indigo-700 text-white">
         <div className="max-w-2xl mx-auto px-4 py-16 flex flex-col gap-5">
-          <a href="/" className="text-violet-200 hover:text-white text-sm transition-colors inline-flex items-center gap-1.5">
+          <Link href="/" className="text-violet-200 hover:text-white text-sm transition-colors inline-flex items-center gap-1.5">
             ← Zulqurnain Haider
-          </a>
+          </Link>
           <div>
             <p className="text-violet-200 text-xs font-medium uppercase tracking-widest mb-2">Service</p>
             <h1 className="text-3xl font-bold leading-tight">Your AI Employee</h1>

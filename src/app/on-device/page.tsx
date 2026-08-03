@@ -159,7 +159,7 @@ export default function OnDevicePage() {
             </div>
             <p className="font-medium text-olive-700 dark:text-olive-200">Loom walkthrough — 45 sec</p>
             <p className="text-xs text-olive-400 dark:text-olive-500 max-w-md leading-snug">
-              Recording slot pending. The 45-second script (hook → offline toggle → live metrics → where to find me) is in the repo's <code>LOOM_SCRIPT.md</code> (a longer 6-min version is also there). Drop the Loom embed iframe in this card once recorded.
+              Recording slot pending. The 45-second script (hook → offline toggle → live metrics → where to find me) is in the repo&apos;s <code>LOOM_SCRIPT.md</code> (a longer 6-min version is also there). Drop the Loom embed iframe in this card once recorded.
             </p>
           </div>
 
