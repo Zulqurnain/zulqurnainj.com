@@ -27,7 +27,7 @@ export function FloatingContact() {
   const channels: Channel[] = [
     {
       label: "Call",
-      href: "tel:+923364116933",
+      href: "tel:+628217201641",
       color: "bg-emerald-500 hover:bg-emerald-600",
       icon: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className="size-5">
@@ -57,7 +57,7 @@ export function FloatingContact() {
     },
     {
       label: "WhatsApp",
-      href: "https://wa.me/923364116933",
+      href: "https://wa.me/628217201641",
       color: "bg-[#25D366] hover:bg-[#1fbd5a]",
       icon: (
         <svg viewBox="0 0 24 24" className="size-5 fill-current">

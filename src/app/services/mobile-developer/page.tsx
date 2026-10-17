@@ -80,7 +80,7 @@ export default function MobileDeveloperPage() {
           </div>
           <div className="flex flex-wrap gap-3">
             <a
-              href="https://wa.me/923364116933?text=Hi!%20I%20need%20a%20mobile%20app%20built"
+              href="https://wa.me/628217201641?text=Hi!%20I%20need%20a%20mobile%20app%20built"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white text-blue-700 font-semibold hover:opacity-90 transition-opacity"
@@ -186,7 +186,7 @@ export default function MobileDeveloperPage() {
           <p className="text-sm text-olive-600 dark:text-olive-400 max-w-sm">Let&apos;s talk scope, timeline, and budget. I respond within 24 hours.</p>
           <div className="flex flex-wrap gap-3 justify-center">
             <a
-              href="https://wa.me/923364116933?text=Hi!%20I%20need%20a%20mobile%20app%20built"
+              href="https://wa.me/628217201641?text=Hi!%20I%20need%20a%20mobile%20app%20built"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-green-600 text-white font-semibold hover:opacity-90 transition-opacity"

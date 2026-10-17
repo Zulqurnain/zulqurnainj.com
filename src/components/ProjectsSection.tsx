@@ -233,17 +233,6 @@ const projects: Project[] = [
     category: "personal",
   },
   {
-    name: "Nayab AI",
-    description:
-      "Personal AI assistant powered by Anthropic Claude — code help, analysis, writing assistance, and research tasks via a clean chat interface.",
-    platform: "Web · AI",
-    tools: ["Next.js", "Anthropic Claude API", "TypeScript", "Tailwind CSS"],
-    images: [P("nayab-1.jpg")],
-    storeUrl: "https://zulqurnainj.com/chat",
-    storeLabel: "Open App",
-    category: "personal",
-  },
-  {
     name: "ZCraper",
     description:
       "Web scraping API with Cloudflare bypass, JS rendering, proxy rotation, and gRPC + REST endpoints. Built for reliability at scale.",

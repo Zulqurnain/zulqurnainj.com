@@ -2,7 +2,7 @@
 
 Fast, scalable web products with AI built in. From marketing sites to complex SaaS platforms.
 
-**Hire me:** zulqurnainjj@gmail.com | [WhatsApp](https://wa.me/923364116933) | [LinkedIn](https://linkedin.com/in/zulqurnainjj)
+**Hire me:** zulqurnainjj@gmail.com | [WhatsApp](https://wa.me/628217201641) | [LinkedIn](https://linkedin.com/in/zulqurnainjj)
 
 ## Tech Stack
 

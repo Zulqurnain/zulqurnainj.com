@@ -86,24 +86,6 @@ const tools: Tool[] = [
     href: "https://notepad.zulqurnainj.com",
     badge: "Live",
   },
-  {
-    id: "nayab",
-    name: "Nayab",
-    tagline: "Chat · Demo of llmizeOFF",
-    image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=800&q=80",
-    icon: (
-      <svg viewBox="0 0 40 40" className="size-8" fill="none">
-        <rect width="40" height="40" rx="10" fill="#fef3c7" />
-        <rect x="6" y="9" width="22" height="16" rx="3" stroke="#d97706" strokeWidth="1.8" />
-        <path d="M10 14h14M10 18h10" stroke="#fbbf24" strokeWidth="1.8" strokeLinecap="round" />
-        <path d="M10 25l2 4 2-4" stroke="#d97706" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-        <circle cx="31" cy="12" r="6" fill="#f97316" />
-        <path d="M28.5 12h5M31 9.5v5" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" />
-      </svg>
-    ),
-    href: "https://zulqurnainj.com/chat",
-    badge: "Live",
-  },
 ];
 
 const badgeStyles: Record<Tool["badge"], string> = {

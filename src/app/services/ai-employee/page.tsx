@@ -100,7 +100,7 @@ export default function AiEmployeePage() {
           </div>
           <div className="flex flex-wrap gap-3">
             <a
-              href="https://wa.me/923364116933?text=Hi!%20I'm%20interested%20in%20the%20AI%20Employee%20service"
+              href="https://wa.me/628217201641?text=Hi!%20I'm%20interested%20in%20the%20AI%20Employee%20service"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white text-violet-700 font-semibold hover:opacity-90 transition-opacity"
@@ -168,7 +168,7 @@ export default function AiEmployeePage() {
                   ))}
                 </ul>
                 <a
-                  href={`https://wa.me/923364116933?text=Hi!%20I'm%20interested%20in%20the%20${encodeURIComponent(p.tier)}%20AI%20Employee%20plan`}
+                  href={`https://wa.me/628217201641?text=Hi!%20I'm%20interested%20in%20the%20${encodeURIComponent(p.tier)}%20AI%20Employee%20plan`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`mt-auto text-center text-sm font-semibold py-2 px-4 rounded-lg transition-opacity hover:opacity-80 ${p.highlight ? "bg-white text-violet-700" : "bg-olive-800 dark:bg-olive-100 text-olive-100 dark:text-olive-900"}`}
@@ -204,7 +204,7 @@ export default function AiEmployeePage() {
           <p className="text-sm text-olive-600 dark:text-olive-400 max-w-sm">Message me now and your AI employee can be live within 48 hours.</p>
           <div className="flex flex-wrap gap-3 justify-center">
             <a
-              href="https://wa.me/923364116933?text=Hi!%20I'm%20interested%20in%20the%20AI%20Employee%20service"
+              href="https://wa.me/628217201641?text=Hi!%20I'm%20interested%20in%20the%20AI%20Employee%20service"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-green-600 text-white font-semibold hover:opacity-90 transition-opacity"
