@@ -183,6 +183,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;if(t==='dark'||(t===null&&d)){document.documentElement.classList.add('dark');}}catch(e){}})()` }} />
         {children}
         <FloatingContact />
+        <script src="/assistant/static/widget.js" defer />
       </body>
     </html>
   );
