@@ -67,4 +67,18 @@ All tools run on self-hosted infrastructure powered by offLLama (https://github.
 - /services/web-developer — Web Developer service landing page
 - /projects — Full project gallery
 - /saas — SaaS tools and Chrome extensions
+- /on-device — On-device AI proof: a private LLM running fully offline in React Native
 - /llms.txt — This file (GEO / LLM-readable summary)
+
+## Markdown versions
+
+Plain-Markdown copies of each page, for LLMs and crawlers:
+
+- https://zulqurnainj.com/index.md
+- https://zulqurnainj.com/services.md
+- https://zulqurnainj.com/services/ai-employee.md
+- https://zulqurnainj.com/services/mobile-developer.md
+- https://zulqurnainj.com/services/web-developer.md
+- https://zulqurnainj.com/projects.md
+- https://zulqurnainj.com/saas.md
+- https://zulqurnainj.com/on-device.md

@@ -84,5 +84,7 @@ A manual fallback script (`scripts/deploy-portfolio.sh`) exists on the server fo
 
 ## Recent changes
 
+- 2026-10-20: Added a Markdown copy of the On-Device AI page (/on-device.md) and listed every Markdown page in llms.txt.
+- 2026-10-20: nginx config: per-page Markdown URLs (/services.md -> /services/index.md, served as text/markdown) and security headers on /assistant/chat. These were live-only edits that the deploy's nginx sync had overwritten; they now live in this repo.
 - 2026-10-20: Fixed every LinkedIn link to https://www.linkedin.com/in/zulqurnainj/ (header, footer, home page, structured data, on-device page, email signature, llms.txt, Markdown pages).
 - 2026-10-20: Commit history tidied up: every commit is now credited to Zulqurnain.
