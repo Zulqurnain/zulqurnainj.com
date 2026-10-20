@@ -48,7 +48,7 @@ const STRIP = `I ship mobile AI that actually runs on-device: a React Native dem
 
 In production, I shipped the same discipline inside a React Native checkout flow: cold start dropped from 8.2s to under 2s, cloud inference cost dropped roughly 92%, and user activation moved from 11% to 47%.
 
-I'm looking for senior AI + mobile roles where data privacy matters, and I can prove the engineering in code: https://github.com/Zulqurnain/on-device-llm-rn, https://zulqurnainj.com/on-device, https://linkedin.com/in/zulqurnainjj.`;
+I'm looking for senior AI + mobile roles where data privacy matters, and I can prove the engineering in code: https://github.com/Zulqurnain/on-device-llm-rn, https://zulqurnainj.com/on-device, https://linkedin.com/in/zulqurnainj.`;
 
 const REPO_URL = "https://github.com/Zulqurnain/on-device-llm-rn";
 
@@ -83,7 +83,7 @@ function StripSection() {
           <span className="text-olive-400 dark:text-olive-500">·</span>
           <span className="text-olive-700 dark:text-olive-200">zulqurnainj.com/on-device</span>
           <span className="text-olive-400 dark:text-olive-500">·</span>
-          <span className="text-olive-700 dark:text-olive-200">linkedin.com/in/zulqurnainjj</span>
+          <span className="text-olive-700 dark:text-olive-200">linkedin.com/in/zulqurnainj</span>
         </div>
         <p className="text-xs text-olive-500 dark:text-olive-400">
           Reuse this section verbatim across recruiter replies, HN comments, and email/RM signature blocks. Do not change claims per surface.
@@ -242,8 +242,8 @@ export default function OnDevicePage() {
               <a href="mailto:zulqurnainjj@gmail.com" className="inline-flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-full bg-olive-800 text-olive-100 dark:bg-olive-100 dark:text-olive-900 hover:opacity-90 transition-opacity whitespace-nowrap">
                 zulqurnainjj@gmail.com
               </a>
-              <a href="https://linkedin.com/in/zulqurnainjj" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-full bg-white/60 dark:bg-olive-800/40 text-olive-700 dark:text-olive-200 ring-1 ring-olive-300/60 dark:ring-olive-700/60 hover:opacity-90 transition-opacity whitespace-nowrap">
-                linkedin.com/in/zulqurnainjj
+              <a href="https://linkedin.com/in/zulqurnainj" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-full bg-white/60 dark:bg-olive-800/40 text-olive-700 dark:text-olive-200 ring-1 ring-olive-300/60 dark:ring-olive-700/60 hover:opacity-90 transition-opacity whitespace-nowrap">
+                linkedin.com/in/zulqurnainj
               </a>
             </div>
           </div>

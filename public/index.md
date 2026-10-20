@@ -4,7 +4,7 @@ Senior Full Stack Developer (Gen AI) — shipping on-device AI that keeps data o
 
 **Validated this month** — this on-device angle landed 2 interviews and an offer.
 
-**Contact:** zulqurnainjj@gmail.com | [WhatsApp](https://wa.me/628217201641) | [Telegram](https://t.me/zthenomad) | [LinkedIn](https://linkedin.com/in/zulqurnainjj)
+**Contact:** zulqurnainjj@gmail.com | [WhatsApp](https://wa.me/628217201641) | [Telegram](https://t.me/zthenomad) | [LinkedIn](https://linkedin.com/in/zulqurnainj)
 
 ## About Me
 
