@@ -81,3 +81,8 @@ A manual fallback script (`scripts/deploy-portfolio.sh`) exists on the server fo
 ---
 
 **[Zulqurnain Haider](https://zulqurnainj.com/) — Senior Full Stack Developer (Gen AI) — shipping on-device AI that keeps data on the phone**
+
+## Recent changes
+
+- 2026-10-20: Fixed every LinkedIn link to https://www.linkedin.com/in/zulqurnainj/ (header, footer, home page, structured data, on-device page, email signature, llms.txt, Markdown pages).
+- 2026-10-20: Commit history tidied up: every commit is now credited to Zulqurnain.
