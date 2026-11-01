@@ -44,7 +44,7 @@ export function Header() {
             Senior Full Stack Developer (Gen AI) — shipping on-device AI that keeps data on the phone.
           </p>
           <p className="text-xs text-olive-400 dark:text-olive-600 mt-0.5">
-            Lahore, Pakistan · Open to remote worldwide
+            Jakarta, Indonesia · Open to remote worldwide
           </p>
         </div>
       </div>

@@ -61,7 +61,7 @@ export function Footer() {
         </a>
       </div>
       <p className="text-xs text-olive-400 dark:text-olive-600">
-        Lahore, Pakistan · Open to remote worldwide
+        Jakarta, Indonesia · Open to remote worldwide
       </p>
     </div>
   );

@@ -33,6 +33,6 @@ No new apps to learn.
 
 ## About the Builder
 
-Built and managed by Zulqurnain Haider — Senior AI + Mobile Engineer based in Kuala Lumpur, Malaysia. 8+ years of engineering, shipped 15+ production apps.
+Built and managed by Zulqurnain Haider — Senior AI + Mobile Engineer based in Jakarta, Indonesia. 8+ years of engineering, shipped 15+ production apps.
 
 [Back to Services →](/services)

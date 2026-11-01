@@ -127,8 +127,8 @@ const jsonLd = {
       nationality: { "@type": "Country", name: "Pakistan" },
       address: {
         "@type": "PostalAddress",
-        addressLocality: "Lahore",
-        addressCountry: "PK",
+        addressLocality: "Jakarta",
+        addressCountry: "ID",
       },
       email: "zulqurnainjj@gmail.com",
       sameAs: [

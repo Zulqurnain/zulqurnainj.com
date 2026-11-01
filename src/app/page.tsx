@@ -81,7 +81,7 @@ export default function Home() {
           <p className="animate-in animate-delay-1">
             I&apos;m Zulqurnain — a{" "}
             <span className="font-medium">Senior Full Stack Developer (Gen AI)</span>{" "}
-            based in Lahore, Pakistan, with 8+ years across mobile, full-stack web,
+            based in Jakarta, Indonesia, with 8+ years across mobile, full-stack web,
             and Gen AI. I build production mobile apps, private on-device AI, and
             full-stack web systems for enterprise fintech and EdTech platforms
             serving millions of users — moving fast, owning the full stack, zero
