@@ -84,6 +84,7 @@ A manual fallback script (`scripts/deploy-portfolio.sh`) exists on the server fo
 
 ## Recent changes
 
+- 2026-11-01: Moved the side floating social buttons (Call, Email, WhatsApp, Telegram, Discord) into the footer, added a "Download CV" button there, and removed the `FloatingContact` component. The floating AI-assistant button (`/assistant/static/widget.js`) is unchanged.
 - 2026-11-01: Updated the current location to Jakarta, Indonesia (header, footer, home bio, structured-data address, AI Employee Markdown page) to match the latest CV. Nationality (Pakistani) and project facts unchanged.
 - 2026-10-22: nginx config: the AI assistant's chat page (/assistant/chat) may now use the microphone, for the new voice input (Permissions-Policy microphone=(self), from /etc/nginx/snippets/proxy-security-headers-mic.conf on the VPS). Every other page still blocks it.
 - 2026-10-20: Added a Markdown copy of the On-Device AI page (/on-device.md) and listed every Markdown page in llms.txt.
